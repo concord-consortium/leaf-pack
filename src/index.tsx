@@ -5,6 +5,12 @@ import { App } from "./components/app";
 import "./index.scss";
 
 ReactDOM.render(
-  <App />,
+  <App
+    onStateChange={()=>{ /* no-op */}}
+    addExternalSetStateListener={()=>{ /* no-op */}}
+    removeExternalSetStateListener={()=>{ /* no-op */}}
+    logEvent={()=>{ /* no-op */}}
+    modelConfig={""}
+  />,
   document.getElementById("app")
 );

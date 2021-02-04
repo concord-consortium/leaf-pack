@@ -1,0 +1,14 @@
+@import "../vars.scss";
+
+.scale-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 144px;
+  height: 283px;
+  margin: 0 10px 12px;
+  border-radius: 10px;
+  background-color: $gray-light3;
+  box-sizing: border-box;
+}

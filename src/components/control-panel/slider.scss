@@ -1,0 +1,41 @@
+@import "../vars.scss";
+
+.slider {
+  width: 90px;
+  height: 55px;
+  margin: 5px;
+
+  &.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .thumb {
+    width: 30px;
+    height: 30px;
+    margin-left: -13.5px;
+    margin-top: -13.5px;
+    &:hover, &:active {
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5)
+    }
+  }
+  span{
+    margin-top: 2px;
+    font-size: 14px;
+    color: $gray-dark;
+  }
+  .MuiSlider-markLabel {
+    margin-top: 7px;
+  }
+  .MuiSlider-mark, .MuiSlider-markActive {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, .38);
+    margin-top: -1px;
+  }
+  .MuiSlider-track {
+    display: none;
+  }
+}
