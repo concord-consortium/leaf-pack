@@ -1,0 +1,87 @@
+@import "../../vars.scss";
+
+.thumbnail-wrapper {
+  position: relative;
+  height: 94px;
+  margin: 5px;
+
+  .thumbnail-button {
+    padding: 0;
+    background-color: white;
+    border-radius: 8px;
+    border: solid 1px #000;
+    margin: 1px;
+    width: 90px;
+    height: 90px;
+    box-sizing: content-box;
+    position: relative;
+    transition: background-color .25s;
+
+    &:not(:disabled) {
+      cursor: pointer;
+      &:hover {
+        background-color: $gray-button-hover;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.35;
+    }
+
+    &.empty {
+      border: dashed 1px $gray-dark;
+      svg {
+        stroke: $gray-dark;
+      }
+    }
+
+    &.selected {
+      border: solid 2px #000;
+      margin: 0;
+      background-color: $gray-dark10;
+    }
+  }
+
+  .container {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+
+    &.disabled {
+      opacity: 0.7;
+    }
+  }
+
+  .close {
+    color: $gray-dark;
+    font-size: 26px;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid $gray-dark;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .25s;
+    stroke: $gray-dark;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $gray-button-hover;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.75);
+    }
+
+    &:active {
+      box-shadow: 0 0 0 4px rgba(255,255,255,1);
+    }
+
+    &:disabled {
+      stroke: rgba(51, 51, 51, .35);
+      border-color: rgba(51, 51, 51, .35);
+    }
+  }
+}

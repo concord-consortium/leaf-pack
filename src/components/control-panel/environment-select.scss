@@ -1,0 +1,50 @@
+@import "../vars.scss";
+
+.environment-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 141px;
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .label {
+      margin-left: 4px;
+      color: $gray-dark
+    }
+  }
+
+  .location-select {
+    width: 110px;
+
+    &.disabled {
+      opacity: .35;
+    }
+
+    .MuiSelect-select, .MuiListItem-root {
+      display: flex;
+      padding: 6px 29px 6px 8px;
+
+      &.MuiInputBase-input {
+        font-size: 14px;
+        color: $gray-dark;
+      }
+    }
+  }
+
+  .MuiFormControl-root {
+    height: 53px;
+  }
+
+  .MuiListItem-root {
+    display: flex;
+
+    .MuiInputBase-input {
+      font-size: 12px;
+      color: $gray-dark;
+    }
+  }
+}

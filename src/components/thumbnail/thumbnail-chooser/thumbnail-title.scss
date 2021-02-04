@@ -1,0 +1,31 @@
+@import "../../vars.scss";
+
+.thumbnail-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 27px;
+  height: 27px;
+  z-index: 100;
+  border-top-left-radius: $thumbnail-border-radius - 2;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: $thumbnail-border-radius;
+  border-bottom-left-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: $gray-dark;
+  background-color: #ffffff;
+
+  &.saved {
+    color: white;
+    background: $gray-dark;
+  }
+
+  &.empty {
+    border-right: dashed 1px $gray-dark;
+    border-bottom: dashed 1px $gray-dark;
+  }
+}

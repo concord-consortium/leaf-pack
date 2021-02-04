@@ -1,0 +1,42 @@
+@import "../vars.scss";
+
+.main-view-wrapper {
+  border: solid 1px $gray-dark;
+  border-radius: $component-border-radius;
+  position: relative;
+  background: #f5f5f5;
+
+  .model-view {
+    border-radius: $component-border-radius;
+    overflow: hidden;
+  }
+
+  .thumbnail-title {
+    border-top-left-radius: $component-border-radius - 1;
+    border-bottom-right-radius: $component-border-radius;
+  }
+
+  .progress-container {
+    position: absolute;
+    top: 0;
+    left: calc(100% /2 - 65px);
+  }
+
+  .save-container {
+    position: absolute;
+    bottom: -7px;
+    left: calc(100% / 2 - 43px);
+    border-radius: 5px;
+    background-color: white;
+
+    .saved-btn {
+      background-color: $gray-dark;
+      color: #fff;
+      opacity: 1;
+
+      .save-button-highlight {
+        background-color: transparent;
+      }
+    }
+  }
+}

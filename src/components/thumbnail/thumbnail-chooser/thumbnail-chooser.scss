@@ -1,0 +1,19 @@
+@import "../../vars.scss";
+
+.thumbnail-chooser {
+  background-color: white;
+  padding: 0 10px 10px 10px;
+
+  .thumbnail-chooser-title {
+    font-size: 16px;
+    padding-top: 5px;
+    text-align: center;
+  }
+
+  .thumbnail-chooser-list {
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
