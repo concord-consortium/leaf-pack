@@ -140,7 +140,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
   return (
-    <div className="app">
+    <div className="app" data-testid="app">
       <ThumbnailChooser {...thumbnailChooserProps} />
       <div className="simulation" data-testid="simulation">
         <MainViewWrapper

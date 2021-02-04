@@ -4,8 +4,8 @@ context("Test the overall app", () => {
   });
 
   describe("Desktop functionalities", () => {
-    it("renders with text", () => {
-      cy.get(".app").should("have.text", "Hello World");
+    it("renders app", () => {
+      cy.get("[data-testid=app]").should("be.visible");
     });
   });
 });
