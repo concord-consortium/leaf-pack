@@ -10,7 +10,6 @@ import t from "../utils/translation/translate";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates } from "../utils/sim-utils";
-import { ScalePanel } from "./simulation/scale-panel";
 
 import "./app.scss";
 
@@ -162,13 +161,6 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
             isRunning={isRunning}
           />
         </MainViewWrapper>
-        <ScalePanel
-          leafDecomposition={leafDecomposition}
-          leafEaters={leafEaters}
-          algaeEaters={algaeEaters}
-          fish={fish}
-          isRunning={isRunning}
-        />
       </div>
       <ControlPanel
         isRunning={isRunning}
