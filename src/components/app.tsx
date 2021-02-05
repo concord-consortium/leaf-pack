@@ -6,10 +6,12 @@ import { MainViewWrapper } from "./simulation/main-view-wrapper";
 import { SimulationView } from "./simulation/simulation-view";
 import { ControlPanel } from "./control-panel/control-panel";
 import { Thumbnail } from "./thumbnail/thumbnail";
-import t from "../utils/translation/translate";
+import { Notebook } from "./notebook/notebook";
+import { Tray } from "./simulation/tray";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates } from "../utils/sim-utils";
+import t from "../utils/translation/translate";
 
 import "./app.scss";
 
@@ -161,7 +163,15 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               fish={fish}
               isRunning={isRunning}
             />
+            { isFinished && <Tray isRunning={isRunning} /> }
           </MainViewWrapper>
+          <Notebook
+            leafDecomposition={leafDecomposition}
+            leafEaters={leafEaters}
+            algaeEaters={algaeEaters}
+            fish={fish}
+            isRunning={isRunning}
+          />
         </div>
         <ControlPanel
           isRunning={isRunning}
