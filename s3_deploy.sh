@@ -3,11 +3,11 @@
 # Typically this is the Project name.
 # The trailing slash is important
 # Can be set to an empty string for working at the top level of the bucket
-S3_BUCKET_PREFIX='starter-projects/'
+S3_BUCKET_PREFIX='leaf-pack/'
 # AWS CloudFront distribution ID
-DISTRIBUTION_ID='E1YPVV3YLYS4J7'
+# DISTRIBUTION_ID='E3J1SXO02I9SLU'
 # AWS CloudFront distribution domain
-DISTRIBUTION_DOMAIN='starter-projects.concord.org'
+# DISTRIBUTION_DOMAIN='leaf-pack.concord.org'
 # name of branch to deploy to root of site
 ROOT_BRANCH='production'
 # Bucket to deploy to, typically this is 'model-resources', but some projects
@@ -97,4 +97,4 @@ s3_website push --site _site
 
 # explicit CloudFront invalidation to workaround s3_website gem invalidation bug
 # with origin path (https://github.com/laurilehmijoki/s3_website/issues/207).
-aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths $INVAL_PATH
+# aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths $INVAL_PATH
