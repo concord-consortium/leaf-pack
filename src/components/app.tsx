@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { IThumbnailChooserProps, ThumbnailChooser } from "../components/thumbnail/thumbnail-chooser/thumbnail-chooser";
 import { IAppProps } from "./render-app";
 import { useModelState, IModelCurrentState, hasOwnProperties } from "../hooks/use-model-state";
@@ -10,7 +10,7 @@ import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates } from "../utils/sim-utils";
+         LeafDecompositionType, FishAmountType, LeafPackStates, AnimalCount } from "../utils/sim-utils";
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -25,6 +25,7 @@ export interface IModelOutputState {
   leafEaters: LeafEatersAmountType;
   algaeEaters: AlgaeEatersAmountType;
   fish: FishAmountType;
+  animalCounts: AnimalCount[];
 }
 export interface IModelTransientState {
   time: number;
@@ -40,7 +41,7 @@ const kSelectedContainerBgColor = "#f5f5f5";
 export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModelConfig>> = ({onStateChange, addExternalSetStateListener, removeExternalSetStateListener, logEvent}) => {
   const isValidExternalState = (newState: IModelCurrentState<IModelInputState, IModelOutputState>) => {
     return hasOwnProperties(newState.inputState, ["environment", "sunnyDayFequency"]) &&
-           hasOwnProperties(newState.outputState, ["leafDecomposition", "leafEaters", "algaeEaters", "fish"]);
+           hasOwnProperties(newState.outputState, ["leafDecomposition", "leafEaters", "algaeEaters", "fish", "animalCounts"]);
   };
   const modelState = useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
     initialInputState: { environment: EnvironmentType.environment1,
@@ -48,7 +49,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     initialOutputState: { leafDecomposition: LeafDecompositionType.little,
                           leafEaters: LeafEatersAmountType.few,
                           algaeEaters: AlgaeEatersAmountType.few,
-                          fish: FishAmountType.few },
+                          fish: FishAmountType.few,
+                          animalCounts: [] },
     initialTransientState: {
       time: 0
     },
@@ -67,7 +69,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     startSimulation, endSimulation, inputControlsDisabled
   } = modelState;
   const {environment, sunnyDayFequency} = inputState;
-  const {leafDecomposition, leafEaters, algaeEaters, fish} = outputState;
+  const {leafDecomposition, leafEaters, algaeEaters, fish, animalCounts} = outputState;
   const {time} = transientState;
   const {isRunning, isPaused, isFinished} = simulationState;
   const modelRef = useRef<Model>(new Model(inputState));
@@ -99,6 +101,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         leafEaters: modelSimulationState.leafEaters,
         algaeEaters: modelSimulationState.algaeEaters,
         fish: modelSimulationState.fish,
+        animalCounts: modelSimulationState.animalCounts
       });
 
       if (modelSimulationState.isFinished) {
@@ -141,6 +144,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const backgroundImage = currentEnvironment?.backgroundImage;
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
+  const [showTray, setShowTray] = useState(false);
+
   return (
     <div className="app" data-testid="app">
       <div className="content">
@@ -161,9 +166,16 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               environment={environment}
               leafPackState={leafPackState}
               fish={fish}
+              onShowTray={() => setShowTray(true)}
+              isFinished={isFinished}
               isRunning={isRunning}
             />
-            { isFinished && <Tray isRunning={isRunning} /> }
+            <Tray
+              animalCounts={animalCounts}
+              onHideTray={() => setShowTray(false)}
+              hidden={!showTray}
+              isRunning={isRunning}
+            />
           </MainViewWrapper>
           <Notebook
             leafDecomposition={leafDecomposition}

@@ -16,11 +16,13 @@ interface IProps {
   environment: EnvironmentType;
   leafPackState: LeafPackState;
   fish: FishAmountType;
+  onShowTray: () => void;
+  isFinished: boolean;
   isRunning: boolean;
 }
 
 export const SimulationView: React.FC<IProps> = (props) => {
-  const { backgroundImage, environment, leafPackState, fish, isRunning } = props;
+  const { backgroundImage, environment, leafPackState, fish, isRunning, isFinished, onShowTray } = props;
   const leafPackConfiguration = LeafPackConfigurations.find((lp) => lp.environment === environment);
   const fishCount = fish === FishAmountType.few
     ? kFishCountFew
@@ -48,6 +50,8 @@ export const SimulationView: React.FC<IProps> = (props) => {
         leafDecomposition={leafPackState.leafDecomposition}
         left={leafPackConfiguration?.left}
         top={leafPackConfiguration?.top}
+        onShowTray={onShowTray}
+        isFinished={isFinished}
         isRunning={isRunning}
       />
       <TransitionGroup>

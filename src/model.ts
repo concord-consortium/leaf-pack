@@ -1,7 +1,7 @@
 import { IModelInputState } from "./components/app";
 import { EnvironmentType, LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
-         AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues
-        } from "./utils/sim-utils";
+         AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
+         AnimalCount } from "./utils/sim-utils";
 
 export const kMaxSteps = 660;
 
@@ -104,13 +104,23 @@ export class Model {
       fish = FishAmountType.some;
     }
 
+    // get instance counts for sorting tray
+    const animalCounts: AnimalCount[] = Animals.map((animal) => {return {type: animal.type, count: 0};});
+    this.animalInstances.forEach((animalInstance) => {
+      if (animalInstance.spawned) {
+        const index = animalCounts.findIndex((ac: AnimalCount) => ac.type === animalInstance.type);
+        animalCounts[index].count++;
+      }
+    });
+
     return {
       percentComplete,
       isFinished,
       leafDecomposition,
       leafEaters,
       algaeEaters,
-      fish
+      fish,
+      animalCounts
     };
   }
 }
