@@ -2,12 +2,14 @@
 
 .thumbnail-chooser {
   background-color: white;
-  padding: 0 10px 10px 10px;
+  display: flex;
+  justify-content: center;
 
   .thumbnail-chooser-title {
     font-size: 16px;
     padding-top: 5px;
     text-align: center;
+    margin: 10px;
   }
 
   .thumbnail-chooser-list {
@@ -15,5 +17,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 100px;
   }
 }

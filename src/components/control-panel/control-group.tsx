@@ -11,8 +11,8 @@ export const ControlGroup: React.FC<IProps> = (props) => {
   const { first, last, children } = props;
   return (
     <div className="control-group">
-      {first ? undefined : <div className="border-cover left" />}
-      {last  ? undefined : <div className="border-cover right" />}
+      <div className="border-cover left" />
+      <div className="border-cover right" />
       {children}
     </div>
   );

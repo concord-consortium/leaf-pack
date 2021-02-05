@@ -141,40 +141,42 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   return (
     <div className="app" data-testid="app">
-      <ThumbnailChooser {...thumbnailChooserProps} />
-      <div className="simulation" data-testid="simulation">
-        <MainViewWrapper
-          title={selectedContainerId}
-          isSaved={isSaved}
+      <div className="content">
+        <ThumbnailChooser {...thumbnailChooserProps} />
+        <div className="simulation" data-testid="simulation">
+          <MainViewWrapper
+            title={selectedContainerId}
+            isSaved={isSaved}
+            isFinished={isFinished}
+            onSaveClicked={saveToSelectedContainer}
+            currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
+            currentTime={time}
+            maxTime={1}
+            savedBgColor={kSavedBgColor}
+          >
+            <SimulationView
+              backgroundImage={backgroundImage}
+              environment={environment}
+              leafPackState={leafPackState}
+              fish={fish}
+              isRunning={isRunning}
+            />
+          </MainViewWrapper>
+        </div>
+        <ControlPanel
+          isRunning={isRunning}
+          isPaused={isPaused}
           isFinished={isFinished}
-          onSaveClicked={saveToSelectedContainer}
-          currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
-          currentTime={time}
-          maxTime={1}
-          savedBgColor={kSavedBgColor}
-        >
-          <SimulationView
-            backgroundImage={backgroundImage}
-            environment={environment}
-            leafPackState={leafPackState}
-            fish={fish}
-            isRunning={isRunning}
-          />
-        </MainViewWrapper>
+          inputControlsDisabled={inputControlsDisabled}
+          onStartSim={handleStartSim}
+          onPauseSim={pauseSimulation}
+          onRewindSim={rewindSimulation}
+          onChangeSunnyDaySlider={handleChangeSunnyDays}
+          sunnyDayFequency={sunnyDayFequency}
+          environment={environment}
+          onChangeEnvironment={handleChangeEnvironment}
+        />
       </div>
-      <ControlPanel
-        isRunning={isRunning}
-        isPaused={isPaused}
-        isFinished={isFinished}
-        inputControlsDisabled={inputControlsDisabled}
-        onStartSim={handleStartSim}
-        onPauseSim={pauseSimulation}
-        onRewindSim={rewindSimulation}
-        onChangeSunnyDaySlider={handleChangeSunnyDays}
-        sunnyDayFequency={sunnyDayFequency}
-        environment={environment}
-        onChangeEnvironment={handleChangeEnvironment}
-      />
     </div>
   );
 };
