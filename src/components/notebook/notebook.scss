@@ -12,6 +12,7 @@
     justify-content: space-between;
     list-style-type: none;
     padding: 0;
+    border-bottom: solid 1px $gray-dark;
   }
 
   .notebook-tab {
@@ -20,27 +21,36 @@
     box-sizing: border-box;
     height: 40px;
     border-radius: 10px 10px 0 0;
-    padding: 0 20px;
+    padding: 0 10px;
     border: solid 1px $gray-dark;
     background-color: $gray-dark10;
     width: fit-content;
     cursor: pointer;
+    position: relative;
+    bottom: -1px;
+
+    .icon {
+      margin: 5px;
+    }
 
     &.habitat {
       &.react-tabs__tab--selected {
         background-color: $habitat-orange;
+        border-bottom: solid 1px white;
       }
     }
 
     &.macro {
       &.react-tabs__tab--selected {
         background-color: $macro-green;
+        border-bottom: solid 1px white;
       }
     }
 
     &.chemistry {
       &.react-tabs__tab--selected {
         background-color: $chemistry-blue;
+        border-bottom: solid 1px white;
       }
     }
 

@@ -6,13 +6,15 @@ interface IProps {
   leafDecomposition: LeafDecompositionType;
   left?: number;
   top?: number;
+  onShowTray: () => void;
+  isFinished: boolean;
   isRunning: boolean;
 }
 
 export const LeafPack: React.FC<IProps> = (props) => {
-  const { leafDecomposition, left, top, isRunning } = props;
+  const { leafDecomposition, left, top, isFinished, isRunning, onShowTray } = props;
   return (
-    <div className="leaf-pack" data-testid="leaf-pack" style={{left, top}}>
+    <div className={`leaf-pack ${isFinished ? "enabled" : ""}`} data-testid="leaf-pack" style={{left, top}} onClick={onShowTray}>
       {LeafPackStates.map((leafState, index) =>
         <img
           src={leafState.image}

@@ -442,6 +442,11 @@ export interface AnimalInstance {
   spawned: boolean;
 }
 
+export interface AnimalCount {
+  type: AnimalType;
+  count: number;
+}
+
 export interface LeafPackConfiguration {
   environment: EnvironmentType;
   top: number;

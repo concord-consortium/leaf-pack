@@ -5,11 +5,82 @@
   top: 37px;
   left: 14px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 382px;
   height: 280px;
   border-radius: 10px;
   border: solid 1px $gray-dark;
   background-color: white;
+  box-shadow: 0px 0px 10px -1px #000000;
+  opacity: 1;
+  transition: opacity 250ms;
+
+  &.hidden {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .title {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+    }
+
+    .close {
+      color: $gray-dark;
+      font-size: 26px;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid $gray-dark;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color .25s;
+      stroke: $gray-dark;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $gray-button-hover;
+        box-shadow: 0 0 0 4px rgba(255,255,255,0.75);
+      }
+
+      &:active {
+        box-shadow: 0 0 0 4px rgba(255,255,255,1);
+      }
+
+      &:disabled {
+        stroke: rgba(51, 51, 51, .35);
+        border-color: rgba(51, 51, 51, .35);
+      }
+    }
+  }
+
+  .tray-row {
+    display: flex;
+    flex-direction: row;
+
+    img {
+      height: 20px;
+    }
+
+    .animal-icon {
+      width: 30px;
+      height: 30px;
+    }
+  }
 }
