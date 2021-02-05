@@ -6,10 +6,12 @@ import { MainViewWrapper } from "./simulation/main-view-wrapper";
 import { SimulationView } from "./simulation/simulation-view";
 import { ControlPanel } from "./control-panel/control-panel";
 import { Thumbnail } from "./thumbnail/thumbnail";
-import t from "../utils/translation/translate";
+import { Notebook } from "./notebook/notebook";
+import { Tray } from "./simulation/tray";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates } from "../utils/sim-utils";
+import t from "../utils/translation/translate";
 
 import "./app.scss";
 
@@ -141,40 +143,50 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   return (
     <div className="app" data-testid="app">
-      <ThumbnailChooser {...thumbnailChooserProps} />
-      <div className="simulation" data-testid="simulation">
-        <MainViewWrapper
-          title={selectedContainerId}
-          isSaved={isSaved}
-          isFinished={isFinished}
-          onSaveClicked={saveToSelectedContainer}
-          currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
-          currentTime={time}
-          maxTime={1}
-          savedBgColor={kSavedBgColor}
-        >
-          <SimulationView
-            backgroundImage={backgroundImage}
-            environment={environment}
-            leafPackState={leafPackState}
+      <div className="content">
+        <ThumbnailChooser {...thumbnailChooserProps} />
+        <div className="simulation" data-testid="simulation">
+          <MainViewWrapper
+            title={selectedContainerId}
+            isSaved={isSaved}
+            isFinished={isFinished}
+            onSaveClicked={saveToSelectedContainer}
+            currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
+            currentTime={time}
+            maxTime={1}
+            savedBgColor={kSavedBgColor}
+          >
+            <SimulationView
+              backgroundImage={backgroundImage}
+              environment={environment}
+              leafPackState={leafPackState}
+              fish={fish}
+              isRunning={isRunning}
+            />
+            { isFinished && <Tray isRunning={isRunning} /> }
+          </MainViewWrapper>
+          <Notebook
+            leafDecomposition={leafDecomposition}
+            leafEaters={leafEaters}
+            algaeEaters={algaeEaters}
             fish={fish}
             isRunning={isRunning}
           />
-        </MainViewWrapper>
+        </div>
+        <ControlPanel
+          isRunning={isRunning}
+          isPaused={isPaused}
+          isFinished={isFinished}
+          inputControlsDisabled={inputControlsDisabled}
+          onStartSim={handleStartSim}
+          onPauseSim={pauseSimulation}
+          onRewindSim={rewindSimulation}
+          onChangeSunnyDaySlider={handleChangeSunnyDays}
+          sunnyDayFequency={sunnyDayFequency}
+          environment={environment}
+          onChangeEnvironment={handleChangeEnvironment}
+        />
       </div>
-      <ControlPanel
-        isRunning={isRunning}
-        isPaused={isPaused}
-        isFinished={isFinished}
-        inputControlsDisabled={inputControlsDisabled}
-        onStartSim={handleStartSim}
-        onPauseSim={pauseSimulation}
-        onRewindSim={rewindSimulation}
-        onChangeSunnyDaySlider={handleChangeSunnyDays}
-        sunnyDayFequency={sunnyDayFequency}
-        environment={environment}
-        onChangeEnvironment={handleChangeEnvironment}
-      />
     </div>
   );
 };

@@ -11,15 +11,7 @@
   border: solid 1px $gray-dark;
   border-bottom: none;
   border-radius: $component-border-radius $component-border-radius 0 0;
-  margin: 0 20px;
-  &:first-child {
-    border-radius: 0 $component-border-radius 0 0;
-    border-left: none;
-  }
-  &:last-child {
-    border-radius: $component-border-radius 0 0 0;
-    border-right: none;
-  }
+  margin: 0 5px;
 
   .border-cover {
     height: $control-panel-height;
@@ -42,7 +34,7 @@
         border-radius: $component-border-radius 0 0 0;
       }
       &:last-child {
-        border-radius: 0;
+        border-radius: 0 $component-border-radius 0 0;
       }
     }
   }

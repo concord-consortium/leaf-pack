@@ -449,10 +449,10 @@ export interface LeafPackConfiguration {
 }
 
 export const LeafPackConfigurations: LeafPackConfiguration[] = [
-  { environment: EnvironmentType.environment1, top: 210, left: 75 },
-  { environment: EnvironmentType.environment2, top: 206, left: 77 },
-  { environment: EnvironmentType.environment3, top: 195, left: 195 },
-  { environment: EnvironmentType.environment4, top: 195, left: 136 }
+  { environment: EnvironmentType.environment1, top: 257, left: 90 },
+  { environment: EnvironmentType.environment2, top: 255, left: 85 },
+  { environment: EnvironmentType.environment3, top: 240, left: 231 },
+  { environment: EnvironmentType.environment4, top: 237, left: 172 }
 ];
 
 export interface LeafPackState {
@@ -491,29 +491,29 @@ export const SimAnimals: SimAnimal[] = [
   { type: SimAnimationType.fish,
     frames: [FishA, FishB, FishC, FishB, FishA, FishD, FishE, FishD],
     layouts: [
-      { environment: EnvironmentType.environment1, x: 120, y: 185, xScale: 1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment1, x: 50, y: 213, xScale: -.9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment1, x: 120, y: 150, xScale: .7, yScale: .7, rotation: 0 },
-      { environment: EnvironmentType.environment1, x: 145, y: 155, xScale: .7, yScale: .7, rotation: 0 },
-      { environment: EnvironmentType.environment1, x: 175, y: 150, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment1, x: 160, y: 235, xScale: 1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment1, x: 70, y: 260, xScale: -.9, yScale: .9, rotation: 0 },
+      { environment: EnvironmentType.environment1, x: 165, y: 190, xScale: .8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment1, x: 195, y: 200, xScale: .8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment1, x: 195, y: 175, xScale: .6, yScale: .6, rotation: 0 },
 
-      { environment: EnvironmentType.environment2, x: 65, y: 185, xScale: -1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment2, x: 160, y: 155, xScale: .9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment2, x: 120, y: 185, xScale: .7, yScale: .7, rotation: 0 },
-      { environment: EnvironmentType.environment2, x: 120, y: 185, xScale: .5, yScale: .5, rotation: 0 },
-      { environment: EnvironmentType.environment2, x: 120, y: 185, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment2, x: 85, y: 235, xScale: -1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment2, x: 160, y: 230, xScale: .9, yScale: .9, rotation: 0 },
+      { environment: EnvironmentType.environment2, x: 125, y: 225, xScale: .8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment2, x: 160, y: 195, xScale: .7, yScale: .7, rotation: 0 },
+      { environment: EnvironmentType.environment2, x: 195, y: 190, xScale: .7, yScale: .7, rotation: 0 },
 
-      { environment: EnvironmentType.environment3, x: 160, y: 185, xScale: -1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment3, x: 200, y: 155, xScale: .9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment3, x: 120, y: 185, xScale: -.7, yScale: .7, rotation: 0 },
-      { environment: EnvironmentType.environment3, x: 120, y: 185, xScale: .5, yScale: .5, rotation: 0 },
-      { environment: EnvironmentType.environment3, x: 120, y: 185, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment3, x: 200, y: 235, xScale: -1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment3, x: 235, y: 225, xScale: .9, yScale: .9, rotation: 0 },
+      { environment: EnvironmentType.environment3, x: 205, y: 195, xScale: -.8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment3, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment3, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
 
-      { environment: EnvironmentType.environment4, x: 210, y: 190, xScale: 1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment4, x: 160, y: 155, xScale: .9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment4, x: 120, y: 185, xScale: .7, yScale: .7, rotation: 0 },
-      { environment: EnvironmentType.environment4, x: 120, y: 185, xScale: .5, yScale: .5, rotation: 0 },
-      { environment: EnvironmentType.environment4, x: 120, y: 185, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment4, x: 248, y: 235, xScale: 1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment4, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment4, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment4, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment4, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
     ]
   },
 ];

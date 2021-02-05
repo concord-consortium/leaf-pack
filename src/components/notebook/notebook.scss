@@ -1,0 +1,55 @@
+@import "../vars.scss";
+
+.notebook {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+
+  .notebook-tablist {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .notebook-tab {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 40px;
+    border-radius: 10px 10px 0 0;
+    padding: 0 20px;
+    border: solid 1px $gray-dark;
+    background-color: $gray-dark10;
+    width: fit-content;
+    cursor: pointer;
+
+    &.habitat {
+      &.react-tabs__tab--selected {
+        background-color: $habitat-orange;
+      }
+    }
+
+    &.macro {
+      &.react-tabs__tab--selected {
+        background-color: $macro-green;
+      }
+    }
+
+    &.chemistry {
+      &.react-tabs__tab--selected {
+        background-color: $chemistry-blue;
+      }
+    }
+
+    &:hover {
+      background-color: $gray-dark5;
+    }
+  }
+
+  ul {
+    margin: 0;
+  }
+}

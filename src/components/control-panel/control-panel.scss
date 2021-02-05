@@ -3,7 +3,7 @@
 .control-panel {
   height: $control-panel-height;
   margin-top: calc(#{$control-panel-content-height} - #{$control-panel-height});
-  width: 100%;
+  width: 880px;
   display: flex;
   align-items: flex-end;
   justify-content: center;

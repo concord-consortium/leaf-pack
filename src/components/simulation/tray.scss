@@ -1,0 +1,15 @@
+@import "../vars.scss";
+
+.tray {
+  position: absolute;
+  top: 37px;
+  left: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 382px;
+  height: 280px;
+  border-radius: 10px;
+  border: solid 1px $gray-dark;
+  background-color: white;
+}
