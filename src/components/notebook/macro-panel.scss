@@ -1,0 +1,12 @@
+@import "../vars.scss";
+
+.macro-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 438px;
+  height: 304px;
+  border-radius: 0 0 10px 10px;
+  border: solid 1px $gray-dark;
+  border-top: none;
+}
