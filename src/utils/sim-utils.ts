@@ -449,10 +449,10 @@ export interface LeafPackConfiguration {
 }
 
 export const LeafPackConfigurations: LeafPackConfiguration[] = [
-  { environment: EnvironmentType.environment1, top: 210, left: 75 },
-  { environment: EnvironmentType.environment2, top: 206, left: 77 },
-  { environment: EnvironmentType.environment3, top: 195, left: 195 },
-  { environment: EnvironmentType.environment4, top: 195, left: 136 }
+  { environment: EnvironmentType.environment1, top: 257, left: 90 },
+  { environment: EnvironmentType.environment2, top: 255, left: 85 },
+  { environment: EnvironmentType.environment3, top: 240, left: 231 },
+  { environment: EnvironmentType.environment4, top: 237, left: 172 }
 ];
 
 export interface LeafPackState {
@@ -491,7 +491,7 @@ export const SimAnimals: SimAnimal[] = [
   { type: SimAnimationType.fish,
     frames: [FishA, FishB, FishC, FishB, FishA, FishD, FishE, FishD],
     layouts: [
-      { environment: EnvironmentType.environment1, x: 120, y: 185, xScale: 1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment1, x: 144, y: 222, xScale: 1, yScale: 1, rotation: 0 },
       { environment: EnvironmentType.environment1, x: 50, y: 213, xScale: -.9, yScale: .9, rotation: 0 },
       { environment: EnvironmentType.environment1, x: 120, y: 150, xScale: .7, yScale: .7, rotation: 0 },
       { environment: EnvironmentType.environment1, x: 145, y: 155, xScale: .7, yScale: .7, rotation: 0 },
