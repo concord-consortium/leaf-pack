@@ -5,9 +5,9 @@
 # Can be set to an empty string for working at the top level of the bucket
 S3_BUCKET_PREFIX='leaf-pack/'
 # AWS CloudFront distribution ID
-DISTRIBUTION_ID='E3J1SXO02I9SLU'
+# DISTRIBUTION_ID='E3J1SXO02I9SLU'
 # AWS CloudFront distribution domain
-DISTRIBUTION_DOMAIN='leaf-pack.concord.org'
+# DISTRIBUTION_DOMAIN='leaf-pack.concord.org'
 # name of branch to deploy to root of site
 ROOT_BRANCH='production'
 # Bucket to deploy to, typically this is 'model-resources', but some projects
