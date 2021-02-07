@@ -1,17 +1,17 @@
 import React from "react";
-import { Animal, Animals, AnimalCount } from "../../utils/sim-utils";
+import { Animal, Animals, TrayAnimal } from "../../utils/sim-utils";
 
 import "./tray.scss";
 
 interface IProps {
-  animalCounts: AnimalCount[];
+  trayAnimals: TrayAnimal[];
   hidden: boolean;
   onHideTray: () => void;
   isRunning: boolean;
 }
 
 export const Tray: React.FC<IProps> = (props) => {
-  const { animalCounts, hidden, onHideTray } = props;
+  const { trayAnimals, hidden, onHideTray } = props;
   return (
     <div className={`tray ${hidden ? "hidden" : ""}`}>
       <div className="header">
@@ -23,16 +23,16 @@ export const Tray: React.FC<IProps> = (props) => {
           </svg>
         </button>
       </div>
-      { animalCounts.map((ac, index) =>
-          ac.count > 0 &&
+      { trayAnimals.map((ta, index) =>
+          ta.count > 0 &&
           <div key={`animal-count-${index}`}>
-            {`${Animals.find((a: Animal) => a.type === ac.type)?.label}: ${ac.count}`}
+            {`${Animals.find((a: Animal) => a.type === ta.type)?.label}: ${ta.count}`}
           </div>
       )}
       <div className="tray-row">
-        { animalCounts.map((ac, index) => {
-          const Icon = Animals.find((a: Animal) => a.type === ac.type)?.image;
-          return (ac.count > 0 && Icon && <Icon className="animal-icon" key={`animal-image-${index}`} />);
+        { trayAnimals.map((ta, index) => {
+          const Icon = Animals.find((a: Animal) => a.type === ta.type)?.image;
+          return (ta.count > 0 && Icon && <Icon className="animal-icon" key={`animal-image-${index}`} />);
         })}
       </div>
     </div>

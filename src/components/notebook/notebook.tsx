@@ -1,7 +1,6 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType,
-       } from "../../utils/sim-utils";
+import { TrayAnimal } from "../../utils/sim-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
 import { MacroPanel } from "./macro-panel";
@@ -13,15 +12,12 @@ import "react-tabs/style/react-tabs.css";
 import "./notebook.scss";
 
 interface IProps {
-  leafDecomposition: LeafDecompositionType;
-  leafEaters: LeafEatersAmountType;
-  algaeEaters: AlgaeEatersAmountType;
-  fish: FishAmountType;
+  trayAnimals: TrayAnimal[];
   isRunning: boolean;
 }
 
 export const Notebook: React.FC<IProps> = (props) => {
-  const { leafDecomposition, leafEaters, algaeEaters, fish, isRunning } = props;
+  const { isRunning } = props;
   return (
     <div className="notebook" data-testid="notebook">
       <Tabs>

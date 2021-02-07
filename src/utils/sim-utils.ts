@@ -415,11 +415,6 @@ export interface AnimalInstance {
   spawned: boolean;
 }
 
-export interface AnimalCount {
-  type: AnimalType;
-  count: number;
-}
-
 export interface LeafPackConfiguration {
   environment: EnvironmentType;
   top: number;
@@ -502,5 +497,20 @@ export interface SimAnimation {
   y: number;
   xScale: number;
   yScale: number;
+  rotation: number;
+}
+
+// The content that is positioned and shown in the tray
+export const kMinTrayX = 0;
+export const kMaxTrayX = 0;
+export const kMinTrayY = 0;
+export const kMaxTrayY = 0;
+
+export interface TrayAnimal {
+  type: AnimalType;
+  count: number;
+  collected: boolean;
+  x: number;
+  y: number;
   rotation: number;
 }
