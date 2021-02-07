@@ -20,6 +20,10 @@
   "ENVIRONMENT.3": "Corriente 3",
   "ENVIRONMENT.4": "Corriente 4",
 
+  "SENSITIVITY.1": "Sensitive",
+  "SENSITIVITY.2": "Somewhat Sensitive",
+  "SENSITIVITY.3": "Tolerant",
+
   "LEAFDECOMPOSITION": "Descomposición de Hojas",
   "LEAFEATERS": "Devoradores de Hojas",
   "ALGAEEATERS": "Comedores de Algas",

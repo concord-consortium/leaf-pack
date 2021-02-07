@@ -221,147 +221,187 @@ export interface EnvironmentAbundance {
   notSunny: AbundanceRange;
 }
 
+export enum SensitivityType {
+  sensitive = "sensitive",
+  somewhatSensitive = "somewhatSensitive",
+  tolerant = "tolerant",
+}
+
+
+export interface Sensitivity {
+  type: SensitivityType;
+  name: string;
+  blockColor: string;
+  backgroundColor: string;
+  graphColor: string;
+}
+
+export const Sensitivities: Sensitivity[] = [
+  {
+    type: SensitivityType.sensitive,
+    name: t("SENSITIVITY.1"),
+    blockColor: "#B2E6FA",
+    backgroundColor: "#D9F3FD",
+    graphColor: "#00AEEF",
+  },
+  {
+    type: SensitivityType.somewhatSensitive,
+    name: t("SENSITIVITY.2"),
+    blockColor: "#BFBFDA",
+    backgroundColor: "#DFDFED",
+    graphColor: "#2A2B86",
+  },
+  {
+    type: SensitivityType.tolerant,
+    name: t("SENSITIVITY.3"),
+    blockColor: "#FCD9BC",
+    backgroundColor: "#FEEDDE",
+    graphColor: "#F58221",
+  },
+];
+
 export interface Animal {
   type: AnimalType;
   label: string;
   abundance: Record<EnvironmentType, EnvironmentAbundance>;
   image: any;
+  sensitivity: SensitivityType;
 }
 
 export const Animals: Animal[] = [
-  { type: AnimalType.stoneFly, label: t("ANIMAL.STONEFLY"), image: stoneFlyImage,
+  { type: AnimalType.stoneFly, label: t("ANIMAL.STONEFLY"), image: stoneFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 2, max: 6}, notSunny: { min: 2, max: 6 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.mayFly, label: t("ANIMAL.MAYFLY"), image: mayFlyImage,
+  { type: AnimalType.mayFly, label: t("ANIMAL.MAYFLY"), image: mayFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 10, max: 20}, notSunny: { min: 10, max: 20 }},
                  "environment2": {sunny: {min: 10, max: 20}, notSunny: { min: 10, max: 20 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.caddisFly, label: t("ANIMAL.CADDISFLY"), image: caddisFlyImage,
+  { type: AnimalType.caddisFly, label: t("ANIMAL.CADDISFLY"), image: caddisFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 8, max: 12}, notSunny: { min: 8, max: 12 }},
                  "environment2": {sunny: {min: 8, max: 12}, notSunny: { min: 8, max: 12 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.dobsonFly, label: t("ANIMAL.DOBSONFLY"), image: dobsonFlyImage,
+  { type: AnimalType.dobsonFly, label: t("ANIMAL.DOBSONFLY"), image: dobsonFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment2": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.riffleBeatle, label: t("ANIMAL.RIFFLEBEATLE"), image: riffleBeatleImage,
+  { type: AnimalType.riffleBeatle, label: t("ANIMAL.RIFFLEBEATLE"), image: riffleBeatleImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 6, max: 10}, notSunny: { min: 6, max: 10 }},
                  "environment2": {sunny: {min: 7, max: 9}, notSunny: { min: 7, max: 8 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.waterPenny, label: t("ANIMAL.WATERPENNY"), image: waterPennyImage,
+  { type: AnimalType.waterPenny, label: t("ANIMAL.WATERPENNY"), image: waterPennyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.gilledSnail, label: t("ANIMAL.GILLEDSNAIL"), image: gilledSnailImage,
+  { type: AnimalType.gilledSnail, label: t("ANIMAL.GILLEDSNAIL"), image: gilledSnailImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.snipeFly, label: t("ANIMAL.SNIPEFLY"), image: snipeFlyImage,
+  { type: AnimalType.snipeFly, label: t("ANIMAL.SNIPEFLY"), image: snipeFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.damselFly, label: t("ANIMAL.DAMSELFLY"), image: damselFlyImage,
+  { type: AnimalType.damselFly, label: t("ANIMAL.DAMSELFLY"), image: damselFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.dragonFly, label: t("ANIMAL.DRAGONFLY"), image: dragonFlyImage,
+  { type: AnimalType.dragonFly, label: t("ANIMAL.DRAGONFLY"), image: dragonFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 6, max: 8}, notSunny: { min: 6, max: 8 }},
                  "environment2": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment3": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.sowBug, label: t("ANIMAL.SOWBUG"), image: sowBugImage,
+  { type: AnimalType.sowBug, label: t("ANIMAL.SOWBUG"), image: sowBugImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.scud, label: t("ANIMAL.SCUD"), image: scudImage,
+  { type: AnimalType.scud, label: t("ANIMAL.SCUD"), image: scudImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 7, max: 13}, notSunny: { min: 7, max: 13 }},
                  "environment2": {sunny: {min: 7, max: 13}, notSunny: { min: 7, max: 13 }},
                  "environment3": {sunny: {min: 3, max: 7}, notSunny: { min: 3, max: 7 }},
                  "environment4": {sunny: {min: 3, max: 7}, notSunny: { min: 3, max: 7 }} }
   },
-  { type: AnimalType.craneFly, label: t("ANIMAL.CRANEFLY"), image: craneFlyImage,
+  { type: AnimalType.craneFly, label: t("ANIMAL.CRANEFLY"), image: craneFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.clamOrMussel, label: t("ANIMAL.CLAMORMUSSEL"), image: clamOrMusselImage,
+  { type: AnimalType.clamOrMussel, label: t("ANIMAL.CLAMORMUSSEL"), image: clamOrMusselImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment2": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment3": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.crayFish, label: t("ANIMAL.CRAYFISH"), image: crayFishImage,
+  { type: AnimalType.crayFish, label: t("ANIMAL.CRAYFISH"), image: crayFishImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 3, max: 5}, notSunny: { min: 3, max: 5 }},
                  "environment2": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.netSpinningCaddisFly, label: t("ANIMAL.NETSPINNINGCADDISFLY"), image: netSpinningCaddisFlyImage,
+  { type: AnimalType.netSpinningCaddisFly, label: t("ANIMAL.NETSPINNINGCADDISFLY"), image: netSpinningCaddisFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.midgeFly, label: t("ANIMAL.MIDGEFLY"), image: midgeFlyImage,
+  { type: AnimalType.midgeFly, label: t("ANIMAL.MIDGEFLY"), image: midgeFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 16, max: 24}, notSunny: { min: 16, max: 24 }},
                  "environment4": {sunny: {min: 40, max: 60}, notSunny: { min: 40, max: 60 }} }
   },
-  { type: AnimalType.blackFly, label: t("ANIMAL.BLACKFLY"), image: blackFlyImage,
+  { type: AnimalType.blackFly, label: t("ANIMAL.BLACKFLY"), image: blackFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 21, max: 29}, notSunny: { min: 21, max: 29 }},
                  "environment2": {sunny: {min: 12, max: 18}, notSunny: { min: 12, max: 18 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.planarian, label: t("ANIMAL.PLANARIAN"), image: planarianImage,
+  { type: AnimalType.planarian, label: t("ANIMAL.PLANARIAN"), image: planarianImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment4": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }} }
   },
-  { type: AnimalType.leech, label: t("ANIMAL.LEECH"), image: leechImage,
+  { type: AnimalType.leech, label: t("ANIMAL.LEECH"), image: leechImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment4": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }} }
   },
-  { type: AnimalType.lungedSnail, label: t("ANIMAL.LUNGEDSNAIL"), image: lungedSnailImage,
+  { type: AnimalType.lungedSnail, label: t("ANIMAL.LUNGEDSNAIL"), image: lungedSnailImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.aquaticWorm, label: t("ANIMAL.AQUATICWORM"), image: aquaticWormImage,
+  { type: AnimalType.aquaticWorm, label: t("ANIMAL.AQUATICWORM"), image: aquaticWormImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.ratTailedMaggot, label: t("ANIMAL.RATTAILEDMAGGOT"), image: ratTailedMaggotImage,
+  { type: AnimalType.ratTailedMaggot, label: t("ANIMAL.RATTAILEDMAGGOT"), image: ratTailedMaggotImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment2": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment3": {sunny: {min: 5, max: 9}, notSunny: { min: 5, max: 9 }},
