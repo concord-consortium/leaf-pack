@@ -2,6 +2,10 @@ import EnvironmentImage1 from "../assets/environment1.png";
 import EnvironmentImage2 from "../assets/environment2.png";
 import EnvironmentImage3 from "../assets/environment3.png";
 import EnvironmentImage4 from "../assets/environment4.png";
+import EnvironmentSketchImage1 from "../assets/environment-sketch1.png";
+import EnvironmentSketchImage2 from "../assets/environment-sketch2.png";
+import EnvironmentSketchImage3 from "../assets/environment-sketch3.png";
+import EnvironmentSketchImage4 from "../assets/environment-sketch4.png";
 import LeafPackImage1 from "../assets/leafpack1.png";
 import LeafPackImage2 from "../assets/leafpack2.png";
 import LeafPackImage3 from "../assets/leafpack3.png";
@@ -68,6 +72,7 @@ export interface Environment {
   type: EnvironmentType;
   name: string;
   backgroundImage: any;
+  sketchImage: any;
 }
 
 export const Environments: Environment[] = [
@@ -75,21 +80,25 @@ export const Environments: Environment[] = [
     type: EnvironmentType.environment1,
     name: t("ENVIRONMENT.1"),
     backgroundImage: EnvironmentImage1,
+    sketchImage: EnvironmentSketchImage1
   },
   {
     type: EnvironmentType.environment2,
     name: t("ENVIRONMENT.2"),
     backgroundImage: EnvironmentImage2,
+    sketchImage: EnvironmentSketchImage2
   },
   {
     type: EnvironmentType.environment3,
     name: t("ENVIRONMENT.3"),
     backgroundImage: EnvironmentImage3,
+    sketchImage: EnvironmentSketchImage3
   },
   {
     type: EnvironmentType.environment4,
     name: t("ENVIRONMENT.4"),
     backgroundImage: EnvironmentImage4,
+    sketchImage: EnvironmentSketchImage4
   },
 ];
 
