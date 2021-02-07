@@ -12,7 +12,7 @@ export const Thumbnail: React.FC<IThumbnailProps<IModelInputState, IModelOutputS
   const {inputState} = props.container;
   const {sunnyDayFequency, environment} = inputState;
   const sunnyDays = sunnyDayFequency === 0 ? t("SUNNYDAY.FEW.SHORT") : t("SUNNYDAY.MANY.SHORT");
-  const environmentIndex = Environments.filter((e) => e.enabled).findIndex((e) => e.type === environment) + 1;
+  const environmentIndex = Environments.findIndex((e) => e.type === environment) + 1;
   return (
     <div className="thumbnail" data-testid="thumbnail">
       <div className="inputs">
