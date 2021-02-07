@@ -44,7 +44,7 @@ export const EnvironmentSelect: React.FC<IProps> = (props) => {
           disabled={disabled}
           aria-label={t("ENVIRONMENT.LABEL")}
         >
-          {Environments.filter((env: Environment) => env.enabled).map((env: Environment, key) => (
+          {Environments.map((env: Environment, key) => (
             <MenuItem
               value={env.type}
               key={key}
