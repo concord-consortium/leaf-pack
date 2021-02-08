@@ -15,6 +15,7 @@
   .critters {
     display: flex;
     flex-direction: column;
+    height: 252px;
 
     .critter {
       display: flex;
@@ -64,6 +65,7 @@
         margin: 5px;
         border-radius: 4px;
         background-color: white;
+        font-weight: normal;
       }
 
       .sensitivity {
