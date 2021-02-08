@@ -1,0 +1,4 @@
+<svg height="12" width="12" stroke="white">
+  <line x1="1" y1="6" x2="6" y2="10" style="stroke-width:3" />
+  <line x1="10" y1="1" x2="6" y2="10" style="stroke-width:3" />
+</svg>
