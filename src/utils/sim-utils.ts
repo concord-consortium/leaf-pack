@@ -13,7 +13,7 @@ import stoneFlyImage from "../assets/animals/stonefly.svg";
 import mayFlyImage from "../assets/animals/mayfly.svg";
 import caddisFlyImage from "../assets/animals/caddisfly.svg";
 import dobsonFlyImage from "../assets/animals/dobsonfly.svg";
-import riffleBeatleImage from "../assets/animals/rifflebeatle.svg";
+import riffleBeetleImage from "../assets/animals/rifflebeetle.svg";
 import waterPennyImage from "../assets/animals/waterpenny.svg";
 import gilledSnailImage from "../assets/animals/gilledsnail.svg";
 import snipeFlyImage from "../assets/animals/snipefly.svg";
@@ -199,7 +199,7 @@ export enum AnimalType {
   mayFly = "mayFly",
   caddisFly = "caddisFly",
   dobsonFly = "dobsonFly",
-  riffleBeatle = "riffleBeatle",
+  riffleBeetle = "riffleBeetle",
   waterPenny = "waterPenny",
   gilledSnail = "gilledSnail",
   snipeFly = "snipeFly",
@@ -301,7 +301,7 @@ export const Animals: Animal[] = [
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.riffleBeatle, label: t("ANIMAL.RIFFLEBEATLE"), image: riffleBeatleImage, sensitivity: SensitivityType.tolerant,
+  { type: AnimalType.riffleBeetle, label: t("ANIMAL.RIFFLEBEETLE"), image: riffleBeetleImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 6, max: 10}, notSunny: { min: 6, max: 10 }},
                  "environment2": {sunny: {min: 7, max: 9}, notSunny: { min: 7, max: 8 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
