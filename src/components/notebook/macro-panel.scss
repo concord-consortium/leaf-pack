@@ -30,6 +30,22 @@
       }
 
       .image-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        height: 32px;
+        width: 56px;
+        border: solid 2px $gray-dark;
+        border-radius: 5px;
+        margin: 5px;
+
+        .animal-icon {
+          height: 30px;
+        }
+      }
+
+      .empty-box {
         box-sizing: border-box;
         height: 32px;
         width: 56px;
