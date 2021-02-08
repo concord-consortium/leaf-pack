@@ -1,40 +1,53 @@
 import React, { useState } from "react";
 import { SectionButtons } from "./section-buttons";
-import { Animals, Sensitivities } from "../../utils/sim-utils";
+import { Animals, Sensitivities, TrayAnimal } from "../../utils/sim-utils";
 
 import "./macro-panel.scss";
 
 const kCrittersPerSection = 5;
-const kMaxCritters = 20;
+// TODO: determine what this max is. Do we need a max for each animal type?
+const kMaxCritters = 100;
 const kMaxGraphWidth = 64;
 
 interface IProps {
   isRunning: boolean;
+  trayAnimals: TrayAnimal[];
 }
 
 export const MacroPanel: React.FC<IProps> = (props) => {
+  const { trayAnimals } = props;
+
   const [currentSection, setCurrentSection] = useState(0);
-  const numSections = Math.ceil(Animals.length / kCrittersPerSection);
+  // there is an extra summation section as well as the pages that display the animals
+  const numSections = Math.ceil(Animals.length / kCrittersPerSection) + 1;
 
   return (
     <div className="macro-panel">
       <div className="critters">
         {Animals.map((animal, index) => {
           const sensitivity = Sensitivities.find((s) => s.type === animal.sensitivity);
+          const trayAnimal = trayAnimals.find((ta) => ta.type === animal.type);
+          const count = trayAnimal?.collected ? trayAnimal.count : 0;
           return (
             index >= kCrittersPerSection * currentSection &&
             index < kCrittersPerSection * currentSection + kCrittersPerSection &&
             <div key={`critter-${index}`} className="critter" style={{backgroundColor: sensitivity?.backgroundColor}}>
               <div className="image-box" />
               <div className="name">{animal.label}</div>
-              <div className="count">10</div>
+              <div className="count">{count}</div>
               <div className="graph" style={{borderColor: sensitivity?.graphColor}}>
-                <div className="bar" style={{backgroundColor: sensitivity?.graphColor, width: kMaxGraphWidth * 10 / kMaxCritters}} />
+                <div
+                  className="bar"
+                  style={{backgroundColor: sensitivity?.graphColor, width: kMaxGraphWidth * count / kMaxCritters}}
+                />
               </div>
               <div className="sensitivity">{sensitivity?.label}</div>
             </div>
           );
         })}
+        {currentSection === numSections - 1 &&
+          <div>Summary Section</div>
+        }
       </div>
       <SectionButtons
         currentSection={currentSection}

@@ -20,7 +20,7 @@ interface IProps {
 }
 
 export const Notebook: React.FC<IProps> = (props) => {
-  const { environment, featureSelections, onSelectFeature, isRunning } = props;
+  const { trayAnimals, environment, featureSelections, onSelectFeature, isRunning } = props;
   return (
     <div className="notebook" data-testid="notebook">
       <Tabs>
@@ -40,6 +40,7 @@ export const Notebook: React.FC<IProps> = (props) => {
         </TabPanel>
         <TabPanel>
           <MacroPanel
+            trayAnimals={trayAnimals}
             isRunning={isRunning}
           />
         </TabPanel>
