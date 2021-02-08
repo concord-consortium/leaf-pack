@@ -14,8 +14,12 @@ export const SectionButtons: React.FC<IProps> = (props) => {
   return (
     <div className="section-buttons">
       {pages.map((p, index) =>
-        <button key={`button-${index}`} className={`section-button ${currentSection === index ? "selected" : ""}`}>
-          {index}
+        <button
+          key={`button-${index}`}
+          className={`section-button ${currentSection === index ? "selected" : ""}`}
+          onClick={() => onSelectSection(index)}
+        >
+          {index + 1}
         </button>
       )}
     </div>
