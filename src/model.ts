@@ -109,7 +109,8 @@ export class Model {
       return { type: animal.type,
                count: 0,
                rotation: Math.random() * 360,
-               x: Math.random() * (kMaxTrayX - kMinTrayX), y: Math.random() * (kMaxTrayY - kMinTrayY), // TODO: needs to respect tray bounds
+               x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
+               y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
                collected: false };
     });
     if (isFinished) {

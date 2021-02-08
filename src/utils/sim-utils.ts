@@ -446,10 +446,10 @@ export interface SimAnimation {
 }
 
 // The content that is positioned and shown in the tray
-export const kMinTrayX = 0;
-export const kMaxTrayX = 240;
-export const kMinTrayY = 0;
-export const kMaxTrayY = 100;
+export const kMinTrayX = 50;
+export const kMaxTrayX = 250;
+export const kMinTrayY = 50;
+export const kMaxTrayY = 125;
 
 export interface TrayAnimal {
   type: AnimalType;
