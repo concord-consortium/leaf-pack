@@ -26,7 +26,13 @@ export const Tray: React.FC<IProps> = (props) => {
       <div className="tray-content">
         { trayAnimals.map((ta, index) => {
           const Icon = Animals.find((a: Animal) => a.type === ta.type)?.image;
-          return (ta.count > 0 && Icon && <Icon className="animal-icon" key={`animal-image-${index}`} style={{left: ta.x, top: ta.y}} />);
+          return (ta.count > 0 && Icon &&
+            <Icon
+              className="animal-icon"
+              key={`animal-image-${index}`}
+              style={{left: ta.x, top: ta.y, transform: `rotate(${ta.rotation}deg)`}}
+            />
+          );
         })}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { IModelInputState } from "./components/app";
 import { EnvironmentType, LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
          AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
-         TrayAnimal } from "./utils/sim-utils";
+         TrayAnimal, kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY } from "./utils/sim-utils";
 
 export const kMaxSteps = 660;
 
@@ -108,8 +108,8 @@ export class Model {
     const trayAnimals: TrayAnimal[] = Animals.map((animal) => {
       return { type: animal.type,
                count: 0,
-               rotation: 0,
-               x: Math.random() * (240 - 0), y: Math.random() * (100 - 0), // TODO: needs to respect tray bounds
+               rotation: Math.random() * 360,
+               x: Math.random() * (kMaxTrayX - kMinTrayX), y: Math.random() * (kMaxTrayY - kMinTrayY), // TODO: needs to respect tray bounds
                collected: false };
     });
     if (isFinished) {
