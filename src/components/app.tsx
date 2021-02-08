@@ -10,7 +10,7 @@ import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal } from "../utils/sim-utils";
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, kTotalHabitatFeatures } from "../utils/sim-utils";
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -150,6 +150,13 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     rewindSimulation();
   };
 
+  const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
+  const handleHabitatSelectFeature = (index: number, value: boolean) => {
+    console.log(index, value);
+    const newSelectedFeatures = habitatSelectedFeatures.map((featureSelection, i) => i === index ? value : featureSelection);
+    setHabitatSelectedFeatures(newSelectedFeatures);
+  };
+
   return (
     <div className="app" data-testid="app">
       <div className="content">
@@ -183,6 +190,9 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           </MainViewWrapper>
           <Notebook
             trayAnimals={trayAnimals}
+            environment={environment}
+            featureSelections={habitatSelectedFeatures}
+            onSelectFeature={handleHabitatSelectFeature}
             isRunning={isRunning}
           />
         </div>

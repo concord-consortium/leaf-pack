@@ -57,6 +57,9 @@
     &:hover {
       background-color: $gray-dark5;
     }
+    &:active {
+      background-color: white;
+    }
   }
 
   ul {
