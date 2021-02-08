@@ -23,16 +23,10 @@ export const Tray: React.FC<IProps> = (props) => {
           </svg>
         </button>
       </div>
-      { trayAnimals.map((ta, index) =>
-          ta.count > 0 &&
-          <div key={`animal-count-${index}`}>
-            {`${Animals.find((a: Animal) => a.type === ta.type)?.label}: ${ta.count}`}
-          </div>
-      )}
-      <div className="tray-row">
+      <div className="tray-content">
         { trayAnimals.map((ta, index) => {
           const Icon = Animals.find((a: Animal) => a.type === ta.type)?.image;
-          return (ta.count > 0 && Icon && <Icon className="animal-icon" key={`animal-image-${index}`} />);
+          return (ta.count > 0 && Icon && <Icon className="animal-icon" key={`animal-image-${index}`} style={{left: ta.x, top: ta.y}} />);
         })}
       </div>
     </div>
