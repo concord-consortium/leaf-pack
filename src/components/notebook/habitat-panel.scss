@@ -58,6 +58,7 @@
           box-sizing: border-box;
           margin-right: 8px;
           padding: 0;
+          cursor: pointer;
 
           &:hover {
             background-color: $habitat-green-check-hover;
@@ -65,6 +66,14 @@
           &:active, &.selected {
             background-color: $habitat-green-check;
             border: none;
+          }
+
+          &.selected:hover {
+            background-color: $habitat-green-check-hover;
+          }
+          &.selected:active {
+            border: solid 2px black;
+            background-color: white;
           }
 
           .check {
