@@ -1,4 +1,5 @@
 import React from "react";
+import t from "../../utils/translation/translate";
 import { Animal, Animals, TrayAnimal } from "../../utils/sim-utils";
 
 import "./tray.scss";
@@ -15,7 +16,7 @@ export const Tray: React.FC<IProps> = (props) => {
   return (
     <div className={`tray ${hidden ? "hidden" : ""}`}>
       <div className="header">
-        <div className="title">Leaf Pack Sorting Tray</div>
+        <div className="title">{t("SORTINGTRAY")}</div>
         <button className="close" onClick={onHideTray}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12">
             <line x1="0" y1="0" x2="12" y2="12" strokeWidth="2.5"/>
