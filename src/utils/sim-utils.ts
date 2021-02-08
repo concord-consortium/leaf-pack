@@ -524,7 +524,7 @@ export interface TrayAnimal {
 }
 
 // The habitat notebook page
-export enum HabitatSectionType {
+export enum HabitatCategoryType {
   sketch = "sketch",
   streamHabitats = "streamHabitats",
   banks = "banks",
@@ -534,15 +534,15 @@ export enum HabitatSectionType {
 }
 
 export interface HabitatSection {
-  type: HabitatSectionType;
+  type: HabitatCategoryType;
   categories?: string[];
 }
 
 export const habitatSections = [
-  { type: HabitatSectionType.sketch },
-  { type: HabitatSectionType.streamHabitats, categories: [t("HABITAT.POOLS"), t("HABITAT.RIFFLES"), t("HABITAT.RUNS")] },
-  { type: HabitatSectionType.banks, categories: [t("HABITAT.MANYTREES"), t("HABITAT.SOMETREES"), t("HABITAT.NOTREES"), t("HABITAT.GRASSONLY"), t("HABITAT.PAVEMENT")] },
-  { type: HabitatSectionType.inStream, categories: [t("HABITAT.LEAVES"), t("HABITAT.COBBLES"), t("HABITAT.WOODYDEBRIS"), t("HABITAT.PLANTROOTS")] },
-  { type: HabitatSectionType.algae, categories: [t("HABITAT.LIGHTCOVER"), t("HABITAT.THICKCOVER"), t("HABITAT.THICKCOVERCLUMPS")] },
-  { type: HabitatSectionType.other, categories: [t("HABITAT.FISH"), t("HABITAT.OTTERS"), t("HABITAT.TRASH"), t("HABITAT.PIPES")] },
+  { type: HabitatCategoryType.sketch },
+  { type: HabitatCategoryType.streamHabitats, categories: [t("HABITAT.POOLS"), t("HABITAT.RIFFLES"), t("HABITAT.RUNS")] },
+  { type: HabitatCategoryType.banks, categories: [t("HABITAT.MANYTREES"), t("HABITAT.SOMETREES"), t("HABITAT.NOTREES"), t("HABITAT.GRASSONLY"), t("HABITAT.PAVEMENT")] },
+  { type: HabitatCategoryType.inStream, categories: [t("HABITAT.LEAVES"), t("HABITAT.COBBLES"), t("HABITAT.WOODYDEBRIS"), t("HABITAT.PLANTROOTS")] },
+  { type: HabitatCategoryType.algae, categories: [t("HABITAT.LIGHTCOVER"), t("HABITAT.THICKCOVER"), t("HABITAT.THICKCOVERCLUMPS")] },
+  { type: HabitatCategoryType.other, categories: [t("HABITAT.FISH"), t("HABITAT.OTTERS"), t("HABITAT.TRASH"), t("HABITAT.PIPES")] },
 ];
