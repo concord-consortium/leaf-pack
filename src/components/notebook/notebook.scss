@@ -16,47 +16,59 @@
   }
 
   .notebook-tab {
+    position: relative;
+    bottom: -1px;
     display: flex;
     align-items: center;
     box-sizing: border-box;
     height: 40px;
     border-radius: 10px 10px 0 0;
-    padding: 0 10px;
     border: solid 1px $gray-dark;
     background-color: $gray-dark10;
-    width: fit-content;
+    padding: 4px 4px 0 4px;
     cursor: pointer;
-    position: relative;
-    bottom: -1px;
+
+    .inner {
+      display: flex;
+      align-items: center;
+      border-radius: 5px 5px 0 0;
+      padding: 0 7px;
+      width: fit-content;
+      height: 36px;
+    }
 
     .icon {
-      margin: 5px;
+      margin-right: 5px;
+    }
+
+    &.react-tabs__tab--selected {
+      background-color: white;
+      border-bottom: solid 1px white;
+      pointer-events: none;
     }
 
     &.habitat {
-      &.react-tabs__tab--selected {
+      &.react-tabs__tab--selected .inner {
         background-color: $habitat-orange;
-        border-bottom: solid 1px white;
       }
     }
 
     &.macro {
-      &.react-tabs__tab--selected {
+      &.react-tabs__tab--selected .inner {
         background-color: $macro-green;
-        border-bottom: solid 1px white;
       }
     }
 
     &.chemistry {
-      &.react-tabs__tab--selected {
+      &.react-tabs__tab--selected .inner {
         background-color: $chemistry-blue;
-        border-bottom: solid 1px white;
       }
     }
 
     &:hover {
       background-color: $gray-dark5;
     }
+
     &:active {
       background-color: white;
     }
