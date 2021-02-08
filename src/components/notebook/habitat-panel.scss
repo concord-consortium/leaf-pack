@@ -2,11 +2,86 @@
 
 .habitat-panel {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 438px;
   height: 304px;
   border-radius: 0 0 10px 10px;
   border: solid 1px $gray-dark;
   border-top: none;
+  font-size: 14px;
+  font-weight: bold;
+
+  .categories{
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+
+    .category {
+      height: 219px;
+      border-right: solid 1px $gray-dark25;
+      padding-right: 9px;
+      margin-right: 9px;
+      margin-bottom: 15px;
+      width: 124px;
+      &:first-child {
+        margin-left: 14px;
+      }
+      &:last-child {
+        border-right: none;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $habitat-orange-dark1;
+        width: 124px;
+        height: 24px;
+      }
+
+      .feature-row {
+        display: flex;
+        flex-direction: row;
+        margin: 5px 5px 5px 0;
+        font-size: 14px;
+        font-weight: normal;
+
+        .checkbox {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 18px;
+          width: 18px;
+          border: solid 2px black;
+          background-color: white;
+          box-sizing: border-box;
+          margin-right: 8px;
+          padding: 0;
+
+          &:hover {
+            background-color: $habitat-green-check-hover;
+          }
+          &:active, &.selected {
+            background-color: $habitat-green-check;
+            border: none;
+          }
+
+          .check {
+            height: 13px;
+            width: 13px;
+          }
+
+        }
+      }
+
+      img {
+        border-radius: 5px;
+        border: solid 1px $gray-dark;
+        margin-top: 10px;
+      }
+
+    }
+
+  }
 }
