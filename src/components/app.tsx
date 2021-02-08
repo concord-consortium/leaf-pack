@@ -152,7 +152,6 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
   const handleHabitatSelectFeature = (index: number, value: boolean) => {
-    console.log(index, value);
     const newSelectedFeatures = habitatSelectedFeatures.map((featureSelection, i) => i === index ? value : featureSelection);
     setHabitatSelectedFeatures(newSelectedFeatures);
   };
