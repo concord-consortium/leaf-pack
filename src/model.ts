@@ -1,7 +1,7 @@
 import { IModelInputState } from "./components/app";
 import { EnvironmentType, LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
          AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
-         TrayAnimal } from "./utils/sim-utils";
+         TrayAnimal, kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY } from "./utils/sim-utils";
 
 export const kMaxSteps = 660;
 
@@ -106,14 +106,21 @@ export class Model {
 
     // get instance counts for sorting tray
     const trayAnimals: TrayAnimal[] = Animals.map((animal) => {
-      return {type: animal.type, count: 0, rotation: 0, x: 0, y: 0, collected: false};
+      return { type: animal.type,
+               count: 0,
+               rotation: Math.random() * 360,
+               x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
+               y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+               collected: false };
     });
-    this.animalInstances.forEach((animalInstance) => {
-      if (animalInstance.spawned) {
-        const index = trayAnimals.findIndex((ac: TrayAnimal) => ac.type === animalInstance.type);
-        trayAnimals[index].count++;
-      }
-    });
+    if (isFinished) {
+      this.animalInstances.forEach((animalInstance) => {
+        if (animalInstance.spawned) {
+          const index = trayAnimals.findIndex((ac: TrayAnimal) => ac.type === animalInstance.type);
+          trayAnimals[index].count++;
+        }
+      });
+    }
 
     return {
       percentComplete,

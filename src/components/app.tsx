@@ -145,6 +145,10 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
   const [showTray, setShowTray] = useState(false);
+  const handleRewind = () => {
+    setShowTray(false);
+    rewindSimulation();
+  };
 
   return (
     <div className="app" data-testid="app">
@@ -189,7 +193,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           inputControlsDisabled={inputControlsDisabled}
           onStartSim={handleStartSim}
           onPauseSim={pauseSimulation}
-          onRewindSim={rewindSimulation}
+          onRewindSim={handleRewind}
           onChangeSunnyDaySlider={handleChangeSunnyDays}
           sunnyDayFequency={sunnyDayFequency}
           environment={environment}

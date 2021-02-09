@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="394" height="292" viewBox="0 0 394 292">
+    <defs>
+        <filter id="1e8fv81yna" width="104.7%" height="106.4%" x="-2.4%" y="-3.2%" filterUnits="objectBoundingBox">
+            <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
+        </filter>
+        <filter id="wq0r3rgwxc" width="108.9%" height="112.1%" x="-4.5%" y="-6.1%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" radius="20" result="shadowSpreadInner1"/>
+            <feGaussianBlur in="shadowSpreadInner1" result="shadowBlurInner1" stdDeviation="1"/>
+            <feOffset in="shadowBlurInner1" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0.208313865 0 0 0 0 0.266803397 0 0 0 0 0.385388361 0 0 0 0.12 0"/>
+        </filter>
+        <filter id="jfs7pj8sug" width="105.8%" height="107.9%" x="-2.9%" y="-3.9%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" radius="20" result="shadowSpreadInner1"/>
+            <feGaussianBlur in="shadowSpreadInner1" result="shadowBlurInner1" stdDeviation="1"/>
+            <feOffset in="shadowBlurInner1" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0.207843137 0 0 0 0 0.266666667 0 0 0 0 0.384313725 0 0 0 0.06 0"/>
+        </filter>
+        <rect id="62zoq7xmub" width="382" height="280" x="0" y="0" rx="7"/>
+        <rect id="wg17k8ybtf" width="382" height="280" x="0" y="0" rx="7"/>
+        <path id="jm3ikv9t4d" d="M43.657 236.572L343.04 38.596 382 0 382 280 0 280z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g transform="translate(-104 -1691) translate(110 1697)">
+                <g>
+                    <use fill="#000" filter="url(#1e8fv81yna)" xlink:href="#62zoq7xmub"/>
+                    <use fill="#FFF" xlink:href="#62zoq7xmub"/>
+                    <use fill="#000" filter="url(#wq0r3rgwxc)" xlink:href="#62zoq7xmub"/>
+                    <rect width="377" height="275" x="2.5" y="2.5" stroke="#FFF" stroke-linejoin="square" stroke-width="5" rx="7"/>
+                    <rect width="381" height="279" x=".5" y=".5" stroke="#999" stroke-linejoin="square" rx="7"/>
+                </g>
+                <mask id="hwx4x5kk1e" fill="#fff">
+                    <use xlink:href="#jm3ikv9t4d"/>
+                </mask>
+                <g mask="url(#hwx4x5kk1e)">
+                    <use fill="#FFF" xlink:href="#wg17k8ybtf"/>
+                    <use fill="#000" filter="url(#jfs7pj8sug)" xlink:href="#wg17k8ybtf"/>
+                    <rect width="377" height="275" x="2.5" y="2.5" stroke="#FFF" stroke-linejoin="square" stroke-width="5" rx="7"/>
+                    <rect width="381" height="279" x=".5" y=".5" stroke="#999" stroke-linejoin="square" rx="7"/>
+                </g>
+                <rect width="371" height="269" x="5.5" y="5.5" stroke="#E3E2E2" rx="2"/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -2,6 +2,7 @@ import React from "react";
 import { ThumbnailTitle } from "./thumbnail-title";
 import { ContainerId, IContainer } from "../../../hooks/use-model-state";
 import { IThumbnailProps } from "./thumbnail-chooser";
+import CloseIcon from "../../../assets/close-icon.svg";
 
 import "./thumbnail-wrapper.scss";
 
@@ -43,10 +44,7 @@ export const ThumbnailWrapper: React.FC<IThumbnailWrapperProps<Record<string, an
       {
         props.selected &&
         <button className="close" onClick={handleClose} disabled={props.disabled}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12">
-            <line x1="0" y1="0" x2="12" y2="12" strokeWidth="2.5"/>
-            <line x1="12" y1="0" x2="0" y2="12" strokeWidth="2.5"/>
-          </svg>
+          <CloseIcon />
         </button>
       }
     </div>
