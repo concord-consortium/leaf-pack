@@ -24,6 +24,13 @@
   "SENSITIVITY.2": "Somewhat Sensitive",
   "SENSITIVITY.3": "Tolerant",
 
+  "HABITAT.SKETCH": "Sketch",
+  "HABITAT.STREAMHABITATS": "Stream Habitats",
+  "HABITAT.BANKS": "Banks",
+  "HABITAT.INSTREAM": "In Stream",
+  "HABITAT.ALGAE": "Algae",
+  "HABITAT.OTHER": "Other",
+
   "HABITAT.POOLS": "Pools",
   "HABITAT.RIFFLES": "Riffles",
   "HABITAT.RUNS": "Runs",

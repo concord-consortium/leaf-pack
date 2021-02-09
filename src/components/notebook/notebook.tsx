@@ -1,6 +1,6 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { TrayAnimal } from "../../utils/sim-utils";
+import { EnvironmentType, TrayAnimal } from "../../utils/sim-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
 import { MacroPanel } from "./macro-panel";
@@ -13,11 +13,14 @@ import "./notebook.scss";
 
 interface IProps {
   trayAnimals: TrayAnimal[];
+  environment: EnvironmentType;
+  featureSelections: boolean[];
+  onSelectFeature: (index: number, selected: boolean) => void;
   isRunning: boolean;
 }
 
 export const Notebook: React.FC<IProps> = (props) => {
-  const { isRunning } = props;
+  const { environment, featureSelections, onSelectFeature, isRunning } = props;
   return (
     <div className="notebook" data-testid="notebook">
       <Tabs>
@@ -29,6 +32,9 @@ export const Notebook: React.FC<IProps> = (props) => {
 
         <TabPanel>
           <HabitatPanel
+            environment={environment}
+            featureSelections={featureSelections}
+            onSelectFeature={onSelectFeature}
             isRunning={isRunning}
           />
         </TabPanel>
