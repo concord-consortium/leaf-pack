@@ -23,6 +23,7 @@
   "SENSITIVITY.1": "Sensitive",
   "SENSITIVITY.2": "Somewhat Sensitive",
   "SENSITIVITY.3": "Tolerant",
+  "PTI.HEADER": "Pollution Tolerance Index (PTI) Score and Rating",
 
   "HABITAT.SKETCH": "Sketch",
   "HABITAT.STREAMHABITATS": "Stream Habitats",

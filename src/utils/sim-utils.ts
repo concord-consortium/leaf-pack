@@ -229,7 +229,7 @@ export enum SensitivityType {
 
 export interface Sensitivity {
   type: SensitivityType;
-  name: string;
+  label: string;
   blockColor: string;
   backgroundColor: string;
   graphColor: string;
@@ -238,21 +238,21 @@ export interface Sensitivity {
 export const Sensitivities: Sensitivity[] = [
   {
     type: SensitivityType.sensitive,
-    name: t("SENSITIVITY.1"),
+    label: t("SENSITIVITY.1"),
     blockColor: "#B2E6FA",
     backgroundColor: "#D9F3FD",
     graphColor: "#00AEEF",
   },
   {
     type: SensitivityType.somewhatSensitive,
-    name: t("SENSITIVITY.2"),
+    label: t("SENSITIVITY.2"),
     blockColor: "#BFBFDA",
     backgroundColor: "#DFDFED",
     graphColor: "#2A2B86",
   },
   {
     type: SensitivityType.tolerant,
-    name: t("SENSITIVITY.3"),
+    label: t("SENSITIVITY.3"),
     blockColor: "#FCD9BC",
     backgroundColor: "#FEEDDE",
     graphColor: "#F58221",

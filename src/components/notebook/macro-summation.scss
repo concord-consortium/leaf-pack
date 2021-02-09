@@ -1,0 +1,21 @@
+@import "../vars.scss";
+
+.macro-summation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    margin-top: 15px;
+    padding: 3px 43px;
+    background-color: $macro-green-dark1;
+
+    .PTI-icon {
+      margin-right: 5px;
+    }
+  }
+}

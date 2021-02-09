@@ -2,11 +2,98 @@
 
 .macro-panel {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 438px;
   height: 304px;
   border-radius: 0 0 10px 10px;
   border: solid 1px $gray-dark;
   border-top: none;
+  font-size: 14px;
+  font-weight: bold;
+
+  .critters {
+    display: flex;
+    flex-direction: column;
+    height: 252px;
+
+    .critter {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 408px;
+      height: 38px;
+      margin-bottom: 8px;
+
+      &:first-child {
+        margin-top: 15px;
+      }
+
+      .image-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        height: 32px;
+        width: 56px;
+        border: solid 2px $gray-dark;
+        border-radius: 5px;
+        margin: 5px;
+
+        .animal-icon {
+          height: 30px;
+        }
+      }
+
+      .empty-box {
+        box-sizing: border-box;
+        height: 32px;
+        width: 56px;
+        border: dashed 2px $gray-dark;
+        border-radius: 5px;
+        margin: 5px;
+      }
+
+      .name {
+        width: 135px;
+        margin: 5px;
+      }
+
+      .graph {
+        width: 64px;
+        height: 24px;
+        margin: 5px;
+        border-radius: 4px;
+        border: solid 1px white;
+
+        .bar {
+          width: 0;
+          height: 24px;
+        }
+      }
+
+      .count {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 37px;
+        height: 24px;
+        margin: 5px;
+        border-radius: 4px;
+        background-color: white;
+        font-weight: normal;
+      }
+
+      .sensitivity {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 62px;
+        height: 32px;
+        margin: 5px;
+        font-size: 13px;
+      }
+    }
+  }
+
 }
