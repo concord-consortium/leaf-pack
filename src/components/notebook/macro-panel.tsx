@@ -7,7 +7,7 @@ import "./macro-panel.scss";
 
 const kCrittersPerSection = 5;
 // TODO: determine what this max is. Do we need a max for each animal type?
-const kMaxCritters = 100;
+const kMaxCritters = 60;
 const kMaxGraphWidth = 64;
 
 interface IProps {
