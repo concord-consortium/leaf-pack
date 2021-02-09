@@ -1,5 +1,6 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import t from "../../utils/translation/translate";
 import { EnvironmentType, TrayAnimal } from "../../utils/sim-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
@@ -25,9 +26,15 @@ export const Notebook: React.FC<IProps> = (props) => {
     <div className="notebook" data-testid="notebook">
       <Tabs>
         <TabList className="notebook-tablist">
-          <Tab className="notebook-tab habitat"><HabitatIcon className="icon" />Habitat</Tab>
-          <Tab className="notebook-tab macro"><MacroIcon className="icon" />Macroinvertebrates</Tab>
-          <Tab className="notebook-tab chemistry"><ChemistryIcon className="icon" />Chemistry</Tab>
+          <Tab className="notebook-tab habitat">
+            <div className="inner"><HabitatIcon className="icon" />{t("NOTEBOOK.HABITAT")}</div>
+          </Tab>
+          <Tab className="notebook-tab macro">
+            <div className="inner"><MacroIcon className="icon" />{t("NOTEBOOK.MACRO")}</div>
+          </Tab>
+          <Tab className="notebook-tab chemistry">
+            <div className="inner"><ChemistryIcon className="icon" />{t("NOTEBOOK.CHEMISTRY")}</div>
+          </Tab>
         </TabList>
 
         <TabPanel>
