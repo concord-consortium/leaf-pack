@@ -2,7 +2,7 @@ import React from "react";
 import t from "../../utils/translation/translate";
 import SortingTray from "../../assets/sorting-tray.svg";
 import CloseIcon from "../../assets/close-icon.svg";
-import { Animal, Animals, TrayAnimal } from "../../utils/sim-utils";
+import { Animal, Animals, AnimalType, TrayAnimal } from "../../utils/sim-utils";
 
 import "./tray.scss";
 
@@ -10,11 +10,12 @@ interface IProps {
   trayAnimals: TrayAnimal[];
   hidden: boolean;
   onHideTray: () => void;
+  onCollectAnimal: (type: AnimalType) => void;
   isRunning: boolean;
 }
 
 export const Tray: React.FC<IProps> = (props) => {
-  const { trayAnimals, hidden, onHideTray } = props;
+  const { trayAnimals, hidden, onCollectAnimal, onHideTray } = props;
   return (
     <div className={`tray ${hidden ? "hidden" : ""}`}>
       <SortingTray />
@@ -25,12 +26,15 @@ export const Tray: React.FC<IProps> = (props) => {
         </button>
       </div>
       { trayAnimals.map((ta, index) => {
-        const Icon = Animals.find((a: Animal) => a.type === ta.type)?.image;
-        return (ta.count > 0 && Icon &&
+        const animal = Animals.find((a: Animal) => a.type === ta.type);
+        const Icon = animal?.image;
+        const width = animal?.width;
+        return (ta.count > 0 && !ta.collected && Icon &&
           <Icon
             className="animal-icon"
             key={`animal-image-${index}`}
-            style={{left: ta.x, top: ta.y, transform: `rotate(${ta.rotation}deg)`}}
+            style={{left: ta.x, top: ta.y, width, transform: `rotate(${ta.rotation}deg)`}}
+            onClick={() => onCollectAnimal(ta.type)}
           />
         );
       })}

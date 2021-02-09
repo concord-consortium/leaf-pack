@@ -10,7 +10,8 @@ import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, kTotalHabitatFeatures } from "../utils/sim-utils";
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, kTotalHabitatFeatures, AnimalInstance,
+         Animals, kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, AnimalType } from "../utils/sim-utils";
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -25,7 +26,7 @@ export interface IModelOutputState {
   leafEaters: LeafEatersAmountType;
   algaeEaters: AlgaeEatersAmountType;
   fish: FishAmountType;
-  trayAnimals: TrayAnimal[];
+  animalInstances: AnimalInstance[];
 }
 export interface IModelTransientState {
   time: number;
@@ -41,7 +42,7 @@ const kSelectedContainerBgColor = "#f5f5f5";
 export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModelConfig>> = ({onStateChange, addExternalSetStateListener, removeExternalSetStateListener, logEvent}) => {
   const isValidExternalState = (newState: IModelCurrentState<IModelInputState, IModelOutputState>) => {
     return hasOwnProperties(newState.inputState, ["environment", "sunnyDayFequency"]) &&
-           hasOwnProperties(newState.outputState, ["leafDecomposition", "leafEaters", "algaeEaters", "fish", "trayAnimals"]);
+           hasOwnProperties(newState.outputState, ["leafDecomposition", "leafEaters", "algaeEaters", "fish", "animalInstances"]);
   };
   const modelState = useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
     initialInputState: { environment: EnvironmentType.environment1,
@@ -50,7 +51,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                           leafEaters: LeafEatersAmountType.few,
                           algaeEaters: AlgaeEatersAmountType.few,
                           fish: FishAmountType.few,
-                          trayAnimals: [] },
+                          animalInstances: [] },
     initialTransientState: {
       time: 0
     },
@@ -69,7 +70,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     startSimulation, endSimulation, inputControlsDisabled
   } = modelState;
   const {environment, sunnyDayFequency} = inputState;
-  const {leafDecomposition, fish, trayAnimals} = outputState;
+  const {leafDecomposition, fish} = outputState;
   const {time} = transientState;
   const {isRunning, isPaused, isFinished} = simulationState;
   const modelRef = useRef<Model>(new Model(inputState));
@@ -101,11 +102,30 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         leafEaters: modelSimulationState.leafEaters,
         algaeEaters: modelSimulationState.algaeEaters,
         fish: modelSimulationState.fish,
-        trayAnimals: modelSimulationState.trayAnimals
+        animalInstances: modelSimulationState.animalInstances
       });
 
       if (modelSimulationState.isFinished) {
         endSimulation();
+
+        // get instance counts for sorting tray
+        const trayObjects: TrayAnimal[] = Animals.map((animal) => {
+          return { type: animal.type,
+                  count: 0,
+                  rotation: Math.random() * 360,
+                  x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
+                  y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+                  collected: false };
+        });
+        modelSimulationState.animalInstances.forEach((animalInstance) => {
+          if (animalInstance.spawned) {
+            const index = trayObjects.findIndex((ac: TrayAnimal) => ac.type === animalInstance.type);
+            trayObjects[index].count++;
+          }
+        });
+
+        setTrayAnimals(trayObjects);
+
       }
     };
 
@@ -144,10 +164,25 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const backgroundImage = currentEnvironment?.backgroundImage;
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
+  const [trayAnimals, setTrayAnimals] = useState<TrayAnimal[]>([]);
   const [showTray, setShowTray] = useState(false);
   const handleRewind = () => {
     setShowTray(false);
+    setTrayAnimals([]);
     rewindSimulation();
+  };
+
+  const handleCollectAnimal = (type: AnimalType) => {
+    const updatedTrayAnimals = trayAnimals.map(ta => {
+      if (ta.type === type) {
+      const collectedTrayAnimal = { ...ta };
+      collectedTrayAnimal.collected = true;
+      return collectedTrayAnimal;
+      } else {
+        return ta;
+      }
+    });
+    setTrayAnimals(updatedTrayAnimals);
   };
 
   const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
@@ -183,6 +218,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
             <Tray
               trayAnimals={trayAnimals}
               onHideTray={() => setShowTray(false)}
+              onCollectAnimal={handleCollectAnimal}
               hidden={!showTray}
               isRunning={isRunning}
             />
