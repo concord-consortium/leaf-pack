@@ -2,18 +2,14 @@
 
 .tray {
   position: absolute;
-  top: 37px;
-  left: 14px;
+  top: 31px;
+  left: 9px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 382px;
-  height: 280px;
-  border-radius: 10px;
-  border: solid 1px $gray-dark;
-  background-color: white;
-  box-shadow: 0px 0px 10px -1px #000000;
+  width: 394px;
+  height: 292px;
   opacity: 1;
   transition: opacity 250ms;
 

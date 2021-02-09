@@ -1,6 +1,6 @@
 import React from "react";
 import t from "../../utils/translation/translate";
-import TrayBackground from "../../assets/tray-background.png";
+import SortingTray from "../../assets/sorting-tray.svg";
 import { Animal, Animals, TrayAnimal } from "../../utils/sim-utils";
 
 import "./tray.scss";
@@ -16,7 +16,7 @@ export const Tray: React.FC<IProps> = (props) => {
   const { trayAnimals, hidden, onHideTray } = props;
   return (
     <div className={`tray ${hidden ? "hidden" : ""}`}>
-      <img src={TrayBackground} />
+      <SortingTray />
       <div className="header">
         <div className="title">{t("SORTINGTRAY")}</div>
         <button className="close" onClick={onHideTray}>
