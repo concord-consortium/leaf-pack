@@ -1,6 +1,5 @@
 import React from "react";
 import t from "../../utils/translation/translate";
-import { TrayAnimal } from "../../utils/sim-utils";
 import PTIIcon from "../../assets/pti-icon.svg";
 
 import "./macro-summation.scss";
