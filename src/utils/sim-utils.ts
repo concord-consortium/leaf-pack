@@ -322,7 +322,7 @@ export const Animals: Animal[] = [
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.midgeFly, label: t("ANIMAL.MIDGEFLY"), image: midgeFlyImage, sensitivity: SensitivityType.somewhatSensitive,
+  { type: AnimalType.midgeFly, label: t("ANIMAL.MIDGEFLY"), image: midgeFlyImage, sensitivity: SensitivityType.tolerant,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 16, max: 24}, notSunny: { min: 16, max: 24 }},
