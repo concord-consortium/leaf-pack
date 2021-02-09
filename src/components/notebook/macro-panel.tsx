@@ -53,7 +53,11 @@ export const MacroPanel: React.FC<IProps> = (props) => {
           );
         })}
         {currentSection === numSections - 1 &&
-          <MacroSummation trayAnimals={trayAnimals} />
+          <MacroSummation
+            numSensitive={0}
+            numSomewhatSensitive={0}
+            numTolerant={0}
+          />
         }
       </div>
       <SectionButtons
