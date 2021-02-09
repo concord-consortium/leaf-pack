@@ -168,6 +168,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const [showTray, setShowTray] = useState(false);
   const handleRewind = () => {
     setShowTray(false);
+    setTrayAnimals([]);
     rewindSimulation();
   };
 
