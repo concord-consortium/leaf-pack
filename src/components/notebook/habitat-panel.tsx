@@ -43,7 +43,7 @@ export const HabitatPanel: React.FC<IProps> = (props) => {
                       onClick={() => onSelectFeature(featureOrder.findIndex((f) => f === feature),
                         !featureSelections[featureOrder.findIndex((f) => f === feature)])}
                     >
-                      <CheckIcon className="check" />
+                      <CheckIcon />
                     </button>
                     <div key={`feature-${fIndex}`}>{feature}</div>
                   </div>
