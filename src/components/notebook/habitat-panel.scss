@@ -58,6 +58,7 @@
           box-sizing: border-box;
           margin-right: 8px;
           padding: 0;
+          flex-shrink: 0;
           cursor: pointer;
 
           &:hover {
