@@ -511,7 +511,7 @@ export const habitatCategories = [
   { type: HabitatCategoryType.banks, title: t("HABITAT.BANKS"), features: [t("HABITAT.MANYTREES"), t("HABITAT.SOMETREES"), t("HABITAT.NOTREES"), t("HABITAT.GRASSONLY"), t("HABITAT.PAVEMENT")] },
   { type: HabitatCategoryType.inStream, title: t("HABITAT.INSTREAM"), features: [t("HABITAT.LEAVES"), t("HABITAT.COBBLES"), t("HABITAT.WOODYDEBRIS"), t("HABITAT.PLANTROOTS")] },
   { type: HabitatCategoryType.algae, title: t("HABITAT.ALGAE"), features: [t("HABITAT.LIGHTCOVER"), t("HABITAT.THICKCOVER"), t("HABITAT.THICKCOVERCLUMPS")] },
-  { type: HabitatCategoryType.other, title: t("HABITAT.OTHER"), features: [t("HABITAT.FISH"), t("HABITAT.OTTERS"), t("HABITAT.TRASH"), t("HABITAT.PIPES")] },
+  { type: HabitatCategoryType.other, title: t("HABITAT.OTHER"), features: [t("HABITAT.FISH"), t("HABITAT.BEAVERS"), t("HABITAT.TRASH"), t("HABITAT.PIPES")] },
 ];
 
 // TODO: get this from habitatCategories
