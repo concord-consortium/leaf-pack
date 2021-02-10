@@ -33,7 +33,7 @@ export const MacroSensitivities: React.FC<IProps> = (props) => {
               <div className="taxa-multiplier">{Sensitivities.length - i}</div>
             </div>
             <div>=</div>
-            <div className="index-value">{Sensitivities.length - i}</div>
+            <div className="index-value">{taxaSensitivities[sensitivity.type] * (Sensitivities.length - i)}</div>
           </div>
         )}
       </div>
