@@ -3,9 +3,15 @@
 .macro-rating {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
   margin-left: 20px;
+
+  .rating-title {
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .legend {
     position: relative;
@@ -55,7 +61,7 @@
       fill: white;
       position: absolute;
       top: 2px;
-      left: -15px;
+      left: -16px;
       width: 21px;
       height: 23px;
     }
