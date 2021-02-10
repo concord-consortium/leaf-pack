@@ -126,6 +126,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
         setTrayAnimals(trayObjects);
 
+        setShowTray(true);
+
       }
     };
 
