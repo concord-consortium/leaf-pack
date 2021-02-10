@@ -4,21 +4,29 @@
   .labels {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     font-size: 12px;
     font-weight: bold;
 
     .label {
-      margin: 0 6px 0 0;
+      margin-left: 10px;
       width: 56px;
+
+      &:first-child {
+        width: 64px;
+      }
+      &:last-child {
+        width: 40px;
+        margin-left: 22px;
+      }
     }
   }
 
   .sensitivity-summary {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 201px;
     height: 38px;
@@ -29,8 +37,10 @@
     .group {
       display: flex;
       align-items: center;
-      width: 62px;
+      justify-content: flex-start;
+      width: 68px;
       height: 32px;
+      margin-left: 10px;
     }
 
     .num-taxa {
@@ -40,7 +50,7 @@
       height: 24px;
       border-radius: 4px;
       background-color: white;
-      margin: 2px;
+      margin: 4px;
 
       .taxa-count {
         display: flex;
@@ -55,10 +65,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 27px;
         height: 20px;
+        margin: 0 0 0 5px;
         border-radius: 2px;
-        margin: 0 5px 0 0;
       }
     }
 
@@ -70,7 +79,7 @@
       height: 24px;
       border-radius: 4px;
       background-color: white;
-      margin: 2px;
+      margin: 4px;
     }
   }
 }
