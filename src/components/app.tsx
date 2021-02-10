@@ -8,10 +8,13 @@ import { ControlPanel } from "./control-panel/control-panel";
 import { Thumbnail } from "./thumbnail/thumbnail";
 import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
+import { ModalDialog } from "./modal-dialog";
+import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, kTotalHabitatFeatures, AnimalInstance,
-         Animals, kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, AnimalType } from "../utils/sim-utils";
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, kTotalHabitatFeatures, AnimalInstance, Animals,
+         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, LeafImages, TrayType
+       } from "../utils/sim-utils";
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -37,6 +40,8 @@ const targetFramePeriod = 1000 / kTargetStepsPerSecond;
 let lastStepTime: number;
 const kSavedBgColor = "#000000";
 const kSelectedContainerBgColor = "#f5f5f5";
+
+Modal.setAppElement("#app");
 
 // TODO: some of these app props are likely not needed
 export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModelConfig>> = ({onStateChange, addExternalSetStateListener, removeExternalSetStateListener, logEvent}) => {
@@ -124,6 +129,22 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           }
         });
 
+        // add leaves
+        // TODO: these should be interspersed throughout the tray, place on bottom for now
+        // since they cannot be moved
+        const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
+        for (let l = 0; l < numLeaves; l++) {
+          trayObjects.unshift(
+            { type: LeafType.leaf,
+              count: 0,
+              rotation: Math.random() * 360,
+              x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
+              y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+              collected: false,
+              image: LeafImages[Math.floor(Math.random() * LeafImages.length)]
+            });
+        }
+
         setTrayAnimals(trayObjects);
 
         setShowTray(true);
@@ -174,17 +195,28 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     rewindSimulation();
   };
 
-  const handleCollectAnimal = (type: AnimalType) => {
-    const updatedTrayAnimals = trayAnimals.map(ta => {
-      if (ta.type === type) {
-      const collectedTrayAnimal = { ...ta };
-      collectedTrayAnimal.collected = true;
-      return collectedTrayAnimal;
-      } else {
-        return ta;
-      }
-    });
-    setTrayAnimals(updatedTrayAnimals);
+  const [traySelectionType, setTraySelectionType] = useState<TrayType | undefined>(undefined);
+  const handleTrayObjectSelect = (objectType: TrayType) => {
+    if (objectType !== LeafType.leaf) {
+      setTraySelectionType(objectType);
+    }
+  };
+  const handleCategorizeAnimal = (trayType: TrayType | undefined, notebookType: TrayType | undefined) => {
+    if (trayType === notebookType && trayType !== undefined) {
+      const updatedTrayAnimals = trayAnimals.map(ta => {
+        if (ta.type === trayType) {
+          const collectedTrayAnimal = { ...ta };
+          collectedTrayAnimal.collected = true;
+          return collectedTrayAnimal;
+        } else {
+          return ta;
+        }
+      });
+      setTrayAnimals(updatedTrayAnimals);
+    } else {
+      setShowModal(true);
+    }
+    setTraySelectionType(undefined);
   };
 
   const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
@@ -192,6 +224,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     const newSelectedFeatures = habitatSelectedFeatures.map((featureSelection, i) => i === index ? value : featureSelection);
     setHabitatSelectedFeatures(newSelectedFeatures);
   };
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="app" data-testid="app">
@@ -220,7 +254,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
             <Tray
               trayAnimals={trayAnimals}
               onHideTray={() => setShowTray(false)}
-              onCollectAnimal={handleCollectAnimal}
+              onTrayObjectSelect={handleTrayObjectSelect}
+              traySelectionType={traySelectionType}
               hidden={!showTray}
               isRunning={isRunning}
             />
@@ -230,6 +265,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
             environment={environment}
             featureSelections={habitatSelectedFeatures}
             onSelectFeature={handleHabitatSelectFeature}
+            onCategorizeAnimal={handleCategorizeAnimal}
+            traySelectionType={traySelectionType}
             isRunning={isRunning}
           />
         </div>
@@ -247,6 +284,12 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           onChangeEnvironment={handleChangeEnvironment}
         />
       </div>
+      <ModalDialog
+        title={t("MACRO.ERROR.TITLE")}
+        label={t("MACRO.ERROR.DESCRIPTION")}
+        onClose={() => setShowModal(false)}
+        showModal={showModal}
+      />
     </div>
   );
 };

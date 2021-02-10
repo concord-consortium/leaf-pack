@@ -27,6 +27,8 @@
   "SENSITIVITY.1": "Sensitive",
   "SENSITIVITY.2": "Somewhat Sensitive",
   "SENSITIVITY.3": "Tolerant",
+  "MACRO.ERROR.TITLE": "Try Again",
+  "MACRO.ERROR.DESCRIPTION": "Sorry, that's not the right macroinvertebrate.",
   "PTI.HEADER": "Pollution Tolerance Index (PTI) Score and Rating",
 
   "HABITAT.SKETCH": "Sketch",

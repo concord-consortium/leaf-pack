@@ -52,6 +52,12 @@
         border: dashed 2px $gray-dark;
         border-radius: 5px;
         margin: 5px;
+        pointer-events: none;
+
+        &.enabled {
+          pointer-events: auto;
+          cursor: pointer;
+        }
       }
 
       .name {

@@ -24,6 +24,10 @@ import planarianImage from "../assets/animals/planarian.svg";
 import leechImage from "../assets/animals/leech.svg";
 import aquaticWormImage from "../assets/animals/aquaticworm.svg";
 
+import leafBirchImage from "../assets/leaves/leaf-birch.svg";
+import leafMapleImage from "../assets/leaves/leaf-maple.svg";
+import leafOakImage from "../assets/leaves/leaf-oak.svg";
+
 import FishA from "../assets/animations/fish/Frame 1,5,9.png";
 import FishB from "../assets/animations/fish/Frame 2,4.png";
 import FishC from "../assets/animations/fish/Frame 3.png";
@@ -466,13 +470,26 @@ export const kMaxTrayX = 250;
 export const kMinTrayY = 50;
 export const kMaxTrayY = 125;
 
+// TODO: change to final bounds 7 and 10
+export const kMinLeaves = 4;
+export const kMaxLeaves = 6;
+
+export enum LeafType {
+  leaf = "leaf", // TODO: we probably need to break this into individual leaves
+}
+
+export const LeafImages = [leafBirchImage, leafOakImage, leafMapleImage];
+
+export type TrayType = AnimalType | LeafType;
+
 export interface TrayAnimal {
-  type: AnimalType;
+  type: TrayType;
   count: number;
   collected: boolean;
   x: number;
   y: number;
   rotation: number;
+  image?: any;
 }
 
 // The habitat notebook page
