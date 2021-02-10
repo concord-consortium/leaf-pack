@@ -1,0 +1,76 @@
+@import "../vars.scss";
+
+.macro-sensitivities {
+  .labels {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+
+    .label {
+      margin: 0 6px 0 0;
+      width: 56px;
+    }
+  }
+
+  .sensitivity-summary {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 201px;
+    height: 38px;
+    margin: 5px 5px 0 0;
+    font-size: 13px;
+    font-weight: bold;
+
+    .group {
+      display: flex;
+      align-items: center;
+      width: 62px;
+      height: 32px;
+    }
+
+    .num-taxa {
+      display: flex;
+      align-items: center;
+      width: 63px;
+      height: 24px;
+      border-radius: 4px;
+      background-color: white;
+      margin: 2px;
+
+      .taxa-count {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 27px;
+        height: 20px;
+        border-radius: 2px;
+        margin: 0 5px 0 2px;
+      }
+      .taxa-multiplier {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 27px;
+        height: 20px;
+        border-radius: 2px;
+        margin: 0 5px 0 0;
+      }
+    }
+
+    .index-value {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 33px;
+      height: 24px;
+      border-radius: 4px;
+      background-color: white;
+      margin: 2px;
+    }
+  }
+}

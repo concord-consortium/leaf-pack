@@ -1,17 +1,24 @@
 import React from "react";
 import t from "../../utils/translation/translate";
 import PTIIcon from "../../assets/pti-icon.svg";
+import { MacroSensitivities } from "./macro-sensitivities";
 import { MacroScore } from "./macro-score";
+import { MacroRating } from "./macro-rating";
+import { Sensitivities, SensitivityType } from "../../utils/sim-utils";
 
 import "./macro-summation.scss";
 
 interface IProps {
-  numSensitive: number;
-  numSomewhatSensitive: number;
-  numTolerant: number;
+  taxaSensitivities: Record<SensitivityType, number>;
 }
 
 export const MacroSummation: React.FC<IProps> = (props) => {
+  const { taxaSensitivities } = props;
+  let score = 0;
+  Sensitivities.forEach((s, i) => {
+    score = score + taxaSensitivities[s.type] * (Sensitivities.length - i);
+  });
+
   return (
     <div className="macro-summation">
       <div className="header">
@@ -19,10 +26,10 @@ export const MacroSummation: React.FC<IProps> = (props) => {
         {t("PTI.HEADER")}
       </div>
       <div className="summary">
-        <div className="summary">summary</div>
+        <MacroSensitivities taxaSensitivities={taxaSensitivities} />
         <div className="triangle" />
-        <MacroScore score={10} />
-        <div className="rating">rating</div>
+        <MacroScore score={score} />
+        <MacroRating ratingIndex={3} />
       </div>
     </div>
   );

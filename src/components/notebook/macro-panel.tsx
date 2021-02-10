@@ -54,9 +54,7 @@ export const MacroPanel: React.FC<IProps> = (props) => {
         })}
         {currentSection === numSections - 1 &&
           <MacroSummation
-            numSensitive={0}
-            numSomewhatSensitive={0}
-            numTolerant={0}
+            taxaSensitivities={{sensitive: 2, somewhatSensitive: 4, tolerant: 8}}
           />
         }
       </div>

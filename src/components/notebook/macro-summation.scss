@@ -3,7 +3,7 @@
 .macro-summation {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 
   .header {
@@ -24,7 +24,8 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+    height: 180px;
 
     .triangle {
       width: 0;
