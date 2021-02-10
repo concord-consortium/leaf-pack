@@ -8,6 +8,7 @@ import { ControlPanel } from "./control-panel/control-panel";
 import { Thumbnail } from "./thumbnail/thumbnail";
 import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
+import { ModalDialog } from "./modal-dialog";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, kTotalHabitatFeatures, AnimalInstance,
@@ -204,6 +205,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         }
       });
       setTrayAnimals(updatedTrayAnimals);
+    } else {
+      setShowModal(true);
     }
     setTraySelectionType(undefined);
   };
@@ -213,6 +216,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     const newSelectedFeatures = habitatSelectedFeatures.map((featureSelection, i) => i === index ? value : featureSelection);
     setHabitatSelectedFeatures(newSelectedFeatures);
   };
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="app" data-testid="app">
@@ -271,6 +276,12 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           onChangeEnvironment={handleChangeEnvironment}
         />
       </div>
+      <ModalDialog
+        title={t("MACRO.ERROR.TITLE")}
+        label={t("MACRO.ERROR.DESCRIPTION")}
+        onClose={() => setShowModal(false)}
+        showModal={showModal}
+      />
     </div>
   );
 };
