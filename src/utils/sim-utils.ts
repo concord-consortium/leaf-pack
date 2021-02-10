@@ -305,7 +305,7 @@ export const Animals: Animal[] = [
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.dobsonFly, label: t("ANIMAL.DOBSONFLY"), image: dobsonFlyImage,
-    sensitivity: SensitivityType.sensitive, width: 76,
+    sensitivity: SensitivityType.sensitive, width: 64,
     abundance: { "environment1": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment2": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
@@ -319,7 +319,7 @@ export const Animals: Animal[] = [
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.leech, label: t("ANIMAL.LEECH"), image: leechImage,
-    sensitivity: SensitivityType.tolerant, width: 79,
+    sensitivity: SensitivityType.tolerant, width: 53,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
