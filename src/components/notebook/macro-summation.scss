@@ -2,6 +2,7 @@
 
 .macro-summation {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -18,4 +19,21 @@
       margin-right: 5px;
     }
   }
+
+  .summary {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .triangle {
+      width: 0;
+      height: 0;
+      border-top: 62px solid transparent;
+      border-bottom: 62px solid transparent;
+      border-left: 34px solid $gray-dark25;
+    }
+
+  }
+
 }
