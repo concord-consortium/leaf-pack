@@ -24,6 +24,10 @@ import planarianImage from "../assets/animals/planarian.svg";
 import leechImage from "../assets/animals/leech.svg";
 import aquaticWormImage from "../assets/animals/aquaticworm.svg";
 
+import leafBirchImage from "../assets/leaves/leaf-birch.svg";
+import leafMapleImage from "../assets/leaves/leaf-maple.svg";
+import leafOakImage from "../assets/leaves/leaf-oak.svg";
+
 import FishA from "../assets/animations/fish/Frame 1,5,9.png";
 import FishB from "../assets/animations/fish/Frame 2,4.png";
 import FishC from "../assets/animations/fish/Frame 3.png";
@@ -466,13 +470,23 @@ export const kMaxTrayX = 250;
 export const kMinTrayY = 50;
 export const kMaxTrayY = 125;
 
+export enum LeafType {
+  leaf = "leaf", // TODO: we probably need to break this into individual leaves
+}
+
+export const kMinLeaves = 4;
+export const kMaxLeaves = 6;
+
+export const LeafImages = [leafBirchImage, leafOakImage, leafMapleImage];
+
 export interface TrayAnimal {
-  type: AnimalType;
-  count: number;
-  collected: boolean;
+  type: AnimalType | LeafType;
+  count: number;  // TODO: should be optional
+  collected: boolean;  // TODO: should be optional
   x: number;
   y: number;
   rotation: number;
+  image?: any;
 }
 
 // The habitat notebook page
@@ -497,7 +511,7 @@ export const habitatCategories = [
   { type: HabitatCategoryType.banks, title: t("HABITAT.BANKS"), features: [t("HABITAT.MANYTREES"), t("HABITAT.SOMETREES"), t("HABITAT.NOTREES"), t("HABITAT.GRASSONLY"), t("HABITAT.PAVEMENT")] },
   { type: HabitatCategoryType.inStream, title: t("HABITAT.INSTREAM"), features: [t("HABITAT.LEAVES"), t("HABITAT.COBBLES"), t("HABITAT.WOODYDEBRIS"), t("HABITAT.PLANTROOTS")] },
   { type: HabitatCategoryType.algae, title: t("HABITAT.ALGAE"), features: [t("HABITAT.LIGHTCOVER"), t("HABITAT.THICKCOVER"), t("HABITAT.THICKCOVERCLUMPS")] },
-  { type: HabitatCategoryType.other, title: t("HABITAT.OTHER"), features: [t("HABITAT.FISH"), t("HABITAT.BEAVERS"), t("HABITAT.TRASH"), t("HABITAT.PIPES")] },
+  { type: HabitatCategoryType.other, title: t("HABITAT.OTHER"), features: [t("HABITAT.FISH"), t("HABITAT.OTTERS"), t("HABITAT.TRASH"), t("HABITAT.PIPES")] },
 ];
 
 // TODO: get this from habitatCategories
