@@ -484,10 +484,10 @@ export interface PTIRatingLevel {
 }
 
 export const PTIRatingLevels: PTIRatingLevel[] = [
-  {color: "#afd778", label: t("PTI.RATING.LEVEL0.LABEL"), range: t("PTI.RATING.LEVEL0.RANGE"), min: 24},
-  {color: "#ebea70", label: t("PTI.RATING.LEVEL1.LABEL"), range: t("PTI.RATING.LEVEL1.RANGE"), min: 17},
-  {color: "#fedb95", label: t("PTI.RATING.LEVEL2.LABEL"), range: t("PTI.RATING.LEVEL2.RANGE"), min: 11},
-  {color: "#f8b8c8", label: t("PTI.RATING.LEVEL3.LABEL"), range: t("PTI.RATING.LEVEL3.RANGE"), min: 0}
+  {color: "#92e3aa", label: t("PTI.RATING.LEVEL0.LABEL"), range: t("PTI.RATING.LEVEL0.RANGE"), min: 24},
+  {color: "#7ad9f8", label: t("PTI.RATING.LEVEL1.LABEL"), range: t("PTI.RATING.LEVEL1.RANGE"), min: 17},
+  {color: "#cccccc", label: t("PTI.RATING.LEVEL2.LABEL"), range: t("PTI.RATING.LEVEL2.RANGE"), min: 11},
+  {color: "#ffacac", label: t("PTI.RATING.LEVEL3.LABEL"), range: t("PTI.RATING.LEVEL3.RANGE"), min: 0}
 ];
 
 // The habitat notebook page
