@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SectionButtons } from "./section-buttons";
-import { Animals, Sensitivities, TrayAnimal, AnimalType, LeafType } from "../../utils/sim-utils";
+import { Animals, Sensitivities, TrayAnimal, AnimalType, LeafType, TrayType } from "../../utils/sim-utils";
 import { MacroSummation } from "./macro-summation";
 
 import "./macro-panel.scss";
@@ -13,8 +13,8 @@ const kMaxGraphWidth = 64;
 interface IProps {
   isRunning: boolean;
   trayAnimals: TrayAnimal[];
-  onCategorizeAnimal: (trayType: AnimalType | LeafType | undefined, notebookType: AnimalType | LeafType | undefined) => void;
-  traySelectionType?: AnimalType | LeafType;
+  onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
+  traySelectionType?: TrayType;
 }
 
 export const MacroPanel: React.FC<IProps> = (props) => {

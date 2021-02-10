@@ -470,19 +470,22 @@ export const kMaxTrayX = 250;
 export const kMinTrayY = 50;
 export const kMaxTrayY = 125;
 
+// TODO: change to final bounds 7 and 10
+export const kMinLeaves = 4;
+export const kMaxLeaves = 6;
+
 export enum LeafType {
   leaf = "leaf", // TODO: we probably need to break this into individual leaves
 }
 
-export const kMinLeaves = 4;
-export const kMaxLeaves = 6;
-
 export const LeafImages = [leafBirchImage, leafOakImage, leafMapleImage];
 
+export type TrayType = AnimalType | LeafType;
+
 export interface TrayAnimal {
-  type: AnimalType | LeafType;
-  count: number;  // TODO: should be optional
-  collected: boolean;  // TODO: should be optional
+  type: TrayType;
+  count: number;
+  collected: boolean;
   x: number;
   y: number;
   rotation: number;

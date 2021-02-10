@@ -1,7 +1,7 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import t from "../../utils/translation/translate";
-import { EnvironmentType, TrayAnimal, AnimalType, LeafType } from "../../utils/sim-utils";
+import { EnvironmentType, TrayAnimal, TrayType } from "../../utils/sim-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
 import { MacroPanel } from "./macro-panel";
@@ -17,8 +17,8 @@ interface IProps {
   environment: EnvironmentType;
   featureSelections: boolean[];
   onSelectFeature: (index: number, selected: boolean) => void;
-  onCategorizeAnimal: (trayType: AnimalType | LeafType | undefined, notebookType: AnimalType | LeafType | undefined) => void;
-  traySelectionType?: AnimalType | LeafType;
+  onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
+  traySelectionType?: TrayType;
   isRunning: boolean;
 }
 
