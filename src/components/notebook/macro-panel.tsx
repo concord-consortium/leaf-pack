@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SectionButtons } from "./section-buttons";
-import { Animals, Sensitivities, TrayAnimal, AnimalType, LeafType, TrayType } from "../../utils/sim-utils";
+import { Animals, Sensitivities, TrayAnimal, TrayType } from "../../utils/sim-utils";
 import { MacroSummation } from "./macro-summation";
 
 import "./macro-panel.scss";

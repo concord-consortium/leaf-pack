@@ -2,7 +2,7 @@ import React from "react";
 import t from "../../utils/translation/translate";
 import SortingTray from "../../assets/sorting-tray.svg";
 import CloseIcon from "../../assets/close-icon.svg";
-import { Animal, Animals, AnimalType, TrayAnimal, LeafType, TrayType } from "../../utils/sim-utils";
+import { Animal, Animals, TrayAnimal, LeafType, TrayType } from "../../utils/sim-utils";
 
 import "./tray.scss";
 
