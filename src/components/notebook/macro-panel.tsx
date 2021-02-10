@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SectionButtons } from "./section-buttons";
-import { Animals, Sensitivities, TrayAnimal } from "../../utils/sim-utils";
+import { Animals, Sensitivities, TrayAnimal, AnimalType, LeafType } from "../../utils/sim-utils";
 import { MacroSummation } from "./macro-summation";
 
 import "./macro-panel.scss";
@@ -13,10 +13,12 @@ const kMaxGraphWidth = 64;
 interface IProps {
   isRunning: boolean;
   trayAnimals: TrayAnimal[];
+  onCategorizeAnimal: (trayType: AnimalType | LeafType | undefined, notebookType: AnimalType | LeafType | undefined) => void;
+  traySelectionType?: AnimalType | LeafType;
 }
 
 export const MacroPanel: React.FC<IProps> = (props) => {
-  const { trayAnimals } = props;
+  const { trayAnimals, onCategorizeAnimal, traySelectionType } = props;
 
   const [currentSection, setCurrentSection] = useState(0);
   // there is an extra summation section as well as the pages that display the animals
@@ -38,7 +40,11 @@ export const MacroPanel: React.FC<IProps> = (props) => {
                 ? <div className="image-box" style={{borderColor: sensitivity?.graphColor}}>
                     <AnimalIcon className="animal-icon" />
                   </div>
-                : <div className="empty-box" style={{backgroundColor: sensitivity?.blockColor}} />
+                : <div
+                    className={`empty-box ${traySelectionType ? "enabled" : ""}`}
+                    style={{backgroundColor: sensitivity?.blockColor}}
+                    onClick={() => onCategorizeAnimal(traySelectionType, trayAnimal?.type)}
+                  />
               }
               <div className="name">{animal.label}</div>
               <div className="count">{count}</div>

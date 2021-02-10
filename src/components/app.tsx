@@ -11,7 +11,7 @@ import { Tray } from "./simulation/tray";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, kTotalHabitatFeatures, AnimalInstance,
-         Animals, kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, AnimalType } from "../utils/sim-utils";
+         Animals, kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, AnimalType, kMinLeaves, kMaxLeaves, LeafType, LeafImages } from "../utils/sim-utils";
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -124,6 +124,20 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           }
         });
 
+        // add leaves
+        const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
+        for (let l = 0; l < numLeaves; l++) {
+          trayObjects.unshift(
+            { type: LeafType.leaf,
+              count: 0,
+              rotation: Math.random() * 360,
+              x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
+              y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+              collected: false,
+              image: LeafImages[Math.floor(Math.random() * LeafImages.length)]
+            });
+        }
+
         setTrayAnimals(trayObjects);
 
       }
@@ -172,17 +186,26 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     rewindSimulation();
   };
 
-  const handleCollectAnimal = (type: AnimalType) => {
-    const updatedTrayAnimals = trayAnimals.map(ta => {
-      if (ta.type === type) {
-      const collectedTrayAnimal = { ...ta };
-      collectedTrayAnimal.collected = true;
-      return collectedTrayAnimal;
-      } else {
-        return ta;
-      }
-    });
-    setTrayAnimals(updatedTrayAnimals);
+  const [traySelectionType, setTraySelectionType] = useState<AnimalType | LeafType | undefined>(undefined);
+  const handleTrayObjectSelect = (objectType: AnimalType | LeafType) => {
+    if (objectType !== LeafType.leaf) {
+      setTraySelectionType(objectType);
+    }
+  };
+  const handleCategorizeAnimal = (trayType: AnimalType | LeafType | undefined, notebookType: AnimalType | LeafType | undefined) => {
+    if (trayType === notebookType && trayType !== undefined) {
+      const updatedTrayAnimals = trayAnimals.map(ta => {
+        if (ta.type === trayType) {
+          const collectedTrayAnimal = { ...ta };
+          collectedTrayAnimal.collected = true;
+          return collectedTrayAnimal;
+        } else {
+          return ta;
+        }
+      });
+      setTrayAnimals(updatedTrayAnimals);
+    }
+    setTraySelectionType(undefined);
   };
 
   const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
@@ -218,7 +241,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
             <Tray
               trayAnimals={trayAnimals}
               onHideTray={() => setShowTray(false)}
-              onCollectAnimal={handleCollectAnimal}
+              onTrayObjectSelect={handleTrayObjectSelect}
+              traySelectionType={traySelectionType}
               hidden={!showTray}
               isRunning={isRunning}
             />
@@ -228,6 +252,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
             environment={environment}
             featureSelections={habitatSelectedFeatures}
             onSelectFeature={handleHabitatSelectFeature}
+            onCategorizeAnimal={handleCategorizeAnimal}
+            traySelectionType={traySelectionType}
             isRunning={isRunning}
           />
         </div>

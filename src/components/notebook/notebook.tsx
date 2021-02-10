@@ -1,7 +1,7 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import t from "../../utils/translation/translate";
-import { EnvironmentType, TrayAnimal } from "../../utils/sim-utils";
+import { EnvironmentType, TrayAnimal, AnimalType, LeafType } from "../../utils/sim-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
 import { MacroPanel } from "./macro-panel";
@@ -17,11 +17,14 @@ interface IProps {
   environment: EnvironmentType;
   featureSelections: boolean[];
   onSelectFeature: (index: number, selected: boolean) => void;
+  onCategorizeAnimal: (trayType: AnimalType | LeafType | undefined, notebookType: AnimalType | LeafType | undefined) => void;
+  traySelectionType?: AnimalType | LeafType;
   isRunning: boolean;
 }
 
 export const Notebook: React.FC<IProps> = (props) => {
-  const { trayAnimals, environment, featureSelections, onSelectFeature, isRunning } = props;
+  const { trayAnimals, environment, featureSelections, onSelectFeature, onCategorizeAnimal, traySelectionType,
+          isRunning } = props;
   return (
     <div className="notebook" data-testid="notebook">
       <Tabs>
@@ -48,6 +51,8 @@ export const Notebook: React.FC<IProps> = (props) => {
         <TabPanel>
           <MacroPanel
             trayAnimals={trayAnimals}
+            onCategorizeAnimal={onCategorizeAnimal}
+            traySelectionType={traySelectionType}
             isRunning={isRunning}
           />
         </TabPanel>
