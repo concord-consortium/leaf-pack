@@ -475,6 +475,20 @@ export interface TrayAnimal {
   rotation: number;
 }
 
+// PTI
+export interface PTIRatingLevel {
+  color: string;
+  label: string;
+  range: string;
+}
+
+export const PTIRatingLevels: PTIRatingLevel[] = [
+  {color: "#afd778", label: t("PTI.RATING.LEVEL0.LABEL"), range: t("PTI.RATING.LEVEL0.RANGE")},
+  {color: "#ebea70", label: t("PTI.RATING.LEVEL1.LABEL"), range: t("PTI.RATING.LEVEL1.RANGE")},
+  {color: "#fedb95", label: t("PTI.RATING.LEVEL2.LABEL"), range: t("PTI.RATING.LEVEL2.RANGE")},
+  {color: "#f8b8c8", label: t("PTI.RATING.LEVEL3.LABEL"), range: t("PTI.RATING.LEVEL3.RANGE")}
+];
+
 // The habitat notebook page
 export enum HabitatCategoryType {
   sketch = "sketch",
