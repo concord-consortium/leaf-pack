@@ -34,6 +34,7 @@ export const MacroPanel: React.FC<IProps> = (props) => {
             index >= kCrittersPerSection * currentSection &&
             index < kCrittersPerSection * currentSection + kCrittersPerSection &&
             <MacroAnimalRow
+              key={`row-${index}`}
               trayAnimal={trayAnimal}
               animal={animal}
               AnimalIcon={AnimalIcon}
