@@ -3,6 +3,7 @@ import t from "../../utils/translation/translate";
 import SortingTray from "../../assets/sorting-tray.svg";
 import CloseIcon from "../../assets/close-icon.svg";
 import { Animal, Animals, TrayAnimal, LeafType, TrayType } from "../../utils/sim-utils";
+import { TrayImage } from "./tray-image";
 
 import "./tray.scss";
 
@@ -31,12 +32,16 @@ export const Tray: React.FC<IProps> = (props) => {
         const animal = Animals.find((a: Animal) => a.type === ta.type);
         const Icon = ta?.image || animal?.image;
         const width = animal?.width;
+        const height = animal?.height;
         return (((ta.count > 0 && !ta.collected) || ta.type === LeafType.leaf) && Icon &&
-          <Icon
-            className={`animal-icon ${traySelectionType === ta.type ? "selected" : ""}`}
+          <TrayImage
             key={`animal-image-${index}`}
-            style={{left: ta.x, top: ta.y, width, transform: `rotate(${ta.rotation}deg)`}}
-            onClick={() => onTrayObjectSelect(ta.type)}
+            Icon={Icon}
+            width={width}
+            height={height}
+            trayAnimal={ta}
+            onTrayObjectSelect={onTrayObjectSelect}
+            traySelectionType={traySelectionType}
           />
         );
       })}

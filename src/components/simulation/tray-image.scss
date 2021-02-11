@@ -1,0 +1,36 @@
+@import "../vars.scss";
+
+.tray-image {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  transform-origin: center;
+}
+
+.tray-image-svg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  pointer-events: none;
+
+  &.highlight {
+    opacity: .5;
+  }
+}
+.tray-image-clickable {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+}
+
+.click-area {
+  fill: pink;
+  opacity: .25;
+}
+
+.preview {
+  z-index: 999;
+}
