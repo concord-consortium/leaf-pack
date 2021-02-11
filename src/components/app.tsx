@@ -121,7 +121,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         const trayObjects: TrayAnimal[] = Animals.map((animal) => {
           return { type: animal.type,
                   count: 0,
-                  rotation: Math.random() * 360,
+                  rotation: 0, // Math.random() * 360, TODO: add back in for dragging
                   x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
                   y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
                   collected: false };
