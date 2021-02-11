@@ -64,6 +64,10 @@
           pointer-events: auto;
           cursor: pointer;
         }
+
+        &.highlight{
+          border-style: solid;
+        }
       }
 
       .name {
