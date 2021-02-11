@@ -25,7 +25,6 @@ export const MacroSummation: React.FC<IProps> = (props) => {
     }
   });
 
-
   let score = 0;
   Sensitivities.forEach((s, i) => {
     score = score + taxaSensitivities[s.type] * (Sensitivities.length - i);
