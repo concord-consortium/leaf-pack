@@ -28,8 +28,7 @@ export const MacroAnimalRow: React.FC<IProps> = (props) => {
              AnimalType.crayFish, AnimalType.midgeFly, AnimalType.blackFly, AnimalType.planarian,
              AnimalType.leech, AnimalType.aquaticWorm ],
     drop: (item: any) => {
-      console.log("drop");
-      onCategorizeAnimal(AnimalType.aquaticWorm, AnimalType.aquaticWorm);
+      onCategorizeAnimal(item.type, trayAnimal?.type);
     },
     collect: monitor => ({
       isOver: !!monitor.isOver(),
