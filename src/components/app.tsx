@@ -121,7 +121,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         const trayObjects: TrayAnimal[] = Animals.map((animal) => {
           return { type: animal.type,
                   count: 0,
-                  rotation: 0, // Math.random() * 360, TODO: add back in for dragging
+                  rotation: Math.random() * 360,
                   x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
                   y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
                   collected: false };
@@ -136,18 +136,18 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         // add leaves
         // TODO: these should be interspersed throughout the tray, place on bottom for now
         // since they cannot be moved
-        const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
-        for (let l = 0; l < numLeaves; l++) {
-          trayObjects.unshift(
-            { type: LeafType.leaf,
-              count: 0,
-              rotation: Math.random() * 360,
-              x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
-              y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
-              collected: false,
-              image: LeafImages[Math.floor(Math.random() * LeafImages.length)]
-            });
-        }
+        // const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
+        // for (let l = 0; l < numLeaves; l++) {
+        //   trayObjects.unshift(
+        //     { type: LeafType.leaf,
+        //       count: 0,
+        //       rotation: Math.random() * 360,
+        //       x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
+        //       y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+        //       collected: false,
+        //       image: LeafImages[Math.floor(Math.random() * LeafImages.length)]
+        //     });
+        // }
 
         setTrayAnimals(trayObjects);
 
