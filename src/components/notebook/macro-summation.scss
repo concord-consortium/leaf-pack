@@ -2,7 +2,8 @@
 
 .macro-summation {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
 
   .header {
@@ -10,12 +11,32 @@
     justify-content: center;
     align-items: center;
     height: 24px;
+    width: 408px;
     margin-top: 15px;
-    padding: 3px 43px;
     background-color: $macro-green-dark1;
 
     .PTI-icon {
       margin-right: 5px;
+      height: 17px;
+      width: 17px;
     }
   }
+
+  .summary {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    height: 175px;
+
+    .triangle {
+      width: 0;
+      height: 0;
+      border-top: 62px solid transparent;
+      border-bottom: 62px solid transparent;
+      border-left: 34px solid $gray-dark25;
+    }
+
+  }
+
 }

@@ -1,0 +1,40 @@
+@import "../vars.scss";
+
+.macro-score {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: -8px;
+
+  .score-title {
+    margin: 3px;
+  }
+
+  .score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33px;
+    height: 24px;
+    margin: 3px;
+    border-radius: 4px;
+    border: solid 1px $gray-light;
+    background-color: $macro-score-pink;
+  }
+
+  .score-total {
+    font-size: 12px;
+    margin: 3px;
+  }
+
+  .score-description {
+    font-size: 10px;
+    font-weight: normal;
+    text-align: center;
+    width: 60px;
+  }
+
+}
