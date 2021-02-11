@@ -309,14 +309,14 @@ export const Animals: Animal[] = [
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.dobsonFly, label: t("ANIMAL.DOBSONFLY"), image: dobsonFlyImage,
-    sensitivity: SensitivityType.sensitive, width: 64,
+    sensitivity: SensitivityType.sensitive, width: 76,
     abundance: { "environment1": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment2": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.dragonFly, label: t("ANIMAL.DRAGONFLY"), image: dragonFlyImage,
-    sensitivity: SensitivityType.somewhatSensitive, width: 97,
+    sensitivity: SensitivityType.somewhatSensitive, width: 64,
     abundance: { "environment1": {sunny: {min: 6, max: 8}, notSunny: { min: 6, max: 8 }},
                  "environment2": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment3": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
