@@ -23,7 +23,10 @@ export const MacroAnimalRow: React.FC<IProps> = (props) => {
   const { trayAnimal, animal, AnimalIcon, index, sensitivity, count, onCategorizeAnimal, traySelectionType } = props;
 
   const [{ isOver }, drop] = useDrop({
-    accept: [animal.type],
+    accept: [AnimalType.stoneFly, AnimalType.mayFly, AnimalType.caddisFly, AnimalType.dobsonFly,
+             AnimalType.riffleBeetle, AnimalType.dragonFly, AnimalType.scud, AnimalType.clamOrMussel,
+             AnimalType.crayFish, AnimalType.midgeFly, AnimalType.blackFly, AnimalType.planarian,
+             AnimalType.leech, AnimalType.aquaticWorm ],
     drop: (item: any) => {
       console.log("drop");
       onCategorizeAnimal(AnimalType.aquaticWorm, AnimalType.aquaticWorm);
