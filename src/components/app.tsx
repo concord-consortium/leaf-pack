@@ -13,11 +13,13 @@ import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, AnimalInstance, Animals,
-         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, LeafImages, TrayType
+         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, LeafImages, TrayType, AnimalType
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 
 import t from "../utils/translation/translate";
+import { DndProvider } from "react-dnd";
+import { TouchBackend } from "react-dnd-touch-backend";
 
 import "./app.scss";
 
@@ -244,45 +246,47 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     <div className="app" data-testid="app">
       <div className="content">
         <ThumbnailChooser {...thumbnailChooserProps} />
-        <div className="simulation" data-testid="simulation">
-          <MainViewWrapper
-            title={selectedContainerId}
-            isSaved={isSaved}
-            isFinished={isFinished}
-            onSaveClicked={saveToSelectedContainer}
-            currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
-            currentTime={time}
-            maxTime={1}
-            savedBgColor={kSavedBgColor}
-          >
-            <SimulationView
-              backgroundImage={backgroundImage}
-              environment={environment}
-              leafPackState={leafPackState}
-              fish={fish}
-              onShowTray={() => setShowTray(true)}
+        <DndProvider backend={TouchBackend} options={{enableMouseEvents: true}} >
+          <div className="simulation" data-testid="simulation">
+            <MainViewWrapper
+              title={selectedContainerId}
+              isSaved={isSaved}
               isFinished={isFinished}
-              isRunning={isRunning}
-            />
-            <Tray
+              onSaveClicked={saveToSelectedContainer}
+              currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
+              currentTime={time}
+              maxTime={1}
+              savedBgColor={kSavedBgColor}
+            >
+              <SimulationView
+                backgroundImage={backgroundImage}
+                environment={environment}
+                leafPackState={leafPackState}
+                fish={fish}
+                onShowTray={() => setShowTray(true)}
+                isFinished={isFinished}
+                isRunning={isRunning}
+              />
+              <Tray
+                trayAnimals={trayAnimals}
+                onHideTray={() => setShowTray(false)}
+                onTrayObjectSelect={handleTrayObjectSelect}
+                traySelectionType={traySelectionType}
+                hidden={!showTray}
+                isRunning={isRunning}
+              />
+            </MainViewWrapper>
+            <Notebook
               trayAnimals={trayAnimals}
-              onHideTray={() => setShowTray(false)}
-              onTrayObjectSelect={handleTrayObjectSelect}
+              environment={environment}
+              featureSelections={habitatSelectedFeatures}
+              onSelectFeature={handleHabitatSelectFeature}
+              onCategorizeAnimal={handleCategorizeAnimal}
               traySelectionType={traySelectionType}
-              hidden={!showTray}
               isRunning={isRunning}
             />
-          </MainViewWrapper>
-          <Notebook
-            trayAnimals={trayAnimals}
-            environment={environment}
-            featureSelections={habitatSelectedFeatures}
-            onSelectFeature={handleHabitatSelectFeature}
-            onCategorizeAnimal={handleCategorizeAnimal}
-            traySelectionType={traySelectionType}
-            isRunning={isRunning}
-          />
-        </div>
+          </div>
+        </DndProvider>
         <ControlPanel
           isRunning={isRunning}
           isPaused={isPaused}
