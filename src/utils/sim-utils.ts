@@ -23,10 +23,27 @@ import blackFlyImage from "../assets/animals/blackfly.svg";
 import planarianImage from "../assets/animals/planarian.svg";
 import leechImage from "../assets/animals/leech.svg";
 import aquaticWormImage from "../assets/animals/aquaticworm.svg";
+import stoneFlyDragImage from "../assets/animals/drag-previews/stonefly.png";
+import mayFlyDragImage from "../assets/animals/drag-previews/mayfly.png";
+import caddisFlyDragImage from "../assets/animals/drag-previews/caddisfly.png";
+import dobsonFlyDragImage from "../assets/animals/drag-previews/dobsonfly.png";
+import riffleBeetleDragImage from "../assets/animals/drag-previews/rifflebeetle.png";
+import dragonFlyDragImage from "../assets/animals/drag-previews/dragonfly.png";
+import scudDragImage from "../assets/animals/drag-previews/scud.png";
+import clamOrMusselDragImage from "../assets/animals/drag-previews/clammussel.png";
+import crayFishDragImage from "../assets/animals/drag-previews/crayfish.png";
+import midgeFlyDragImage from "../assets/animals/drag-previews/midgefly.png";
+import blackFlyDragImage from "../assets/animals/drag-previews/blackfly.png";
+import planarianDragImage from "../assets/animals/drag-previews/planarian.png";
+import leechDragImage from "../assets/animals/drag-previews/leech.png";
+import aquaticWormDragImage from "../assets/animals/drag-previews/aquaticworm.png";
 
 import leafBirchImage from "../assets/leaves/leaf-birch.svg";
 import leafMapleImage from "../assets/leaves/leaf-maple.svg";
 import leafOakImage from "../assets/leaves/leaf-oak.svg";
+import leafBirchDragImage from "../assets/leaves/drag-previews/leaf-birch.png";
+import leafMapleDragImage from "../assets/leaves/drag-previews/leaf-maple.png";
+import leafOakDragImage from "../assets/leaves/drag-previews/leaf-oak.png";
 
 import FishA from "../assets/animations/fish/Frame 1,5,9.png";
 import FishB from "../assets/animations/fish/Frame 2,4.png";
@@ -259,104 +276,105 @@ export interface Animal {
   label: string;
   abundance: Record<EnvironmentType, EnvironmentAbundance>;
   image: any;
+  dragImage: any;
   sensitivity: SensitivityType;
   width: number;
   height: number;
 }
 
 export const Animals: Animal[] = [
-  { type: AnimalType.aquaticWorm, label: t("ANIMAL.AQUATICWORM"), image: aquaticWormImage,
+  { type: AnimalType.aquaticWorm, label: t("ANIMAL.AQUATICWORM"), image: aquaticWormImage, dragImage: aquaticWormDragImage,
     sensitivity: SensitivityType.tolerant, width: 44, height: 35,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.blackFly, label: t("ANIMAL.BLACKFLY"), image: blackFlyImage,
+  { type: AnimalType.blackFly, label: t("ANIMAL.BLACKFLY"), image: blackFlyImage, dragImage: blackFlyDragImage,
     sensitivity: SensitivityType.tolerant, width: 30, height: 10.35,
     abundance: { "environment1": {sunny: {min: 21, max: 29}, notSunny: { min: 21, max: 29 }},
                  "environment2": {sunny: {min: 12, max: 18}, notSunny: { min: 12, max: 18 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.caddisFly, label: t("ANIMAL.CADDISFLY"), image: caddisFlyImage,
+  { type: AnimalType.caddisFly, label: t("ANIMAL.CADDISFLY"), image: caddisFlyImage, dragImage: caddisFlyDragImage,
     sensitivity: SensitivityType.sensitive, width: 62, height: 37,
     abundance: { "environment1": {sunny: {min: 8, max: 12}, notSunny: { min: 8, max: 12 }},
                  "environment2": {sunny: {min: 8, max: 12}, notSunny: { min: 8, max: 12 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.clamOrMussel, label: t("ANIMAL.CLAMORMUSSEL"), image: clamOrMusselImage,
+  { type: AnimalType.clamOrMussel, label: t("ANIMAL.CLAMORMUSSEL"), image: clamOrMusselImage, dragImage: clamOrMusselDragImage,
     sensitivity: SensitivityType.somewhatSensitive, width: 103, height: 55,
     abundance: { "environment1": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment2": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment3": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.crayFish, label: t("ANIMAL.CRAYFISH"), image: crayFishImage,
+  { type: AnimalType.crayFish, label: t("ANIMAL.CRAYFISH"), image: crayFishImage, dragImage: crayFishDragImage,
     sensitivity: SensitivityType.somewhatSensitive, width: 187, height: 110,
     abundance: { "environment1": {sunny: {min: 3, max: 5}, notSunny: { min: 3, max: 5 }},
                  "environment2": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.dobsonFly, label: t("ANIMAL.DOBSONFLY"), image: dobsonFlyImage,
+  { type: AnimalType.dobsonFly, label: t("ANIMAL.DOBSONFLY"), image: dobsonFlyImage, dragImage: dobsonFlyDragImage,
     sensitivity: SensitivityType.sensitive, width: 76, height: 54,
     abundance: { "environment1": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment2": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.dragonFly, label: t("ANIMAL.DRAGONFLY"), image: dragonFlyImage,
+  { type: AnimalType.dragonFly, label: t("ANIMAL.DRAGONFLY"), image: dragonFlyImage, dragImage: dragonFlyDragImage,
     sensitivity: SensitivityType.somewhatSensitive, width: 64, height: 53,
     abundance: { "environment1": {sunny: {min: 6, max: 8}, notSunny: { min: 6, max: 8 }},
                  "environment2": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment3": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.leech, label: t("ANIMAL.LEECH"), image: leechImage,
+  { type: AnimalType.leech, label: t("ANIMAL.LEECH"), image: leechImage, dragImage: leechDragImage,
     sensitivity: SensitivityType.tolerant, width: 53, height: 20,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment4": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }} }
   },
-  { type: AnimalType.mayFly, label: t("ANIMAL.MAYFLY"), image: mayFlyImage,
+  { type: AnimalType.mayFly, label: t("ANIMAL.MAYFLY"), image: mayFlyImage, dragImage: mayFlyDragImage,
     sensitivity: SensitivityType.sensitive, width: 86.4, height: 33.12,
     abundance: { "environment1": {sunny: {min: 10, max: 20}, notSunny: { min: 10, max: 20 }},
                  "environment2": {sunny: {min: 10, max: 20}, notSunny: { min: 10, max: 20 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.midgeFly, label: t("ANIMAL.MIDGEFLY"), image: midgeFlyImage,
+  { type: AnimalType.midgeFly, label: t("ANIMAL.MIDGEFLY"), image: midgeFlyImage, dragImage: midgeFlyDragImage,
     sensitivity: SensitivityType.tolerant, width: 41, height: 19,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 16, max: 24}, notSunny: { min: 16, max: 24 }},
                  "environment4": {sunny: {min: 40, max: 60}, notSunny: { min: 40, max: 60 }} }
   },
-  { type: AnimalType.planarian, label: t("ANIMAL.PLANARIAN"), image: planarianImage,
+  { type: AnimalType.planarian, label: t("ANIMAL.PLANARIAN"), image: planarianImage, dragImage: planarianDragImage,
     sensitivity: SensitivityType.tolerant, width: 39, height: 16,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment4": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }} }
   },
-  { type: AnimalType.riffleBeetle, label: t("ANIMAL.RIFFLEBEETLE"), image: riffleBeetleImage,
+  { type: AnimalType.riffleBeetle, label: t("ANIMAL.RIFFLEBEETLE"), image: riffleBeetleImage, dragImage: riffleBeetleDragImage,
     sensitivity: SensitivityType.sensitive, width: 35, height: 31,
     abundance: { "environment1": {sunny: {min: 6, max: 10}, notSunny: { min: 6, max: 10 }},
                  "environment2": {sunny: {min: 7, max: 9}, notSunny: { min: 7, max: 8 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
-  { type: AnimalType.scud, label: t("ANIMAL.SCUD"), image: scudImage,
+  { type: AnimalType.scud, label: t("ANIMAL.SCUD"), image: scudImage, dragImage: scudDragImage,
     sensitivity: SensitivityType.somewhatSensitive, width: 43, height: 31,
     abundance: { "environment1": {sunny: {min: 7, max: 13}, notSunny: { min: 7, max: 13 }},
                  "environment2": {sunny: {min: 7, max: 13}, notSunny: { min: 7, max: 13 }},
                  "environment3": {sunny: {min: 3, max: 7}, notSunny: { min: 3, max: 7 }},
                  "environment4": {sunny: {min: 3, max: 7}, notSunny: { min: 3, max: 7 }} }
   },
-  { type: AnimalType.stoneFly, label: t("ANIMAL.STONEFLY"), image: stoneFlyImage,
+  { type: AnimalType.stoneFly, label: t("ANIMAL.STONEFLY"), image: stoneFlyImage, dragImage: stoneFlyDragImage,
     sensitivity: SensitivityType.sensitive, width: 82, height: 43,
     abundance: { "environment1": {sunny: {min: 2, max: 6}, notSunny: { min: 2, max: 6 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
@@ -475,14 +493,15 @@ export enum LeafType {
 export interface Leaf {
   type: LeafType;
   image: any;
+  dragImage: any;
   width: number;
   height: number;
 }
 
 export const Leaves: Leaf[] = [
-  { type: LeafType.birch, image: leafBirchImage, width: 67, height: 116 },
-  { type: LeafType.oak, image: leafOakImage, width: 102, height: 164 },
-  { type: LeafType.maple, image: leafMapleImage, width: 139, height: 151 },
+  { type: LeafType.birch, image: leafBirchImage, dragImage: leafBirchDragImage, width: 67, height: 116 },
+  { type: LeafType.oak, image: leafOakImage, dragImage: leafOakDragImage, width: 102, height: 164 },
+  { type: LeafType.maple, image: leafMapleImage, dragImage: leafMapleDragImage, width: 139, height: 151 },
 ];
 
 export type TrayType = AnimalType | LeafType;
@@ -497,7 +516,7 @@ export interface TrayAnimal {
   height: number;
   rotation: number;
   image: any;
-  dragImage?: any;
+  dragImage: any;
 }
 
 // PTI

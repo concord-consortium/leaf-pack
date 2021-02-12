@@ -121,6 +121,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         const trayObjects: TrayAnimal[] = Animals.map((animal) => {
           return { type: animal.type,
                    image: animal.image,
+                   dragImage: animal.dragImage,
                    count: 0,
                    rotation: Math.random() * 360,
                    x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
@@ -145,6 +146,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           trayObjects.unshift(
             { type: Leaves[leafIndex].type,
               image: Leaves[leafIndex].image,
+              dragImage: Leaves[leafIndex].dragImage,
               count: 1,
               rotation: Math.random() * 360,
               x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
