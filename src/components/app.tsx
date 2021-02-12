@@ -13,7 +13,7 @@ import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, AnimalInstance, Animals,
-         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, LeafImages, TrayType, AnimalType
+         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, TrayType, Leaves
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 
@@ -120,11 +120,14 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         // get instance counts for sorting tray
         const trayObjects: TrayAnimal[] = Animals.map((animal) => {
           return { type: animal.type,
-                  count: 0,
-                  rotation: Math.random() * 360,
-                  x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
-                  y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
-                  collected: false };
+                   image: animal.image,
+                   count: 0,
+                   rotation: Math.random() * 360,
+                   x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
+                   y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+                   width: animal.width,
+                   height: animal.height,
+                   collected: false };
         });
         modelSimulationState.animalInstances.forEach((animalInstance) => {
           if (animalInstance.spawned) {
@@ -136,23 +139,25 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         // add leaves
         // TODO: these should be interspersed throughout the tray, place on bottom for now
         // since they cannot be moved
-        // const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
-        // for (let l = 0; l < numLeaves; l++) {
-        //   trayObjects.unshift(
-        //     { type: LeafType.leaf,
-        //       count: 0,
-        //       rotation: Math.random() * 360,
-        //       x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
-        //       y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
-        //       collected: false,
-        //       image: LeafImages[Math.floor(Math.random() * LeafImages.length)]
-        //     });
-        // }
+        const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
+        for (let l = 0; l < numLeaves; l++) {
+          const leafIndex = Math.floor(Math.random() * Leaves.length);
+          trayObjects.unshift(
+            { type: Leaves[leafIndex].type,
+              image: Leaves[leafIndex].image,
+              count: 1,
+              rotation: Math.random() * 360,
+              x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
+              y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+              width: Leaves[leafIndex].width,
+              height: Leaves[leafIndex].height,
+              collected: false,
+            }
+          );
+        }
 
         setTrayAnimals(trayObjects);
-
         setShowTray(true);
-
       }
     };
 
@@ -193,6 +198,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   const [trayAnimals, setTrayAnimals] = useState<TrayAnimal[]>([]);
   const [showTray, setShowTray] = useState(false);
+  // const [trayAnimals, setTrayAnimals] = useState<TrayAnimal[]>([{type: AnimalType.crayFish, count: 10, collected: false, x: 100, y: 100, rotation: 45}]);
+  // const [showTray, setShowTray] = useState(true);
   const handleRewind = () => {
     setShowTray(false);
     setTrayAnimals([]);
@@ -201,7 +208,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   const [traySelectionType, setTraySelectionType] = useState<TrayType | undefined>(undefined);
   const handleTrayObjectSelect = (objectType: TrayType) => {
-    if (objectType !== LeafType.leaf) {
+    if (objectType !== LeafType.birch && objectType !== LeafType.oak && objectType !== LeafType.maple) {
       setTraySelectionType(objectType);
     }
   };
@@ -268,7 +275,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                 isRunning={isRunning}
               />
               <Tray
-                trayAnimals={trayAnimals}
+                trayObjects={trayAnimals}
                 onHideTray={() => setShowTray(false)}
                 onTrayObjectSelect={handleTrayObjectSelect}
                 traySelectionType={traySelectionType}

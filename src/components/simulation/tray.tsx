@@ -8,7 +8,7 @@ import { TrayImage } from "./tray-image";
 import "./tray.scss";
 
 interface IProps {
-  trayAnimals: TrayAnimal[];
+  trayObjects: TrayAnimal[];
   hidden: boolean;
   onHideTray: () => void;
   onTrayObjectSelect: (type: TrayType) => void;
@@ -17,7 +17,7 @@ interface IProps {
 }
 
 export const Tray: React.FC<IProps> = (props) => {
-  const { trayAnimals, hidden, onTrayObjectSelect, onHideTray, traySelectionType } = props;
+  const { trayObjects, hidden, onTrayObjectSelect, onHideTray, traySelectionType } = props;
 
   return (
     <div className={`tray ${hidden ? "hidden" : ""}`}>
@@ -28,18 +28,17 @@ export const Tray: React.FC<IProps> = (props) => {
           <CloseIcon />
         </button>
       </div>
-      { trayAnimals.map((ta, index) => {
-        const animal = Animals.find((a: Animal) => a.type === ta.type);
-        const Icon = ta?.image || animal?.image;
-        const width = animal?.width;
-        const height = animal?.height;
-        return (((ta.count > 0 && !ta.collected) || ta.type === LeafType.leaf) && Icon &&
+      { trayObjects.map((trayObject, index) => {
+        const Icon = trayObject.image;
+        const width = trayObject.width;
+        const height = trayObject.height;
+        return ((trayObject.count > 0 && !trayObject.collected) && Icon &&
           <TrayImage
             key={`animal-image-${index}`}
             Icon={Icon}
             width={width}
             height={height}
-            trayAnimal={ta}
+            trayObject={trayObject}
             onTrayObjectSelect={onTrayObjectSelect}
             traySelectionType={traySelectionType}
           />

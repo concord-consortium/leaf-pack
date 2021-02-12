@@ -7,7 +7,7 @@ import tempPreview from "../../assets/drag-preview.png";
 import "./tray-image.scss";
 
 interface IProps {
-  trayAnimal: TrayAnimal;
+  trayObject: TrayAnimal;
   Icon: any;
   width: number | undefined;
   height: number | undefined;
@@ -16,10 +16,10 @@ interface IProps {
 }
 
 export const TrayImage: React.FC<IProps> = (props) => {
-  const { Icon, width, height, trayAnimal, onTrayObjectSelect } = props;
+  const { Icon, width, height, trayObject, onTrayObjectSelect } = props;
 
   const [{isDragging}, drag ] = useDrag({
-    item: { type: trayAnimal.type },
+    item: { type: trayObject.type },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -33,7 +33,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
     return <img style={style} src={tempPreview} className="preview" />;
   };
 
-  const containerStyle = {left: trayAnimal.x, top: trayAnimal.y, width, height, transform: `rotate(${trayAnimal.rotation}deg)`};
+  const containerStyle = {left: trayObject.x, top: trayObject.y, width, height, transform: `rotate(${trayObject.rotation}deg)`};
   const iconStyle = {width, height};
 
   return (
@@ -41,7 +41,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
       <PreviewImage />
       <div style={containerStyle} className="tray-image">
         <Icon className={`tray-image-svg ${isDragging ? "highlight" : ""}`} style={iconStyle} />
-        <svg version="1.1" className="tray-image-clickable" width={25} height={25}>
+        <svg version="1.1" className="tray-image-clickable" width={25} height={25} style={{left: width ? width / 2 - 12.5 : 0, top: height ? height / 2 - 12.5 : 0}}>
           <path
             ref={drag}
             cursor="pointer"

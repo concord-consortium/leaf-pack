@@ -467,10 +467,23 @@ export const kMinLeaves = 4;
 export const kMaxLeaves = 6;
 
 export enum LeafType {
-  leaf = "leaf", // TODO: we probably need to break this into individual leaves
+  maple = "maple",
+  oak = "oak",
+  birch = "birch",
 }
 
-export const LeafImages = [leafBirchImage, leafOakImage, leafMapleImage];
+export interface Leaf {
+  type: LeafType;
+  image: any;
+  width: number;
+  height: number;
+}
+
+export const Leaves: Leaf[] = [
+  { type: LeafType.birch, image: leafBirchImage, width: 67, height: 116 },
+  { type: LeafType.oak, image: leafOakImage, width: 102, height: 164 },
+  { type: LeafType.maple, image: leafMapleImage, width: 139, height: 151 },
+];
 
 export type TrayType = AnimalType | LeafType;
 
@@ -480,8 +493,11 @@ export interface TrayAnimal {
   collected: boolean;
   x: number;
   y: number;
+  width: number;
+  height: number;
   rotation: number;
-  image?: any;
+  image: any;
+  dragImage?: any;
 }
 
 // PTI
