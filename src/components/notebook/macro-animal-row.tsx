@@ -1,5 +1,5 @@
 import React from "react";
-import { Sensitivity, TrayAnimal, TrayType, Animal, AnimalType, draggableAnimalTypes } from "../../utils/sim-utils";
+import { Sensitivity, TrayAnimal, TrayType, Animal, draggableAnimalTypes } from "../../utils/sim-utils";
 import { useDrop } from "react-dnd";
 
 import "./macro-panel.scss";
