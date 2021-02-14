@@ -16,9 +16,8 @@ import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSu
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, TrayType, Leaves
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
-
+import { calculateRotatedBoundingBox, calculateBoundedPosition } from "../utils/geometry-utils";
 import t from "../utils/translation/translate";
-import { calculateRotatedBoundingBox } from "../utils/geometry-utils";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
 
@@ -128,8 +127,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                    dragImage: animal.dragImage,
                    count: 0,
                    rotation,
-                   x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
-                   y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+                   x: Math.random() * ((kMaxTrayX - animal.width) - kMinTrayX) + kMinTrayX,
+                   y: Math.random() * ((kMaxTrayY - animal.height) - kMinTrayY) + kMinTrayY,
                    width: animal.width,
                    height: animal.height,
                    boundingBoxWidth: boundingBox.width,
@@ -160,8 +159,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               dragImage: Leaves[leafIndex].dragImage,
               count: 1,
               rotation,
-              x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
-              y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+              x: Math.random() * ((kMaxTrayX - Leaves[leafIndex].width) - kMinTrayX) + kMinTrayX,
+              y: Math.random() * ((kMaxTrayY - Leaves[leafIndex].height) - kMinTrayY) + kMinTrayY,
               width: Leaves[leafIndex].width,
               height: Leaves[leafIndex].height,
               boundingBoxWidth: boundingBox.width,
@@ -249,8 +248,10 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     const updatedTrayObjects = trayAnimals.map((ta) => {
       if (ta.trayIndex === trayIndex) {
         const movedTrayAnimal = { ...ta };
-        movedTrayAnimal.x = left;
-        movedTrayAnimal.y = top;
+        const newPos = calculateBoundedPosition(left, top, movedTrayAnimal.width, movedTrayAnimal.height,
+          kMaxTrayX, kMinTrayX, kMaxTrayY, kMinTrayY);
+        movedTrayAnimal.x = newPos.left;
+        movedTrayAnimal.y = newPos.top;
         return movedTrayAnimal;
       } else {
         return ta;

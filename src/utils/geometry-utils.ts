@@ -13,3 +13,21 @@ export const calculateRotatedBoundingBox = (width: number, height: number, angle
   const rotatedHeight = Math.max(...yCorners) - Math.min(...yCorners);
   return {width: rotatedWidth, height: rotatedHeight};
 };
+
+export const calculateBoundedPosition = (left: number, top: number, width: number, height: number,
+  maxX: number, minX: number, maxY: number, minY: number) => {
+
+  let newLeft = left;
+  if ((newLeft + .5 * width) > maxX) {
+    newLeft = maxX - .5 * width;
+  } else if ((newLeft + .5 * width) < minX) {
+    newLeft = minX - .5 * width;
+  }
+  let newTop = top;
+  if ((newTop  + .5 * height) > maxY) {
+    newTop = maxY - .5 * height;
+  } else if ((newTop  + .5 * height) < minY) {
+    newTop = minY - .5 * height;
+  }
+  return {left: newLeft, top: newTop};
+};

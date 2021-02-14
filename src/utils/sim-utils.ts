@@ -480,14 +480,13 @@ export interface SimAnimation {
 }
 
 // The content that is positioned and shown in the tray
-export const kMinTrayX = 50;
-export const kMaxTrayX = 250;
-export const kMinTrayY = 50;
-export const kMaxTrayY = 125;
+export const kMinTrayX = 30;
+export const kMaxTrayX = 414;
+export const kMinTrayY = 80;
+export const kMaxTrayY = 312;
 
-// TODO: change to final bounds 7 and 10
-export const kMinLeaves = 4;
-export const kMaxLeaves = 6;
+export const kMinLeaves = 7;
+export const kMaxLeaves = 10;
 
 export enum LeafType {
   maple = "maple",

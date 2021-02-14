@@ -2,14 +2,14 @@
 
 .tray {
   position: absolute;
-  top: 31px;
-  left: 9px;
+  top: 6px;
+  left: -16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 394px;
-  height: 292px;
+  width: 444px;
+  height: 342px;
   opacity: 1;
   transition: opacity 250ms;
 
@@ -20,12 +20,12 @@
 
   .header {
     position: absolute;
-    top: 0;
+    top: 25px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 394px;
 
     .title {
       display: flex;

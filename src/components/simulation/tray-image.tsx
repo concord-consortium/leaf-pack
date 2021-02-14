@@ -47,7 +47,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
     return <img style={positionedStyle} src={item.dragImage} className="preview" />;
   };
 
-  const containerStyle = {left: trayObject.x, top: trayObject.y, width: trayObject.boundingBoxWidth, height: trayObject.boundingBoxHeight};
+  const containerStyle = {left: trayObject.x, top: trayObject.y, width: trayObject.width, height: trayObject.height};
   const imageStyle = {width, height, transform: `rotate(${trayObject.rotation}deg)`};
 
   return (
