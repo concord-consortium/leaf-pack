@@ -8,8 +8,8 @@ import "./tray-image.scss";
 interface IProps {
   trayObject: TrayObject;
   Icon: any;
-  width: number | undefined;
-  height: number | undefined;
+  width: number;
+  height: number;
   onTrayObjectSelect: (type: TrayType) => void;
   traySelectionType?: TrayType;
 }
@@ -19,32 +19,32 @@ export const TrayImage: React.FC<IProps> = (props) => {
   // TODO: allow leaf drag
   const allowDrag = trayObject.type !== LeafType.birch && trayObject.type !== LeafType.maple && trayObject.type !== LeafType.oak;
 
-  const [{isDragging, dragPosition, dragOffsetPosition}, drag ] = useDrag({
-    // TODO: check this list
+  const [{isDragging, dragPosition, dragSourcePosition}, drag ] = useDrag({
     item: { type: trayObject.type, trayIndex: trayObject.trayIndex, dragImage: trayObject.dragImage,
-            rotation: trayObject.rotation, left: trayObject.x, top: trayObject.y },
+            left: trayObject.x, top: trayObject.y },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
       dragPosition: monitor.getClientOffset(),
-      dragOffsetPosition: monitor.getSourceClientOffset()
+      dragSourcePosition: monitor.getSourceClientOffset()
     }),
     canDrag: allowDrag,
   });
 
   const PreviewImage = () => {
     const {display, item} = usePreview();
-    if (!display) {
+    if (!display || !dragPosition || !dragSourcePosition) {
       return null;
     }
-    // TODO: clean up
-    const offsetX = dragPosition?.x && dragOffsetPosition?.x ? dragPosition.x - dragOffsetPosition?.x : 0;
-    const offsetY = dragPosition?.y && dragOffsetPosition?.y ? dragPosition.y - dragOffsetPosition?.y : 0;
-    const boundingBoxOffsetX = (trayObject.boundingBoxWidth - (width || 0)) / 2;
-    const boundingBoxOffsetY = (trayObject.boundingBoxHeight - (height || 0)) / 2;
-    const positionedStyle = {top: dragPosition?.y ? dragPosition.y - offsetY + boundingBoxOffsetY : 0,
-                             left: dragPosition?.x ? dragPosition.x - offsetX + boundingBoxOffsetX : 0,
-                             transform: `rotate(${trayObject.rotation}deg)`};
-    return <img style={positionedStyle} src={item.dragImage} className="preview" />;
+    const dragDeltaX = dragPosition.x - dragSourcePosition.x;
+    const dragDeltaY = dragPosition.y - dragSourcePosition.y;
+    const boundingBoxDeltaX = (trayObject.boundingBoxWidth - width) / 2;
+    const boundingBoxDeltaY = (trayObject.boundingBoxHeight - height) / 2;
+    const previewStyle = {
+      left: dragPosition.x - dragDeltaX + boundingBoxDeltaX,
+      top: dragPosition.y - dragDeltaY + boundingBoxDeltaY,
+      transform: `rotate(${trayObject.rotation}deg)`
+    };
+    return <img style={previewStyle} src={item.dragImage} className="preview" />;
   };
 
   const containerStyle = {left: trayObject.x, top: trayObject.y, width: trayObject.width, height: trayObject.height,
