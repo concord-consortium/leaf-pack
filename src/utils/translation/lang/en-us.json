@@ -35,7 +35,7 @@
   "PTI.INDEXVAL": "Index Value",
   "PTI.SCORE": "Score",
   "PTI.TOTAL": "Total",
-  "PTI.SCORE.DESCRIPTION": "{Sum of all index values}",
+  "PTI.SCORE.DESCRIPTION": "(Sum of all index values)",
   "PTI.RATING": "Rating",
   "PTI.RATING.LEVEL0.LABEL": "Excellent",
   "PTI.RATING.LEVEL1.LABEL": "Good",
