@@ -1,5 +1,5 @@
 import React from "react";
-import { TrayType, AnimalType, TrayAnimal, LeafType } from "../../utils/sim-utils";
+import { TrayType, TrayAnimal, LeafType } from "../../utils/sim-utils";
 import { useDrag } from "react-dnd";
 import { usePreview } from "react-dnd-preview";
 
@@ -15,49 +15,58 @@ interface IProps {
 }
 
 export const TrayImage: React.FC<IProps> = (props) => {
-  const { Icon, width, height, trayObject, onTrayObjectSelect } = props;
+  const { Icon, width, height, trayObject, onTrayObjectSelect, traySelectionType } = props;
+  // TODO: allow leaf drag
   const allowDrag = trayObject.type !== LeafType.birch && trayObject.type !== LeafType.maple && trayObject.type !== LeafType.oak;
-  const [{isDragging}, drag ] = useDrag({
-    item: { type: trayObject.type, dragImage: trayObject.dragImage, rotation: trayObject.rotation },
+
+  const [{isDragging, dragPosition, dragOffsetPosition}, drag ] = useDrag({
+    // TODO: check this list
+    item: { type: trayObject.type, trayIndex: trayObject.trayIndex, dragImage: trayObject.dragImage,
+            rotation: trayObject.rotation, left: trayObject.x, top: trayObject.y },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
+      dragPosition: monitor.getClientOffset(),
+      dragOffsetPosition: monitor.getSourceClientOffset()
     }),
     canDrag: allowDrag,
   });
 
   const PreviewImage = () => {
-    const {display, item, style} = usePreview();
+    const {display, item} = usePreview();
     if (!display) {
       return null;
     }
-    // TODO: add rotation
-    // TODO: position offset
-    // style.transform = `rotate(${item.rotation}deg)`;
-    return <img style={style} src={item.dragImage} className="preview" />;
+    // TODO: clean up
+    const offsetX = dragPosition?.x && dragOffsetPosition?.x ? dragPosition.x - dragOffsetPosition?.x : 0;
+    const offsetY = dragPosition?.y && dragOffsetPosition?.y ? dragPosition.y - dragOffsetPosition?.y : 0;
+    const boundingBoxOffsetX = (trayObject.boundingBoxWidth - (width || 0)) / 2;
+    const boundingBoxOffsetY = (trayObject.boundingBoxHeight - (height || 0)) / 2;
+    const positionedStyle = {top: dragPosition?.y ? dragPosition.y - offsetY + boundingBoxOffsetY : 0,
+                             left: dragPosition?.x ? dragPosition.x - offsetX + boundingBoxOffsetX : 0,
+                             transform: `rotate(${trayObject.rotation}deg)`};
+    return <img style={positionedStyle} src={item.dragImage} className="preview" />;
   };
 
-  const containerStyle = {left: trayObject.x, top: trayObject.y, width, height, transform: `rotate(${trayObject.rotation}deg)`};
-  const iconStyle = {width, height};
+  const containerStyle = {left: trayObject.x, top: trayObject.y, width: trayObject.boundingBoxWidth, height: trayObject.boundingBoxHeight};
+  const imageStyle = {width, height, transform: `rotate(${trayObject.rotation}deg)`};
 
   return (
-    <>
-      <PreviewImage />
-      <div style={containerStyle} className="tray-image">
-        <Icon className={`tray-image-svg ${isDragging ? "highlight" : ""}`} style={iconStyle} />
-        { allowDrag &&
-          <svg version="1.1" className="tray-image-clickable" width={25} height={25} style={{left: width ? width / 2 - 12.5 : 0, top: height ? height / 2 - 12.5 : 0}}>
-            <path
-              ref={drag}
-              cursor="pointer"
-              pointerEvents="visible"
-              fillRule="evenodd"
-              onClick={() => onTrayObjectSelect(AnimalType.aquaticWorm)}
-              className="click-area"
-              d="M0 0 L25 0 L25 25 L00 25 Z"
-            />
-          </svg>
-        }
-      </div>
-    </>
+    <div style={containerStyle} className="tray-image-container">
+      {isDragging && <PreviewImage />}
+      <Icon className={`tray-image-svg ${isDragging || trayObject.type === traySelectionType ? "highlight" : ""}`} style={imageStyle} />
+      { allowDrag &&
+        <svg version="1.1" className="tray-image-clickable" style={imageStyle}>
+          <path
+            ref={drag}
+            cursor="pointer"
+            pointerEvents="visible"
+            fillRule="evenodd"
+            onClick={() => onTrayObjectSelect(trayObject.type)}
+            className="click-area"
+            d={trayObject.hitBoxPath}
+          />
+        </svg>
+      }
+    </div>
   );
 };

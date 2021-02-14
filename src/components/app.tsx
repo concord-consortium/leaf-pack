@@ -18,6 +18,7 @@ import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSu
 import { HabitatFeatureType } from "../utils/habitat-utils";
 
 import t from "../utils/translation/translate";
+import { calculateRotatedBoundingBox } from "../utils/geometry-utils";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
 
@@ -118,17 +119,23 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         endSimulation();
 
         // get instance counts for sorting tray
-        const trayObjects: TrayAnimal[] = Animals.map((animal) => {
+        const trayObjects: TrayAnimal[] = Animals.map((animal, index) => {
+          const rotation = Math.random() * 360;
+          const boundingBox = calculateRotatedBoundingBox(animal.width, animal.height, rotation);
           return { type: animal.type,
+                   trayIndex: index,
                    image: animal.image,
                    dragImage: animal.dragImage,
                    count: 0,
-                   rotation: Math.random() * 360,
+                   rotation,
                    x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
                    y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
                    width: animal.width,
                    height: animal.height,
-                   collected: false };
+                   boundingBoxWidth: boundingBox.width,
+                   boundingBoxHeight: boundingBox.height,
+                   collected: false,
+                   hitBoxPath: animal.hitBoxPath };
         });
         modelSimulationState.animalInstances.forEach((animalInstance) => {
           if (animalInstance.spawned) {
@@ -140,20 +147,27 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         // add leaves
         // TODO: these should be interspersed throughout the tray, place on bottom for now
         // since they cannot be moved
+        const trayIndexOffset = trayObjects.length;
         const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
         for (let l = 0; l < numLeaves; l++) {
           const leafIndex = Math.floor(Math.random() * Leaves.length);
+          const rotation = Math.random() * 360;
+          const boundingBox = calculateRotatedBoundingBox(Leaves[leafIndex].width, Leaves[leafIndex].height, rotation);
           trayObjects.unshift(
             { type: Leaves[leafIndex].type,
+              trayIndex: trayIndexOffset + l,
               image: Leaves[leafIndex].image,
               dragImage: Leaves[leafIndex].dragImage,
               count: 1,
-              rotation: Math.random() * 360,
+              rotation,
               x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
               y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
               width: Leaves[leafIndex].width,
               height: Leaves[leafIndex].height,
+              boundingBoxWidth: boundingBox.width,
+              boundingBoxHeight: boundingBox.height,
               collected: false,
+              hitBoxPath: Leaves[leafIndex].hitBoxPath
             }
           );
         }
@@ -200,8 +214,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   const [trayAnimals, setTrayAnimals] = useState<TrayAnimal[]>([]);
   const [showTray, setShowTray] = useState(false);
-  // const [trayAnimals, setTrayAnimals] = useState<TrayAnimal[]>([{type: AnimalType.crayFish, count: 10, collected: false, x: 100, y: 100, rotation: 45}]);
-  // const [showTray, setShowTray] = useState(true);
+
   const handleRewind = () => {
     setShowTray(false);
     setTrayAnimals([]);
@@ -232,7 +245,20 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     setTraySelectionType(undefined);
   };
 
-  //const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
+  const handleMoveTrayObject = (trayIndex: number, left: number, top: number) => {
+    const updatedTrayObjects = trayAnimals.map((ta) => {
+      if (ta.trayIndex === trayIndex) {
+        const movedTrayAnimal = { ...ta };
+        movedTrayAnimal.x = left;
+        movedTrayAnimal.y = top;
+        return movedTrayAnimal;
+      } else {
+        return ta;
+      }
+    });
+    setTrayAnimals(updatedTrayObjects);
+  };
+
   const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState<Record<HabitatFeatureType, boolean>>(
     { [HabitatFeatureType.pools]: false, [HabitatFeatureType.riffles]: false, [HabitatFeatureType.runs]: false,
       [HabitatFeatureType.manyTrees]: false, [HabitatFeatureType.someTrees]: false, [HabitatFeatureType.noTrees]: false,
@@ -282,6 +308,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                 onTrayObjectSelect={handleTrayObjectSelect}
                 traySelectionType={traySelectionType}
                 hidden={!showTray}
+                onTrayObjectMove={handleMoveTrayObject}
                 isRunning={isRunning}
               />
             </MainViewWrapper>
