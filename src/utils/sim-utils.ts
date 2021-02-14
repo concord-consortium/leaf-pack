@@ -51,6 +51,10 @@ import FishC from "../assets/animations/fish/Frame 3.png";
 import FishD from "../assets/animations/fish/Frame 6,8.png";
 import FishE from "../assets/animations/fish/Frame 7.png";
 
+import { testHitBoxPath, stoneFlyHitBoxPath, mayFlyHitBoxPath, caddisFlyHitBoxPath, dobsonFlyHitBoxPath, riffleBeetleHitBoxPath,
+  dragonFlyHitBoxPath, scudHitBoxPath, clamOrMusselHitBoxPath, crayFishHitBoxPath, midgeFlyHitBoxPath, blackFlyHitBoxPath,
+  planarianHitBoxPath, leechHitBoxPath, aquaticWormHitBoxPath } from "./hit-box/hit-box-utils";
+
 import t from "./translation/translate";
 
 export const sunnyDaySliderMarks = [
@@ -220,7 +224,7 @@ export enum AnimalType {
   blackFly = "blackFly",
   planarian = "planarian",
   leech = "leech",
-  aquaticWorm = "aquataquaticWormicWorms",
+  aquaticWorm = "aquaticWorm",
 }
 
 export interface AbundanceRange {
@@ -280,102 +284,103 @@ export interface Animal {
   sensitivity: SensitivityType;
   width: number;
   height: number;
+  hitBoxPath: string;
 }
 
 export const Animals: Animal[] = [
   { type: AnimalType.aquaticWorm, label: t("ANIMAL.AQUATICWORM"), image: aquaticWormImage, dragImage: aquaticWormDragImage,
-    sensitivity: SensitivityType.tolerant, width: 44, height: 35,
+    sensitivity: SensitivityType.tolerant, width: 44, height: 35, hitBoxPath: aquaticWormHitBoxPath,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.blackFly, label: t("ANIMAL.BLACKFLY"), image: blackFlyImage, dragImage: blackFlyDragImage,
-    sensitivity: SensitivityType.tolerant, width: 30, height: 10.35,
+    sensitivity: SensitivityType.tolerant, width: 30, height: 10.35, hitBoxPath: blackFlyHitBoxPath,
     abundance: { "environment1": {sunny: {min: 21, max: 29}, notSunny: { min: 21, max: 29 }},
                  "environment2": {sunny: {min: 12, max: 18}, notSunny: { min: 12, max: 18 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.caddisFly, label: t("ANIMAL.CADDISFLY"), image: caddisFlyImage, dragImage: caddisFlyDragImage,
-    sensitivity: SensitivityType.sensitive, width: 62, height: 37,
+    sensitivity: SensitivityType.sensitive, width: 62, height: 37, hitBoxPath: caddisFlyHitBoxPath,
     abundance: { "environment1": {sunny: {min: 8, max: 12}, notSunny: { min: 8, max: 12 }},
                  "environment2": {sunny: {min: 8, max: 12}, notSunny: { min: 8, max: 12 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.clamOrMussel, label: t("ANIMAL.CLAMORMUSSEL"), image: clamOrMusselImage, dragImage: clamOrMusselDragImage,
-    sensitivity: SensitivityType.somewhatSensitive, width: 103, height: 55,
+    sensitivity: SensitivityType.somewhatSensitive, width: 103, height: 55, hitBoxPath: clamOrMusselHitBoxPath,
     abundance: { "environment1": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment2": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment3": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.crayFish, label: t("ANIMAL.CRAYFISH"), image: crayFishImage, dragImage: crayFishDragImage,
-    sensitivity: SensitivityType.somewhatSensitive, width: 187, height: 110,
+    sensitivity: SensitivityType.somewhatSensitive, width: 187, height: 110, hitBoxPath: crayFishHitBoxPath,
     abundance: { "environment1": {sunny: {min: 3, max: 5}, notSunny: { min: 3, max: 5 }},
                  "environment2": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.dobsonFly, label: t("ANIMAL.DOBSONFLY"), image: dobsonFlyImage, dragImage: dobsonFlyDragImage,
-    sensitivity: SensitivityType.sensitive, width: 76, height: 54,
+    sensitivity: SensitivityType.sensitive, width: 76, height: 54, hitBoxPath: dobsonFlyHitBoxPath,
     abundance: { "environment1": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment2": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.dragonFly, label: t("ANIMAL.DRAGONFLY"), image: dragonFlyImage, dragImage: dragonFlyDragImage,
-    sensitivity: SensitivityType.somewhatSensitive, width: 64, height: 53,
+    sensitivity: SensitivityType.somewhatSensitive, width: 64, height: 53, hitBoxPath: dragonFlyHitBoxPath,
     abundance: { "environment1": {sunny: {min: 6, max: 8}, notSunny: { min: 6, max: 8 }},
                  "environment2": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment3": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.leech, label: t("ANIMAL.LEECH"), image: leechImage, dragImage: leechDragImage,
-    sensitivity: SensitivityType.tolerant, width: 53, height: 20,
+    sensitivity: SensitivityType.tolerant, width: 53, height: 20, hitBoxPath: leechHitBoxPath,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 1, max: 3}, notSunny: { min: 1, max: 3 }},
                  "environment4": {sunny: {min: 2, max: 4}, notSunny: { min: 2, max: 4 }} }
   },
   { type: AnimalType.mayFly, label: t("ANIMAL.MAYFLY"), image: mayFlyImage, dragImage: mayFlyDragImage,
-    sensitivity: SensitivityType.sensitive, width: 86.4, height: 33.12,
+    sensitivity: SensitivityType.sensitive, width: 86.4, height: 33.12, hitBoxPath: mayFlyHitBoxPath,
     abundance: { "environment1": {sunny: {min: 10, max: 20}, notSunny: { min: 10, max: 20 }},
                  "environment2": {sunny: {min: 10, max: 20}, notSunny: { min: 10, max: 20 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.midgeFly, label: t("ANIMAL.MIDGEFLY"), image: midgeFlyImage, dragImage: midgeFlyDragImage,
-    sensitivity: SensitivityType.tolerant, width: 41, height: 19,
+    sensitivity: SensitivityType.tolerant, width: 41, height: 19, hitBoxPath: midgeFlyHitBoxPath,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 16, max: 24}, notSunny: { min: 16, max: 24 }},
                  "environment4": {sunny: {min: 40, max: 60}, notSunny: { min: 40, max: 60 }} }
   },
   { type: AnimalType.planarian, label: t("ANIMAL.PLANARIAN"), image: planarianImage, dragImage: planarianDragImage,
-    sensitivity: SensitivityType.tolerant, width: 39, height: 16,
+    sensitivity: SensitivityType.tolerant, width: 39, height: 16, hitBoxPath: planarianHitBoxPath,
     abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment4": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }} }
   },
   { type: AnimalType.riffleBeetle, label: t("ANIMAL.RIFFLEBEETLE"), image: riffleBeetleImage, dragImage: riffleBeetleDragImage,
-    sensitivity: SensitivityType.sensitive, width: 35, height: 31,
+    sensitivity: SensitivityType.sensitive, width: 35, height: 31, hitBoxPath: riffleBeetleHitBoxPath,
     abundance: { "environment1": {sunny: {min: 6, max: 10}, notSunny: { min: 6, max: 10 }},
                  "environment2": {sunny: {min: 7, max: 9}, notSunny: { min: 7, max: 8 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
   { type: AnimalType.scud, label: t("ANIMAL.SCUD"), image: scudImage, dragImage: scudDragImage,
-    sensitivity: SensitivityType.somewhatSensitive, width: 43, height: 31,
+    sensitivity: SensitivityType.somewhatSensitive, width: 43, height: 31, hitBoxPath: scudHitBoxPath,
     abundance: { "environment1": {sunny: {min: 7, max: 13}, notSunny: { min: 7, max: 13 }},
                  "environment2": {sunny: {min: 7, max: 13}, notSunny: { min: 7, max: 13 }},
                  "environment3": {sunny: {min: 3, max: 7}, notSunny: { min: 3, max: 7 }},
                  "environment4": {sunny: {min: 3, max: 7}, notSunny: { min: 3, max: 7 }} }
   },
   { type: AnimalType.stoneFly, label: t("ANIMAL.STONEFLY"), image: stoneFlyImage, dragImage: stoneFlyDragImage,
-    sensitivity: SensitivityType.sensitive, width: 82, height: 43,
+    sensitivity: SensitivityType.sensitive, width: 82, height: 43, hitBoxPath: stoneFlyHitBoxPath,
     abundance: { "environment1": {sunny: {min: 2, max: 6}, notSunny: { min: 2, max: 6 }},
                  "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
@@ -496,28 +501,44 @@ export interface Leaf {
   dragImage: any;
   width: number;
   height: number;
+  hitBoxPath: string;
 }
 
 export const Leaves: Leaf[] = [
-  { type: LeafType.birch, image: leafBirchImage, dragImage: leafBirchDragImage, width: 67, height: 116 },
-  { type: LeafType.oak, image: leafOakImage, dragImage: leafOakDragImage, width: 102, height: 164 },
-  { type: LeafType.maple, image: leafMapleImage, dragImage: leafMapleDragImage, width: 139, height: 151 },
+  { type: LeafType.birch, image: leafBirchImage, dragImage: leafBirchDragImage, width: 67, height: 116, hitBoxPath: testHitBoxPath },
+  { type: LeafType.oak, image: leafOakImage, dragImage: leafOakDragImage, width: 102, height: 164, hitBoxPath: testHitBoxPath},
+  { type: LeafType.maple, image: leafMapleImage, dragImage: leafMapleDragImage, width: 139, height: 151, hitBoxPath: testHitBoxPath },
 ];
 
 export type TrayType = AnimalType | LeafType;
 
 export interface TrayAnimal {
   type: TrayType;
+  trayIndex: number;
   count: number;
   collected: boolean;
   x: number;
   y: number;
   width: number;
   height: number;
+  boundingBoxWidth: number;
+  boundingBoxHeight: number;
   rotation: number;
   image: any;
   dragImage: any;
+  hitBoxPath: string;
 }
+
+export const draggableAnimalTypes = [
+  AnimalType.stoneFly, AnimalType.mayFly, AnimalType.caddisFly, AnimalType.dobsonFly,
+  AnimalType.riffleBeetle, AnimalType.dragonFly, AnimalType.scud, AnimalType.clamOrMussel,
+  AnimalType.crayFish, AnimalType.midgeFly, AnimalType.blackFly, AnimalType.planarian,
+  AnimalType.leech, AnimalType.aquaticWorm
+];
+
+export const draggableLeafTypes = [
+  LeafType.birch, LeafType.oak, LeafType.maple
+];
 
 // PTI
 export interface PTIRatingLevel {
