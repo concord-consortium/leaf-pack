@@ -1,12 +1,12 @@
 import React from "react";
-import { TrayType, TrayAnimal, LeafType } from "../../utils/sim-utils";
+import { TrayType, TrayObject, LeafType } from "../../utils/sim-utils";
 import { useDrag } from "react-dnd";
 import { usePreview } from "react-dnd-preview";
 
 import "./tray-image.scss";
 
 interface IProps {
-  trayObject: TrayAnimal;
+  trayObject: TrayObject;
   Icon: any;
   width: number | undefined;
   height: number | undefined;

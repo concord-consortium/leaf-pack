@@ -1,7 +1,7 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import t from "../../utils/translation/translate";
-import { EnvironmentType, TrayAnimal, TrayType } from "../../utils/sim-utils";
+import { EnvironmentType, TrayObject, TrayType } from "../../utils/sim-utils";
 import { HabitatFeatureType } from "../../utils/habitat-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
@@ -14,7 +14,7 @@ import "react-tabs/style/react-tabs.css";
 import "./notebook.scss";
 
 interface IProps {
-  trayAnimals: TrayAnimal[];
+  trayObjects: TrayObject[];
   environment: EnvironmentType;
   featureSelections: Record<HabitatFeatureType, boolean>;
   onSelectFeature: (feture: HabitatFeatureType, selected: boolean) => void;
@@ -24,7 +24,7 @@ interface IProps {
 }
 
 export const Notebook: React.FC<IProps> = (props) => {
-  const { trayAnimals, environment, featureSelections, onSelectFeature, onCategorizeAnimal, traySelectionType,
+  const { trayObjects, environment, featureSelections, onSelectFeature, onCategorizeAnimal, traySelectionType,
           isRunning } = props;
   return (
     <div className="notebook" data-testid="notebook">
@@ -51,7 +51,7 @@ export const Notebook: React.FC<IProps> = (props) => {
         </TabPanel>
         <TabPanel>
           <MacroPanel
-            trayAnimals={trayAnimals}
+            trayObjects={trayObjects}
             onCategorizeAnimal={onCategorizeAnimal}
             traySelectionType={traySelectionType}
             isRunning={isRunning}

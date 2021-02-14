@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SectionButtons } from "./section-buttons";
-import { Animals, Sensitivities, TrayAnimal, TrayType } from "../../utils/sim-utils";
+import { Animals, Sensitivities, TrayObject, TrayType } from "../../utils/sim-utils";
 import { MacroSummation } from "./macro-summation";
 import { MacroAnimalRow } from "./macro-animal-row";
 
@@ -10,13 +10,13 @@ const kCrittersPerSection = 5;
 
 interface IProps {
   isRunning: boolean;
-  trayAnimals: TrayAnimal[];
+  trayObjects: TrayObject[];
   onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
   traySelectionType?: TrayType;
 }
 
 export const MacroPanel: React.FC<IProps> = (props) => {
-  const { trayAnimals, onCategorizeAnimal, traySelectionType } = props;
+  const { trayObjects, onCategorizeAnimal, traySelectionType } = props;
 
   const [currentSection, setCurrentSection] = useState(0);
   // there is an extra summation section as well as the pages that display the animals
@@ -27,7 +27,7 @@ export const MacroPanel: React.FC<IProps> = (props) => {
       <div className="critters">
         {Animals.map((animal, index) => {
           const sensitivity = Sensitivities.find((s) => s.type === animal.sensitivity);
-          const trayAnimal = trayAnimals.find((ta) => ta.type === animal.type);
+          const trayAnimal = trayObjects.find((ta) => ta.type === animal.type);
           const count = trayAnimal?.collected ? trayAnimal.count : 0;
           const AnimalIcon = animal.image;
           return (
@@ -48,7 +48,7 @@ export const MacroPanel: React.FC<IProps> = (props) => {
         })}
         {currentSection === numSections - 1 &&
           <MacroSummation
-            trayAnimals={trayAnimals}
+            trayObjects={trayObjects}
           />
         }
       </div>

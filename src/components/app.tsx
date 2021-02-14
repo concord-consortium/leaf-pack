@@ -12,7 +12,7 @@ import { ModalDialog } from "./modal-dialog";
 import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, AnimalInstance, Animals,
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, TrayType, Leaves
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
@@ -120,7 +120,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         const numLeaves = Math.floor(Math.random() * (kMaxLeaves - kMinLeaves) ) + kMinLeaves;
 
         // add animals to the tray
-        const trayObjects: TrayAnimal[] = Animals.map((animal, index) => {
+        const newTrayObjects: TrayObject[] = Animals.map((animal, index) => {
           const rotation = Math.random() * 360;
           const boundingBox = calculateRotatedBoundingBox(animal.width, animal.height, rotation);
           return { type: animal.type,
@@ -141,20 +141,20 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         });
         modelSimulationState.animalInstances.forEach((animalInstance) => {
           if (animalInstance.spawned) {
-            const index = trayObjects.findIndex((ac: TrayAnimal) => ac.type === animalInstance.type);
-            trayObjects[index].count++;
+            const index = newTrayObjects.findIndex((to: TrayObject) => to.type === animalInstance.type);
+            newTrayObjects[index].count++;
           }
         });
 
         // add leaves
         // TODO: these should be interspersed throughout the tray, place on bottom for now
         // since they cannot be moved
-        const trayIndexOffset = trayObjects.length;
+        const trayIndexOffset = newTrayObjects.length;
         for (let l = 0; l < numLeaves; l++) {
           const leafIndex = Math.floor(Math.random() * Leaves.length);
           const rotation = Math.random() * 360;
           const boundingBox = calculateRotatedBoundingBox(Leaves[leafIndex].width, Leaves[leafIndex].height, rotation);
-          trayObjects.unshift(
+          newTrayObjects.unshift(
             { type: Leaves[leafIndex].type,
               trayIndex: trayIndexOffset + l,
               image: Leaves[leafIndex].image,
@@ -174,7 +174,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           );
         }
 
-        setTrayAnimals(trayObjects);
+        setTrayObjects(newTrayObjects);
         setShowTray(true);
       }
     };
@@ -214,12 +214,12 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const backgroundImage = currentEnvironment?.backgroundImage;
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
-  const [trayAnimals, setTrayAnimals] = useState<TrayAnimal[]>([]);
+  const [trayObjects, setTrayObjects] = useState<TrayObject[]>([]);
   const [showTray, setShowTray] = useState(false);
 
   const handleRewind = () => {
     setShowTray(false);
-    setTrayAnimals([]);
+    setTrayObjects([]);
     rewindSimulation();
   };
 
@@ -231,16 +231,16 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   };
   const handleCategorizeAnimal = (trayType: TrayType | undefined, notebookType: TrayType | undefined) => {
     if (trayType === notebookType && trayType !== undefined) {
-      const updatedTrayAnimals = trayAnimals.map(ta => {
-        if (ta.type === trayType) {
-          const collectedTrayAnimal = { ...ta };
+      const updatedTrayObjects = trayObjects.map(to => {
+        if (to.type === trayType) {
+          const collectedTrayAnimal = { ...to };
           collectedTrayAnimal.collected = true;
           return collectedTrayAnimal;
         } else {
-          return ta;
+          return to;
         }
       });
-      setTrayAnimals(updatedTrayAnimals);
+      setTrayObjects(updatedTrayObjects);
     } else {
       setShowModal(true);
     }
@@ -248,25 +248,25 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   };
 
   const handleMoveTrayObject = (trayIndex: number, left: number, top: number) => {
-    const currZIndex = trayAnimals.find((ta) => ta.trayIndex === trayIndex)?.zIndex;
-    const updatedTrayObjects = trayAnimals.map((ta) => {
-      if (ta.trayIndex === trayIndex) {
-        const movedTrayAnimal = { ...ta };
-        const newPos = calculateBoundedPosition(left, top, movedTrayAnimal.width, movedTrayAnimal.height,
+    const currZIndex = trayObjects.find((ta) => ta.trayIndex === trayIndex)?.zIndex;
+    const updatedTrayObjects = trayObjects.map((to) => {
+      if (to.trayIndex === trayIndex) {
+        const movedTrayObject = { ...to };
+        const newPos = calculateBoundedPosition(left, top, movedTrayObject.width, movedTrayObject.height,
           kMaxTrayX, kMinTrayX, kMaxTrayY, kMinTrayY);
-        movedTrayAnimal.x = newPos.left;
-        movedTrayAnimal.y = newPos.top;
-        movedTrayAnimal.zIndex = trayAnimals.length - 1;
-        return movedTrayAnimal;
-      } else if (currZIndex && ta.zIndex > currZIndex) {
-        const restackedTrayAnimal = { ...ta };
-        restackedTrayAnimal.zIndex = restackedTrayAnimal.zIndex - 1;
-        return restackedTrayAnimal;
+        movedTrayObject.x = newPos.left;
+        movedTrayObject.y = newPos.top;
+        movedTrayObject.zIndex = trayObjects.length - 1;
+        return movedTrayObject;
+      } else if (currZIndex && to.zIndex > currZIndex) {
+        const restackedTrayObject = { ...to };
+        restackedTrayObject.zIndex = restackedTrayObject.zIndex - 1;
+        return restackedTrayObject;
       } else {
-        return ta;
+        return to;
       }
     });
-    setTrayAnimals(updatedTrayObjects);
+    setTrayObjects(updatedTrayObjects);
   };
 
   const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState<Record<HabitatFeatureType, boolean>>(
@@ -313,7 +313,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                 isRunning={isRunning}
               />
               <Tray
-                trayObjects={trayAnimals}
+                trayObjects={trayObjects}
                 onHideTray={() => setShowTray(false)}
                 onTrayObjectSelect={handleTrayObjectSelect}
                 traySelectionType={traySelectionType}
@@ -323,7 +323,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               />
             </MainViewWrapper>
             <Notebook
-              trayAnimals={trayAnimals}
+              trayObjects={trayObjects}
               environment={environment}
               featureSelections={habitatSelectedFeatures}
               onSelectFeature={handleHabitatSelectFeature}

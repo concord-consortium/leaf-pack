@@ -511,7 +511,7 @@ export const Leaves: Leaf[] = [
 
 export type TrayType = AnimalType | LeafType;
 
-export interface TrayAnimal {
+export interface TrayObject {
   type: TrayType;
   trayIndex: number;
   count: number;

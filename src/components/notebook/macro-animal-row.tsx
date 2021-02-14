@@ -1,5 +1,5 @@
 import React from "react";
-import { Sensitivity, TrayAnimal, TrayType, Animal, draggableAnimalTypes } from "../../utils/sim-utils";
+import { Sensitivity, TrayObject, TrayType, Animal, draggableAnimalTypes } from "../../utils/sim-utils";
 import { useDrop } from "react-dnd";
 
 import "./macro-panel.scss";
@@ -9,7 +9,7 @@ const kMaxCritters = 60;
 const kMaxGraphWidth = 64;
 
 interface IProps {
-  trayAnimal: TrayAnimal | undefined;
+  trayAnimal: TrayObject | undefined;
   animal: Animal;
   AnimalIcon: any;
   index: number;

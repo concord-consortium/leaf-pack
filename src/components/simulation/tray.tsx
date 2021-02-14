@@ -2,14 +2,14 @@ import React from "react";
 import t from "../../utils/translation/translate";
 import SortingTray from "../../assets/sorting-tray.svg";
 import CloseIcon from "../../assets/close-icon.svg";
-import { TrayAnimal, TrayType, draggableAnimalTypes, draggableLeafTypes } from "../../utils/sim-utils";
+import { TrayObject, TrayType, draggableAnimalTypes, draggableLeafTypes } from "../../utils/sim-utils";
 import { TrayImage } from "./tray-image";
 import { useDrop } from "react-dnd";
 
 import "./tray.scss";
 
 interface IProps {
-  trayObjects: TrayAnimal[];
+  trayObjects: TrayObject[];
   hidden: boolean;
   onHideTray: () => void;
   onTrayObjectSelect: (type: TrayType) => void;
