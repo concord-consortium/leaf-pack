@@ -47,26 +47,32 @@ export const TrayImage: React.FC<IProps> = (props) => {
     return <img style={positionedStyle} src={item.dragImage} className="preview" />;
   };
 
-  const containerStyle = {left: trayObject.x, top: trayObject.y, width: trayObject.width, height: trayObject.height};
+  const containerStyle = {left: trayObject.x, top: trayObject.y, width: trayObject.width, height: trayObject.height,
+                          zIndex: trayObject.zIndex};
   const imageStyle = {width, height, transform: `rotate(${trayObject.rotation}deg)`};
 
   return (
-    <div style={containerStyle} className="tray-image-container">
+    <>
       {isDragging && <PreviewImage />}
-      <Icon className={`tray-image-svg ${isDragging || trayObject.type === traySelectionType ? "highlight" : ""}`} style={imageStyle} />
-      { allowDrag &&
-        <svg version="1.1" className="tray-image-clickable" style={imageStyle}>
-          <path
-            ref={drag}
-            cursor="pointer"
-            pointerEvents="visible"
-            fillRule="evenodd"
-            onClick={() => onTrayObjectSelect(trayObject.type)}
-            className="click-area"
-            d={trayObject.hitBoxPath}
-          />
-        </svg>
-      }
-    </div>
+      <div style={containerStyle} className="tray-image-container">
+        <Icon
+          className={`tray-image-svg ${isDragging || trayObject.type === traySelectionType ? "highlight" : ""}`}
+          style={imageStyle}
+        />
+        { allowDrag &&
+          <svg version="1.1" className="tray-image-clickable" style={imageStyle}>
+            <path
+              ref={drag}
+              cursor="pointer"
+              pointerEvents="visible"
+              fillRule="evenodd"
+              onClick={() => onTrayObjectSelect(trayObject.type)}
+              className="click-area"
+              d={trayObject.hitBoxPath}
+            />
+          </svg>
+        }
+      </div>
+    </>
   );
 };

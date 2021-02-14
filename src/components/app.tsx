@@ -117,7 +117,9 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
       if (modelSimulationState.isFinished) {
         endSimulation();
 
-        // get instance counts for sorting tray
+        const numLeaves = Math.floor(Math.random() * (kMaxLeaves - kMinLeaves) ) + kMinLeaves;
+
+        // add animals to the tray
         const trayObjects: TrayAnimal[] = Animals.map((animal, index) => {
           const rotation = Math.random() * 360;
           const boundingBox = calculateRotatedBoundingBox(animal.width, animal.height, rotation);
@@ -134,7 +136,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                    boundingBoxWidth: boundingBox.width,
                    boundingBoxHeight: boundingBox.height,
                    collected: false,
-                   hitBoxPath: animal.hitBoxPath };
+                   hitBoxPath: animal.hitBoxPath,
+                   zIndex: numLeaves + index };
         });
         modelSimulationState.animalInstances.forEach((animalInstance) => {
           if (animalInstance.spawned) {
@@ -147,7 +150,6 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         // TODO: these should be interspersed throughout the tray, place on bottom for now
         // since they cannot be moved
         const trayIndexOffset = trayObjects.length;
-        const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
         for (let l = 0; l < numLeaves; l++) {
           const leafIndex = Math.floor(Math.random() * Leaves.length);
           const rotation = Math.random() * 360;
@@ -166,7 +168,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               boundingBoxWidth: boundingBox.width,
               boundingBoxHeight: boundingBox.height,
               collected: false,
-              hitBoxPath: Leaves[leafIndex].hitBoxPath
+              hitBoxPath: Leaves[leafIndex].hitBoxPath,
+              zIndex: l
             }
           );
         }
@@ -245,6 +248,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   };
 
   const handleMoveTrayObject = (trayIndex: number, left: number, top: number) => {
+    const currZIndex = trayAnimals.find((ta) => ta.trayIndex === trayIndex)?.zIndex;
     const updatedTrayObjects = trayAnimals.map((ta) => {
       if (ta.trayIndex === trayIndex) {
         const movedTrayAnimal = { ...ta };
@@ -252,7 +256,12 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           kMaxTrayX, kMinTrayX, kMaxTrayY, kMinTrayY);
         movedTrayAnimal.x = newPos.left;
         movedTrayAnimal.y = newPos.top;
+        movedTrayAnimal.zIndex = trayAnimals.length - 1;
         return movedTrayAnimal;
+      } else if (currZIndex && ta.zIndex > currZIndex) {
+        const restackedTrayAnimal = { ...ta };
+        restackedTrayAnimal.zIndex = restackedTrayAnimal.zIndex - 1;
+        return restackedTrayAnimal;
       } else {
         return ta;
       }

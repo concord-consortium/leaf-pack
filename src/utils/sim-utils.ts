@@ -526,6 +526,7 @@ export interface TrayAnimal {
   image: any;
   dragImage: any;
   hitBoxPath: string;
+  zIndex: number;
 }
 
 export const draggableAnimalTypes = [
