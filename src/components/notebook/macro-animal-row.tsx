@@ -1,5 +1,5 @@
 import React from "react";
-import { Sensitivity, TrayAnimal, TrayType, Animal, AnimalType } from "../../utils/sim-utils";
+import { Sensitivity, TrayAnimal, TrayType, Animal, AnimalType, draggableAnimalTypes } from "../../utils/sim-utils";
 import { useDrop } from "react-dnd";
 
 import "./macro-panel.scss";
@@ -23,10 +23,7 @@ export const MacroAnimalRow: React.FC<IProps> = (props) => {
   const { trayAnimal, animal, AnimalIcon, index, sensitivity, count, onCategorizeAnimal, traySelectionType } = props;
 
   const [{ isOver }, drop] = useDrop({
-    accept: [AnimalType.stoneFly, AnimalType.mayFly, AnimalType.caddisFly, AnimalType.dobsonFly,
-             AnimalType.riffleBeetle, AnimalType.dragonFly, AnimalType.scud, AnimalType.clamOrMussel,
-             AnimalType.crayFish, AnimalType.midgeFly, AnimalType.blackFly, AnimalType.planarian,
-             AnimalType.leech, AnimalType.aquaticWorm ],
+    accept: draggableAnimalTypes,
     drop: (item: any) => {
       onCategorizeAnimal(item.type, trayAnimal?.type);
     },
