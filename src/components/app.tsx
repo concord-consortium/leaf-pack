@@ -136,7 +136,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                    boundingBoxWidth: boundingBox.width,
                    boundingBoxHeight: boundingBox.height,
                    collected: false,
-                   hitBoxPath: animal.hitBoxPath,
+                   selectionPath: animal.selectionPath,
                    zIndex: numLeaves + index };
         });
         modelSimulationState.animalInstances.forEach((animalInstance) => {
@@ -168,7 +168,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               boundingBoxWidth: boundingBox.width,
               boundingBoxHeight: boundingBox.height,
               collected: false,
-              hitBoxPath: Leaves[leafIndex].hitBoxPath,
+              selectionPath: Leaves[leafIndex].selectionPath,
               zIndex: l
             }
           );

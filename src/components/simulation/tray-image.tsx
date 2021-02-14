@@ -68,7 +68,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
               fillRule="evenodd"
               onClick={() => onTrayObjectSelect(trayObject.type)}
               className="click-area"
-              d={trayObject.hitBoxPath}
+              d={trayObject.selectionPath}
             />
           </svg>
         }
