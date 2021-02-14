@@ -484,6 +484,7 @@ export const kMinTrayX = 30;
 export const kMaxTrayX = 414;
 export const kMinTrayY = 80;
 export const kMaxTrayY = 312;
+export const kInitialPlacementBuffer = 50;
 
 export const kMinLeaves = 7;
 export const kMaxLeaves = 10;

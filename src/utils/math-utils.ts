@@ -16,7 +16,6 @@ export const calculateRotatedBoundingBox = (width: number, height: number, angle
 
 export const calculateBoundedPosition = (left: number, top: number, width: number, height: number,
   maxX: number, minX: number, maxY: number, minY: number) => {
-
   let newLeft = left;
   if ((newLeft + .5 * width) > maxX) {
     newLeft = maxX - .5 * width;
@@ -30,4 +29,8 @@ export const calculateBoundedPosition = (left: number, top: number, width: numbe
     newTop = minY - .5 * height;
   }
   return {left: newLeft, top: newTop};
+};
+
+export const getRandomInteger = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
 };

@@ -12,11 +12,11 @@ import { ModalDialog } from "./modal-dialog";
 import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals,
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kInitialPlacementBuffer,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, TrayType, Leaves
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
-import { calculateRotatedBoundingBox, calculateBoundedPosition } from "../utils/geometry-utils";
+import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger } from "../utils/math-utils";
 import t from "../utils/translation/translate";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
@@ -117,7 +117,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
       if (modelSimulationState.isFinished) {
         endSimulation();
 
-        const numLeaves = Math.floor(Math.random() * (kMaxLeaves - kMinLeaves) ) + kMinLeaves;
+        const numLeaves = getRandomInteger(kMinLeaves, kMaxLeaves);
 
         // add animals to the tray
         const newTrayObjects: TrayObject[] = Animals.map((animal, index) => {
@@ -129,8 +129,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                    dragImage: animal.dragImage,
                    count: 0,
                    rotation,
-                   x: Math.random() * ((kMaxTrayX - animal.width) - kMinTrayX) + kMinTrayX,
-                   y: Math.random() * ((kMaxTrayY - animal.height) - kMinTrayY) + kMinTrayY,
+                   x: getRandomInteger(kMaxTrayX - animal.width - kInitialPlacementBuffer, kMinTrayX + kInitialPlacementBuffer),
+                   y: getRandomInteger(kMaxTrayY - animal.height - kInitialPlacementBuffer, kMinTrayY + kInitialPlacementBuffer),
                    width: animal.width,
                    height: animal.height,
                    boundingBoxWidth: boundingBox.width,
@@ -151,7 +151,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         // since they cannot be moved
         const trayIndexOffset = newTrayObjects.length;
         for (let l = 0; l < numLeaves; l++) {
-          const leafIndex = Math.floor(Math.random() * Leaves.length);
+          const leafIndex = getRandomInteger(0, Leaves.length - 1);
           const rotation = Math.random() * 360;
           const boundingBox = calculateRotatedBoundingBox(Leaves[leafIndex].width, Leaves[leafIndex].height, rotation);
           newTrayObjects.unshift(
@@ -161,8 +161,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               dragImage: Leaves[leafIndex].dragImage,
               count: 1,
               rotation,
-              x: Math.random() * ((kMaxTrayX - Leaves[leafIndex].width) - kMinTrayX) + kMinTrayX,
-              y: Math.random() * ((kMaxTrayY - Leaves[leafIndex].height) - kMinTrayY) + kMinTrayY,
+              x: getRandomInteger(kMaxTrayX - Leaves[leafIndex].width - kInitialPlacementBuffer, kMinTrayX + kInitialPlacementBuffer),
+              y: getRandomInteger(kMaxTrayY - Leaves[leafIndex].height - kInitialPlacementBuffer, kMinTrayY + kInitialPlacementBuffer),
               width: Leaves[leafIndex].width,
               height: Leaves[leafIndex].height,
               boundingBoxWidth: boundingBox.width,
@@ -220,6 +220,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const handleRewind = () => {
     setShowTray(false);
     setTrayObjects([]);
+    setTraySelectionType(undefined);
     rewindSimulation();
   };
 

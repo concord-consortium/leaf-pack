@@ -1,6 +1,7 @@
 import React, { useState }  from "react";
 import { useInterval } from "../../hooks/use-interval";
 import { SimAnimation } from "../../utils/sim-utils";
+import { getRandomInteger } from "../../utils/math-utils";
 
 import "./simulation-animation.scss";
 
@@ -13,7 +14,7 @@ interface IProps {
 export const SimulationAnimation: React.FC<IProps> = (props) => {
   const { animation } = props;
   const maxFrame = animation.frames.length;
-  const [currentFrame, setCurrentFrame] = useState(Math.floor(Math.random() * Math.floor(maxFrame)));
+  const [currentFrame, setCurrentFrame] = useState(getRandomInteger(0, maxFrame - 1));
   useInterval(() => {
     setCurrentFrame(frame => (frame + 1) % maxFrame);
   }, kFrameInterval);
