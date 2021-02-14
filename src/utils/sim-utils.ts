@@ -506,31 +506,3 @@ export const PTIRatingLevels: PTIRatingLevel[] = [
   {color: "#cccccc", label: t("PTI.RATING.LEVEL2.LABEL"), range: t("PTI.RATING.LEVEL2.RANGE"), min: 11},
   {color: "#ffacac", label: t("PTI.RATING.LEVEL3.LABEL"), range: t("PTI.RATING.LEVEL3.RANGE"), min: 0}
 ];
-
-// The habitat notebook page
-export enum HabitatCategoryType {
-  sketch = "sketch",
-  streamHabitats = "streamHabitats",
-  banks = "banks",
-  inStream = "inStream",
-  algae = "algae",
-  other = "other",
-}
-
-export interface HabitatCategory {
-  type: HabitatCategoryType;
-  title: string;
-  features?: string[];
-}
-
-export const habitatCategories = [
-  { type: HabitatCategoryType.sketch, title: t("HABITAT.SKETCH")},
-  { type: HabitatCategoryType.streamHabitats, title: t("HABITAT.STREAMHABITATS"), features: [t("HABITAT.POOLS"), t("HABITAT.RIFFLES"), t("HABITAT.RUNS")] },
-  { type: HabitatCategoryType.banks, title: t("HABITAT.BANKS"), features: [t("HABITAT.MANYTREES"), t("HABITAT.SOMETREES"), t("HABITAT.NOTREES"), t("HABITAT.GRASSONLY"), t("HABITAT.PAVEMENT")] },
-  { type: HabitatCategoryType.inStream, title: t("HABITAT.INSTREAM"), features: [t("HABITAT.LEAVES"), t("HABITAT.COBBLES"), t("HABITAT.WOODYDEBRIS"), t("HABITAT.PLANTROOTS")] },
-  { type: HabitatCategoryType.algae, title: t("HABITAT.ALGAE"), features: [t("HABITAT.LIGHTCOVER"), t("HABITAT.THICKCOVER"), t("HABITAT.THICKCOVERCLUMPS")] },
-  { type: HabitatCategoryType.other, title: t("HABITAT.OTHER"), features: [t("HABITAT.FISH"), t("HABITAT.BEAVERS"), t("HABITAT.TRASH"), t("HABITAT.PIPES")] },
-];
-
-// TODO: get this from habitatCategories
-export const kTotalHabitatFeatures = 19;
