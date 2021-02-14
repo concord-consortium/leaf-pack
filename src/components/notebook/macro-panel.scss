@@ -43,6 +43,10 @@
         .animal-icon {
           height: 30px;
 
+          .hi {
+            display: none;
+          }
+
           image {
             &:first-child {
               display: none;
@@ -63,6 +67,10 @@
         &.enabled {
           pointer-events: auto;
           cursor: pointer;
+
+          &:hover {
+            border-style: solid;
+          }
         }
 
         &.highlight{
