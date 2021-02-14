@@ -12,9 +12,11 @@ import { ModalDialog } from "./modal-dialog";
 import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, kTotalHabitatFeatures, AnimalInstance, Animals,
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, AnimalInstance, Animals,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, LeafImages, TrayType
        } from "../utils/sim-utils";
+import { HabitatFeatureType } from "../utils/habitat-utils";
+
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -219,9 +221,20 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     setTraySelectionType(undefined);
   };
 
-  const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
-  const handleHabitatSelectFeature = (index: number, value: boolean) => {
-    const newSelectedFeatures = habitatSelectedFeatures.map((featureSelection, i) => i === index ? value : featureSelection);
+  //const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
+  const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState<Record<HabitatFeatureType, boolean>>(
+    { [HabitatFeatureType.pools]: false, [HabitatFeatureType.riffles]: false, [HabitatFeatureType.runs]: false,
+      [HabitatFeatureType.manyTrees]: false, [HabitatFeatureType.someTrees]: false, [HabitatFeatureType.noTrees]: false,
+      [HabitatFeatureType.grassOnly]: false, [HabitatFeatureType.pavement]: false, [HabitatFeatureType.leaves]: false,
+      [HabitatFeatureType.cobbles]: false, [HabitatFeatureType.woodyDebris]: false, [HabitatFeatureType.plantRoots]: false,
+      [HabitatFeatureType.lightCover]: false, [HabitatFeatureType.thickCover]: false, [HabitatFeatureType.thickCoverClumps]: false,
+      [HabitatFeatureType.fish]: false, [HabitatFeatureType.beavers]: false, [HabitatFeatureType.trash]: false,
+      [HabitatFeatureType.pipes]: false
+    }
+  );
+  const handleHabitatSelectFeature = (feature: HabitatFeatureType, value: boolean) => {
+    const newSelectedFeatures = { ...habitatSelectedFeatures };
+    newSelectedFeatures[feature] = value;
     setHabitatSelectedFeatures(newSelectedFeatures);
   };
 

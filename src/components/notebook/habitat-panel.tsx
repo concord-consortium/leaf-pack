@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SectionButtons } from "./section-buttons";
-import { EnvironmentType, habitatCategories, Environments } from "../../utils/sim-utils";
+import { EnvironmentType, Environments } from "../../utils/sim-utils";
+import { HabitatFeatureType, habitatCategories, habitatFeatures } from "../../utils/habitat-utils";
 import CheckIcon from "../../assets/check-icon.svg";
 
 import "./habitat-panel.scss";
@@ -9,8 +10,8 @@ const kCategoriesPerSection = 3;
 
 interface IProps {
   environment: EnvironmentType;
-  featureSelections: boolean[];
-  onSelectFeature: (index: number, selected: boolean) => void;
+  featureSelections: Record<HabitatFeatureType, boolean>;
+  onSelectFeature: (feture: HabitatFeatureType, selected: boolean) => void;
   isRunning: boolean;
 }
 
@@ -39,13 +40,12 @@ export const HabitatPanel: React.FC<IProps> = (props) => {
               ? category.features.map((feature, fIndex) =>
                   <div className="feature-row" key={`feature-row-${fIndex}`}>
                     <button
-                      className={`checkbox ${featureSelections[featureOrder.findIndex((f) => f === feature)] ? "selected" : ""}`}
-                      onClick={() => onSelectFeature(featureOrder.findIndex((f) => f === feature),
-                        !featureSelections[featureOrder.findIndex((f) => f === feature)])}
+                      className={`checkbox ${featureSelections[feature] ? "selected" : ""}`}
+                      onClick={() => onSelectFeature(feature, !featureSelections[feature])}
                     >
                       <CheckIcon />
                     </button>
-                    <div key={`feature-${fIndex}`}>{feature}</div>
+                    <div key={`feature-${fIndex}`}>{habitatFeatures.find((f) => f.type === feature)?.label}</div>
                   </div>
                 )
               : <img src={environmentImage} />

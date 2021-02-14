@@ -2,6 +2,7 @@ import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import t from "../../utils/translation/translate";
 import { EnvironmentType, TrayAnimal, TrayType } from "../../utils/sim-utils";
+import { HabitatFeatureType } from "../../utils/habitat-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
 import { MacroPanel } from "./macro-panel";
@@ -15,8 +16,8 @@ import "./notebook.scss";
 interface IProps {
   trayAnimals: TrayAnimal[];
   environment: EnvironmentType;
-  featureSelections: boolean[];
-  onSelectFeature: (index: number, selected: boolean) => void;
+  featureSelections: Record<HabitatFeatureType, boolean>;
+  onSelectFeature: (feture: HabitatFeatureType, selected: boolean) => void;
   onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
   traySelectionType?: TrayType;
   isRunning: boolean;
