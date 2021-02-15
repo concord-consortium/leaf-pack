@@ -12,7 +12,7 @@ import { ModalDialog } from "./modal-dialog";
 import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kInitialPlacementBuffer,
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kTraySpawnPadding,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, TrayType, Leaves
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
@@ -129,8 +129,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                    dragImage: animal.dragImage,
                    count: 0,
                    rotation,
-                   x: getRandomInteger(kMaxTrayX - animal.width - kInitialPlacementBuffer, kMinTrayX + kInitialPlacementBuffer),
-                   y: getRandomInteger(kMaxTrayY - animal.height - kInitialPlacementBuffer, kMinTrayY + kInitialPlacementBuffer),
+                   left: getRandomInteger(kMaxTrayX - animal.width - kTraySpawnPadding, kMinTrayX + kTraySpawnPadding),
+                   top: getRandomInteger(kMaxTrayY - animal.height - kTraySpawnPadding, kMinTrayY + kTraySpawnPadding),
                    width: animal.width,
                    height: animal.height,
                    boundingBoxWidth: boundingBox.width,
@@ -151,24 +151,26 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         // since they cannot be moved
         const trayIndexOffset = newTrayObjects.length;
         for (let l = 0; l < numLeaves; l++) {
+          // TODO: this will need to be based on leafpack deterioration
           const leafIndex = getRandomInteger(0, Leaves.length - 1);
+          const leaf = Leaves[leafIndex];
           const rotation = Math.random() * 360;
-          const boundingBox = calculateRotatedBoundingBox(Leaves[leafIndex].width, Leaves[leafIndex].height, rotation);
+          const boundingBox = calculateRotatedBoundingBox(leaf.width, leaf.height, rotation);
           newTrayObjects.unshift(
-            { type: Leaves[leafIndex].type,
+            { type: leaf.type,
               trayIndex: trayIndexOffset + l,
-              image: Leaves[leafIndex].image,
-              dragImage: Leaves[leafIndex].dragImage,
+              image: leaf.image,
+              dragImage: leaf.dragImage,
               count: 1,
               rotation,
-              x: getRandomInteger(kMaxTrayX - Leaves[leafIndex].width - kInitialPlacementBuffer, kMinTrayX + kInitialPlacementBuffer),
-              y: getRandomInteger(kMaxTrayY - Leaves[leafIndex].height - kInitialPlacementBuffer, kMinTrayY + kInitialPlacementBuffer),
-              width: Leaves[leafIndex].width,
-              height: Leaves[leafIndex].height,
+              left: getRandomInteger(kMaxTrayX - leaf.width - kTraySpawnPadding, kMinTrayX + kTraySpawnPadding),
+              top: getRandomInteger(kMaxTrayY - leaf.height - kTraySpawnPadding, kMinTrayY + kTraySpawnPadding),
+              width: leaf.width,
+              height: leaf.height,
               boundingBoxWidth: boundingBox.width,
               boundingBoxHeight: boundingBox.height,
               collected: false,
-              selectionPath: Leaves[leafIndex].selectionPath,
+              selectionPath: leaf.selectionPath,
               zIndex: l
             }
           );
@@ -255,8 +257,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         const movedTrayObject = { ...to };
         const newPos = calculateBoundedPosition(left, top, movedTrayObject.width, movedTrayObject.height,
           kMaxTrayX, kMinTrayX, kMaxTrayY, kMinTrayY);
-        movedTrayObject.x = newPos.left;
-        movedTrayObject.y = newPos.top;
+        movedTrayObject.left = newPos.left;
+        movedTrayObject.top = newPos.top;
         movedTrayObject.zIndex = trayObjects.length - 1;
         return movedTrayObject;
       } else if (currZIndex && to.zIndex > currZIndex) {

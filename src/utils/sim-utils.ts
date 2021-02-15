@@ -426,8 +426,8 @@ export enum SimAnimationType {
 
 export interface SimAnimationLayout {
   environment: EnvironmentType;
-  x: number,
-  y: number;
+  left: number,
+  top: number;
   xScale: number;
   yScale: number;
   rotation: number;
@@ -443,37 +443,37 @@ export const SimAnimals: SimAnimal[] = [
   { type: SimAnimationType.fish,
     frames: [FishA, FishB, FishC, FishB, FishA, FishD, FishE, FishD],
     layouts: [
-      { environment: EnvironmentType.environment1, x: 160, y: 235, xScale: 1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment1, x: 70, y: 260, xScale: -.9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment1, x: 165, y: 190, xScale: .8, yScale: .8, rotation: 0 },
-      { environment: EnvironmentType.environment1, x: 195, y: 200, xScale: .8, yScale: .8, rotation: 0 },
-      { environment: EnvironmentType.environment1, x: 195, y: 175, xScale: .6, yScale: .6, rotation: 0 },
+      { environment: EnvironmentType.environment1, left: 160, top: 235, xScale: 1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment1, left: 70, top: 260, xScale: -.9, yScale: .9, rotation: 0 },
+      { environment: EnvironmentType.environment1, left: 165, top: 190, xScale: .8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment1, left: 195, top: 200, xScale: .8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment1, left: 195, top: 175, xScale: .6, yScale: .6, rotation: 0 },
 
-      { environment: EnvironmentType.environment2, x: 85, y: 235, xScale: -1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment2, x: 160, y: 230, xScale: .9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment2, x: 125, y: 225, xScale: .8, yScale: .8, rotation: 0 },
-      { environment: EnvironmentType.environment2, x: 160, y: 195, xScale: .7, yScale: .7, rotation: 0 },
-      { environment: EnvironmentType.environment2, x: 195, y: 190, xScale: .7, yScale: .7, rotation: 0 },
+      { environment: EnvironmentType.environment2, left: 85, top: 235, xScale: -1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment2, left: 160, top: 230, xScale: .9, yScale: .9, rotation: 0 },
+      { environment: EnvironmentType.environment2, left: 125, top: 225, xScale: .8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment2, left: 160, top: 195, xScale: .7, yScale: .7, rotation: 0 },
+      { environment: EnvironmentType.environment2, left: 195, top: 190, xScale: .7, yScale: .7, rotation: 0 },
 
-      { environment: EnvironmentType.environment3, x: 200, y: 235, xScale: -1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment3, x: 235, y: 225, xScale: .9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment3, x: 205, y: 195, xScale: -.8, yScale: .8, rotation: 0 },
-      { environment: EnvironmentType.environment3, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
-      { environment: EnvironmentType.environment3, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment3, left: 200, top: 235, xScale: -1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment3, left: 235, top: 225, xScale: .9, yScale: .9, rotation: 0 },
+      { environment: EnvironmentType.environment3, left: 205, top: 195, xScale: -.8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment3, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment3, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
 
-      { environment: EnvironmentType.environment4, x: 248, y: 235, xScale: 1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment4, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
-      { environment: EnvironmentType.environment4, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
-      { environment: EnvironmentType.environment4, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
-      { environment: EnvironmentType.environment4, x: 100, y: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment4, left: 248, top: 235, xScale: 1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment4, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment4, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment4, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
+      { environment: EnvironmentType.environment4, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
     ]
   },
 ];
 
 export interface SimAnimation {
   frames: any[],
-  x: number;
-  y: number;
+  left: number;
+  top: number;
   xScale: number;
   yScale: number;
   rotation: number;
@@ -484,7 +484,7 @@ export const kMinTrayX = 30;
 export const kMaxTrayX = 414;
 export const kMinTrayY = 80;
 export const kMaxTrayY = 312;
-export const kInitialPlacementBuffer = 50;
+export const kTraySpawnPadding = 50;
 
 export const kMinLeaves = 7;
 export const kMaxLeaves = 10;
@@ -517,8 +517,8 @@ export interface TrayObject {
   trayIndex: number;
   count: number;
   collected: boolean;
-  x: number;
-  y: number;
+  left: number;
+  top: number;
   width: number;
   height: number;
   boundingBoxWidth: number;

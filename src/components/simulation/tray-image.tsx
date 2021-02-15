@@ -26,7 +26,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
 
   const [{isDragging, dragSourcePosition}, drag ] = useDrag({
     item: { type: trayObject.type, trayIndex: trayObject.trayIndex, dragImage: trayObject.dragImage,
-            left: trayObject.x, top: trayObject.y },
+            left: trayObject.left, top: trayObject.top },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
       dragSourcePosition: monitor.getSourceClientOffset()
@@ -49,7 +49,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
     return <img style={previewStyle} src={item.dragImage} className="preview" />;
   };
 
-  const containerStyle = {left: trayObject.x, top: trayObject.y, width: trayObject.width, height: trayObject.height,
+  const containerStyle = {left: trayObject.left, top: trayObject.top, width: trayObject.width, height: trayObject.height,
                           zIndex: trayObject.zIndex};
   const imageStyle = {width: trayObject.width, height: trayObject.height, transform: `rotate(${trayObject.rotation}deg)`};
 
