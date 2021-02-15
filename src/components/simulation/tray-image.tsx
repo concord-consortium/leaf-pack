@@ -5,6 +5,13 @@ import { usePreview } from "react-dnd-preview";
 
 import "./tray-image.scss";
 
+// the drag ref is attached to the clickable outline which is a little smaller than the actual
+// SVG dimensions which include the highlight border. To get the drag preview to display properly
+// we need to take into account how much the clickable outline is offset from the SVG upper-left
+// corner. This ends up being about 5 pixels for all tray objects. Technically it could be computed
+// by hand for ALL tray objects, but subtracting 5 pixels works pretty well in practice.
+const kOutlineOffset = 5;
+
 interface IProps {
   trayObject: TrayObject;
   onTrayObjectSelect: (type: TrayType) => void;
@@ -38,8 +45,8 @@ export const TrayImage: React.FC<IProps> = (props) => {
     const boundingBoxDeltaX = (trayObject.boundingBoxWidth - trayObject.width) / 2;
     const boundingBoxDeltaY = (trayObject.boundingBoxHeight - trayObject.height) / 2;
     const previewStyle = {
-      left: dragPosition.x - dragDeltaX + boundingBoxDeltaX,
-      top: dragPosition.y - dragDeltaY + boundingBoxDeltaY,
+      left: dragPosition.x - dragDeltaX + boundingBoxDeltaX - kOutlineOffset,
+      top: dragPosition.y - dragDeltaY + boundingBoxDeltaY - kOutlineOffset,
       transform: `rotate(${trayObject.rotation}deg)`
     };
     return <img style={previewStyle} src={item.dragImage} className="preview" />;
