@@ -7,7 +7,7 @@
   transform-origin: center;
   pointer-events: none;
 
-  .tray-image-svg {
+  .tray-object-image {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -23,13 +23,13 @@
     }
   }
 
-  .tray-image-clickable {
+  .tray-object-image-selectable {
     position: absolute;
     top: 0px;
     left: 0px;
   }
 
-  .click-area {
+  .selectable-area {
     fill: none;
   }
 
