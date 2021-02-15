@@ -41,15 +41,9 @@ export const Tray: React.FC<IProps> = (props) => {
         </button>
       </div>
       { trayObjects.map((trayObject, index) => {
-        const Icon = trayObject.image;
-        const width = trayObject.width;
-        const height = trayObject.height;
-        return ((trayObject.count > 0 && !trayObject.collected) && Icon &&
+        return ((trayObject.count > 0 && !trayObject.collected) &&
           <TrayImage
             key={`animal-image-${index}`}
-            Icon={Icon}
-            width={width}
-            height={height}
             trayObject={trayObject}
             onTrayObjectSelect={onTrayObjectSelect}
             traySelectionType={traySelectionType}

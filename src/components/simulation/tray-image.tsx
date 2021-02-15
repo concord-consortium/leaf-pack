@@ -7,15 +7,13 @@ import "./tray-image.scss";
 
 interface IProps {
   trayObject: TrayObject;
-  Icon: any;
-  width: number;
-  height: number;
   onTrayObjectSelect: (type: TrayType) => void;
   traySelectionType?: TrayType;
 }
 
 export const TrayImage: React.FC<IProps> = (props) => {
-  const { Icon, width, height, trayObject, onTrayObjectSelect, traySelectionType } = props;
+  const { trayObject, onTrayObjectSelect, traySelectionType } = props;
+  const TrayObjectImage = trayObject.image;
   // TODO: allow leaf drag
   const allowDrag = trayObject.type !== LeafType.birch && trayObject.type !== LeafType.maple && trayObject.type !== LeafType.oak;
 
@@ -37,8 +35,8 @@ export const TrayImage: React.FC<IProps> = (props) => {
     }
     const dragDeltaX = dragPosition.x - dragSourcePosition.x;
     const dragDeltaY = dragPosition.y - dragSourcePosition.y;
-    const boundingBoxDeltaX = (trayObject.boundingBoxWidth - width) / 2;
-    const boundingBoxDeltaY = (trayObject.boundingBoxHeight - height) / 2;
+    const boundingBoxDeltaX = (trayObject.boundingBoxWidth - trayObject.width) / 2;
+    const boundingBoxDeltaY = (trayObject.boundingBoxHeight - trayObject.height) / 2;
     const previewStyle = {
       left: dragPosition.x - dragDeltaX + boundingBoxDeltaX,
       top: dragPosition.y - dragDeltaY + boundingBoxDeltaY,
@@ -49,13 +47,13 @@ export const TrayImage: React.FC<IProps> = (props) => {
 
   const containerStyle = {left: trayObject.x, top: trayObject.y, width: trayObject.width, height: trayObject.height,
                           zIndex: trayObject.zIndex};
-  const imageStyle = {width, height, transform: `rotate(${trayObject.rotation}deg)`};
+  const imageStyle = {width: trayObject.width, height: trayObject.height, transform: `rotate(${trayObject.rotation}deg)`};
 
   return (
     <>
       {isDragging && <PreviewImage />}
       <div style={containerStyle} className="tray-image-container">
-        <Icon
+        <TrayObjectImage
           className={`tray-image-svg ${isDragging || trayObject.type === traySelectionType ? "highlight" : ""}`}
           style={imageStyle}
         />
