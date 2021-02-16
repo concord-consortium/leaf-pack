@@ -21,8 +21,6 @@ interface IProps {
 export const TrayImage: React.FC<IProps> = (props) => {
   const { trayObject, onTrayObjectSelect, traySelectionType } = props;
   const TrayObjectImage = trayObject.image;
-  // TODO: allow leaf drag
-  const allowDrag = trayObject.type !== LeafType.birch && trayObject.type !== LeafType.maple && trayObject.type !== LeafType.oak;
 
   const [{isDragging, dragSourcePosition}, drag ] = useDrag({
     item: { type: trayObject.type, trayIndex: trayObject.trayIndex, dragImage: trayObject.dragImage,
@@ -31,7 +29,6 @@ export const TrayImage: React.FC<IProps> = (props) => {
       isDragging: !!monitor.isDragging(),
       dragSourcePosition: monitor.getSourceClientOffset()
     }),
-    canDrag: allowDrag,
   });
 
   const PreviewImage = () => {
@@ -61,19 +58,17 @@ export const TrayImage: React.FC<IProps> = (props) => {
           className={`tray-object-image ${isDragging || trayObject.type === traySelectionType ? "highlight" : ""}`}
           style={imageStyle}
         />
-        { allowDrag &&
-          <svg version="1.1" className="tray-object-image-selectable" style={imageStyle}>
-            <path
-              ref={drag}
-              cursor="pointer"
-              pointerEvents="visible"
-              fillRule="evenodd"
-              onClick={() => onTrayObjectSelect(trayObject.type)}
-              className="selectable-area"
-              d={trayObject.selectionPath}
-            />
-          </svg>
-        }
+        <svg version="1.1" className="tray-object-image-selectable" style={imageStyle}>
+          <path
+            ref={drag}
+            cursor="pointer"
+            pointerEvents="visible"
+            fillRule="evenodd"
+            onClick={() => onTrayObjectSelect(trayObject.type)}
+            className="selectable-area"
+            d={trayObject.selectionPath}
+          />
+        </svg>
       </div>
     </>
   );
