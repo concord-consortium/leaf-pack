@@ -16,9 +16,9 @@ export const MacroSummation: React.FC<IProps> = (props) => {
   const { trayObjects } = props;
 
   const taxaSensitivities: Record<SensitivityType, number> = {sensitive: 0, somewhatSensitive: 0, tolerant: 0};
-  trayObjects.forEach((ta, i) => {
-    if (ta.count > 0 && ta.collected) {
-      const animal = Animals.find((a) => a.type === ta.type);
+  trayObjects.forEach((obj, i) => {
+    if (obj.count > 0 && obj.collected) {
+      const animal = Animals.find((a) => a.type === obj.type);
       if (animal) {
         taxaSensitivities[animal.sensitivity]++;
       }

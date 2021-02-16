@@ -27,7 +27,7 @@ export const MacroPanel: React.FC<IProps> = (props) => {
       <div className="critters">
         {Animals.map((animal, index) => {
           const sensitivity = Sensitivities.find((s) => s.type === animal.sensitivity);
-          const trayAnimal = trayObjects.find((ta) => ta.type === animal.type);
+          const trayAnimal = trayObjects.find((obj) => obj.type === animal.type);
           const count = trayAnimal?.collected ? trayAnimal.count : 0;
           const AnimalIcon = animal.image;
           return (

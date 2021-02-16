@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { TouchBackend } from "react-dnd-touch-backend";
 import { IThumbnailChooserProps, ThumbnailChooser } from "../components/thumbnail/thumbnail-chooser/thumbnail-chooser";
 import { IAppProps } from "./render-app";
 import { useModelState, IModelCurrentState, hasOwnProperties } from "../hooks/use-model-state";
@@ -18,8 +20,6 @@ import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSu
 import { HabitatFeatureType } from "../utils/habitat-utils";
 import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger } from "../utils/math-utils";
 import t from "../utils/translation/translate";
-import { DndProvider } from "react-dnd";
-import { TouchBackend } from "react-dnd-touch-backend";
 
 import "./app.scss";
 
@@ -141,7 +141,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         });
         modelSimulationState.animalInstances.forEach((animalInstance) => {
           if (animalInstance.spawned) {
-            const index = newTrayObjects.findIndex((to: TrayObject) => to.type === animalInstance.type);
+            const index = newTrayObjects.findIndex((obj: TrayObject) => obj.type === animalInstance.type);
             newTrayObjects[index].count++;
           }
         });
@@ -234,13 +234,13 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   };
   const handleCategorizeAnimal = (trayType: TrayType | undefined, notebookType: TrayType | undefined) => {
     if (trayType === notebookType && trayType !== undefined) {
-      const updatedTrayObjects = trayObjects.map(to => {
-        if (to.type === trayType) {
-          const collectedTrayAnimal = { ...to };
+      const updatedTrayObjects = trayObjects.map(obj => {
+        if (obj.type === trayType) {
+          const collectedTrayAnimal = { ...obj };
           collectedTrayAnimal.collected = true;
           return collectedTrayAnimal;
         } else {
-          return to;
+          return obj;
         }
       });
       setTrayObjects(updatedTrayObjects);
@@ -251,22 +251,22 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   };
 
   const handleMoveTrayObject = (trayIndex: number, left: number, top: number) => {
-    const currZIndex = trayObjects.find((ta) => ta.trayIndex === trayIndex)?.zIndex;
-    const updatedTrayObjects = trayObjects.map((to) => {
-      if (to.trayIndex === trayIndex) {
-        const movedTrayObject = { ...to };
+    const currZIndex = trayObjects.find((obj) => obj.trayIndex === trayIndex)?.zIndex;
+    const updatedTrayObjects = trayObjects.map((obj) => {
+      if (obj.trayIndex === trayIndex) {
+        const movedTrayObject = { ...obj };
         const newPos = calculateBoundedPosition(left, top, movedTrayObject.width, movedTrayObject.height,
           kMaxTrayX, kMinTrayX, kMaxTrayY, kMinTrayY);
         movedTrayObject.left = newPos.left;
         movedTrayObject.top = newPos.top;
         movedTrayObject.zIndex = trayObjects.length - 1;
         return movedTrayObject;
-      } else if (currZIndex && to.zIndex > currZIndex) {
-        const restackedTrayObject = { ...to };
+      } else if (currZIndex && obj.zIndex > currZIndex) {
+        const restackedTrayObject = { ...obj };
         restackedTrayObject.zIndex = restackedTrayObject.zIndex - 1;
         return restackedTrayObject;
       } else {
-        return to;
+        return obj;
       }
     });
     setTrayObjects(updatedTrayObjects);
