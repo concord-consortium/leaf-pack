@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export const ControlGroup: React.FC<IProps> = (props) => {
-  const { first, last, children } = props;
+  const { children } = props;
   return (
     <div className="control-group">
       <div className="border-cover left" />

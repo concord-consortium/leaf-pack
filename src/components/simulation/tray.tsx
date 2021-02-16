@@ -2,24 +2,37 @@ import React from "react";
 import t from "../../utils/translation/translate";
 import SortingTray from "../../assets/sorting-tray.svg";
 import CloseIcon from "../../assets/close-icon.svg";
-import { Animal, Animals, TrayAnimal, LeafType, TrayType } from "../../utils/sim-utils";
+import { TrayObject, TrayType, draggableAnimalTypes, draggableLeafTypes } from "../../utils/sim-utils";
+import { TrayImage } from "./tray-image";
+import { useDrop } from "react-dnd";
 
 import "./tray.scss";
 
 interface IProps {
-  trayAnimals: TrayAnimal[];
+  trayObjects: TrayObject[];
   hidden: boolean;
   onHideTray: () => void;
   onTrayObjectSelect: (type: TrayType) => void;
   traySelectionType?: TrayType;
+  onTrayObjectMove: (trayIndex: number, left: number, top: number) => void;
   isRunning: boolean;
 }
 
 export const Tray: React.FC<IProps> = (props) => {
-  const { trayAnimals, hidden, onTrayObjectSelect, onHideTray, traySelectionType } = props;
+  const { trayObjects, hidden, onTrayObjectSelect, onHideTray, traySelectionType, onTrayObjectMove } = props;
+
+  const [, drop] = useDrop({
+    accept: [...draggableAnimalTypes, ...draggableLeafTypes],
+    drop: (item: any, monitor) => {
+      const delta = monitor.getDifferenceFromInitialOffset();
+      const left = Math.round(item.left + delta?.x);
+      const top = Math.round(item.top + delta?.y);
+      onTrayObjectMove(item.trayIndex, left, top);
+    },
+  });
 
   return (
-    <div className={`tray ${hidden ? "hidden" : ""}`}>
+    <div className={`tray ${hidden ? "hidden" : ""}`} ref={drop}>
       <SortingTray />
       <div className="header">
         <div className="title">{t("SORTINGTRAY")}</div>
@@ -27,16 +40,13 @@ export const Tray: React.FC<IProps> = (props) => {
           <CloseIcon />
         </button>
       </div>
-      { trayAnimals.map((ta, index) => {
-        const animal = Animals.find((a: Animal) => a.type === ta.type);
-        const Icon = ta?.image || animal?.image;
-        const width = animal?.width;
-        return (((ta.count > 0 && !ta.collected) || ta.type === LeafType.leaf) && Icon &&
-          <Icon
-            className={`animal-icon ${traySelectionType === ta.type ? "selected" : ""}`}
+      { trayObjects.map((trayObject, index) => {
+        return ((trayObject.count > 0 && !trayObject.collected) &&
+          <TrayImage
             key={`animal-image-${index}`}
-            style={{left: ta.x, top: ta.y, width, transform: `rotate(${ta.rotation}deg)`}}
-            onClick={() => onTrayObjectSelect(ta.type)}
+            trayObject={trayObject}
+            onTrayObjectSelect={onTrayObjectSelect}
+            traySelectionType={traySelectionType}
           />
         );
       })}

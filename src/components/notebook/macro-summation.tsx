@@ -4,21 +4,21 @@ import PTIIcon from "../../assets/pti-icon.svg";
 import { MacroSensitivities } from "./macro-sensitivities";
 import { MacroScore } from "./macro-score";
 import { MacroRating } from "./macro-rating";
-import { Sensitivities, SensitivityType, PTIRatingLevels, TrayAnimal, Animals } from "../../utils/sim-utils";
+import { Sensitivities, SensitivityType, PTIRatingLevels, TrayObject, Animals } from "../../utils/sim-utils";
 
 import "./macro-summation.scss";
 
 interface IProps {
-  trayAnimals: TrayAnimal[];
+  trayObjects: TrayObject[];
 }
 
 export const MacroSummation: React.FC<IProps> = (props) => {
-  const { trayAnimals } = props;
+  const { trayObjects } = props;
 
   const taxaSensitivities: Record<SensitivityType, number> = {sensitive: 0, somewhatSensitive: 0, tolerant: 0};
-  trayAnimals.forEach((ta, i) => {
-    if (ta.count > 0 && ta.collected) {
-      const animal = Animals.find((a) => a.type === ta.type);
+  trayObjects.forEach((obj, i) => {
+    if (obj.count > 0 && obj.collected) {
+      const animal = Animals.find((a) => a.type === obj.type);
       if (animal) {
         taxaSensitivities[animal.sensitivity]++;
       }

@@ -2,6 +2,7 @@ import { IModelInputState } from "./components/app";
 import { EnvironmentType, LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
          AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
        } from "./utils/sim-utils";
+import { getRandomInteger } from "./utils/math-utils";
 
 export const kMaxSteps = 660;
 
@@ -21,7 +22,7 @@ export class Model {
       const abundanceRange = this.sunnyDayFequency
         ? animal.abundance[this.environment].notSunny
         : animal.abundance[this.environment].sunny;
-      const animalAbundance = Math.random() * (abundanceRange.max - abundanceRange.min) + abundanceRange.min;
+      const animalAbundance = getRandomInteger(abundanceRange.min, abundanceRange.max);
       // TODO: for now adjust each abundance number by 30% if it is less sunny, ultimately this should be in abundanceRange
       const animalAbundanceAdjusted = Math.floor(this.sunnyDayFequency === 0 ? animalAbundance : animalAbundance * .7);
       for (let x = 0; x < animalAbundance; x++) {

@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { TouchBackend } from "react-dnd-touch-backend";
 import { IThumbnailChooserProps, ThumbnailChooser } from "../components/thumbnail/thumbnail-chooser/thumbnail-chooser";
 import { IAppProps } from "./render-app";
 import { useModelState, IModelCurrentState, hasOwnProperties } from "../hooks/use-model-state";
@@ -12,11 +14,11 @@ import { ModalDialog } from "./modal-dialog";
 import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayAnimal, AnimalInstance, Animals,
-         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, LeafImages, TrayType
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kTraySpawnPadding,
+         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, TrayType, Leaves
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
-
+import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger } from "../utils/math-utils";
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -115,42 +117,67 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
       if (modelSimulationState.isFinished) {
         endSimulation();
 
-        // get instance counts for sorting tray
-        const trayObjects: TrayAnimal[] = Animals.map((animal) => {
+        const numLeaves = getRandomInteger(kMinLeaves, kMaxLeaves);
+
+        // add animals to the tray
+        const newTrayObjects: TrayObject[] = Animals.map((animal, index) => {
+          const rotation = Math.random() * 360;
+          const boundingBox = calculateRotatedBoundingBox(animal.width, animal.height, rotation);
           return { type: animal.type,
-                  count: 0,
-                  rotation: Math.random() * 360,
-                  x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
-                  y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
-                  collected: false };
+                   trayIndex: index,
+                   image: animal.image,
+                   dragImage: animal.dragImage,
+                   count: 0,
+                   rotation,
+                   left: getRandomInteger(kMaxTrayX - animal.width - kTraySpawnPadding, kMinTrayX + kTraySpawnPadding),
+                   top: getRandomInteger(kMaxTrayY - animal.height - kTraySpawnPadding, kMinTrayY + kTraySpawnPadding),
+                   width: animal.width,
+                   height: animal.height,
+                   boundingBoxWidth: boundingBox.width,
+                   boundingBoxHeight: boundingBox.height,
+                   collected: false,
+                   selectionPath: animal.selectionPath,
+                   zIndex: numLeaves + index };
         });
         modelSimulationState.animalInstances.forEach((animalInstance) => {
           if (animalInstance.spawned) {
-            const index = trayObjects.findIndex((ac: TrayAnimal) => ac.type === animalInstance.type);
-            trayObjects[index].count++;
+            const index = newTrayObjects.findIndex((obj: TrayObject) => obj.type === animalInstance.type);
+            newTrayObjects[index].count++;
           }
         });
 
         // add leaves
         // TODO: these should be interspersed throughout the tray, place on bottom for now
         // since they cannot be moved
-        const numLeaves = Math.random() * (kMaxLeaves - kMinLeaves) + kMinLeaves;
+        const trayIndexOffset = newTrayObjects.length;
         for (let l = 0; l < numLeaves; l++) {
-          trayObjects.unshift(
-            { type: LeafType.leaf,
-              count: 0,
-              rotation: Math.random() * 360,
-              x: Math.random() * (kMaxTrayX - kMinTrayX) + kMinTrayX, // TODO: needs to respect tray bounds
-              y: Math.random() * (kMaxTrayY - kMinTrayY) + kMinTrayY, // TODO: needs to respect tray bounds
+          // TODO: this will need to be based on leafpack deterioration
+          const leafIndex = getRandomInteger(0, Leaves.length - 1);
+          const leaf = Leaves[leafIndex];
+          const rotation = Math.random() * 360;
+          const boundingBox = calculateRotatedBoundingBox(leaf.width, leaf.height, rotation);
+          newTrayObjects.unshift(
+            { type: leaf.type,
+              trayIndex: trayIndexOffset + l,
+              image: leaf.image,
+              dragImage: leaf.dragImage,
+              count: 1,
+              rotation,
+              left: getRandomInteger(kMaxTrayX - leaf.width - kTraySpawnPadding, kMinTrayX + kTraySpawnPadding),
+              top: getRandomInteger(kMaxTrayY - leaf.height - kTraySpawnPadding, kMinTrayY + kTraySpawnPadding),
+              width: leaf.width,
+              height: leaf.height,
+              boundingBoxWidth: boundingBox.width,
+              boundingBoxHeight: boundingBox.height,
               collected: false,
-              image: LeafImages[Math.floor(Math.random() * LeafImages.length)]
-            });
+              selectionPath: leaf.selectionPath,
+              zIndex: l
+            }
+          );
         }
 
-        setTrayAnimals(trayObjects);
-
+        setTrayObjects(newTrayObjects);
         setShowTray(true);
-
       }
     };
 
@@ -189,39 +216,62 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const backgroundImage = currentEnvironment?.backgroundImage;
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
-  const [trayAnimals, setTrayAnimals] = useState<TrayAnimal[]>([]);
+  const [trayObjects, setTrayObjects] = useState<TrayObject[]>([]);
   const [showTray, setShowTray] = useState(false);
+
   const handleRewind = () => {
     setShowTray(false);
-    setTrayAnimals([]);
+    setTrayObjects([]);
+    setTraySelectionType(undefined);
     rewindSimulation();
   };
 
   const [traySelectionType, setTraySelectionType] = useState<TrayType | undefined>(undefined);
   const handleTrayObjectSelect = (objectType: TrayType) => {
-    if (objectType !== LeafType.leaf) {
+    if (objectType !== LeafType.birch && objectType !== LeafType.oak && objectType !== LeafType.maple) {
       setTraySelectionType(objectType);
     }
   };
   const handleCategorizeAnimal = (trayType: TrayType | undefined, notebookType: TrayType | undefined) => {
     if (trayType === notebookType && trayType !== undefined) {
-      const updatedTrayAnimals = trayAnimals.map(ta => {
-        if (ta.type === trayType) {
-          const collectedTrayAnimal = { ...ta };
+      const updatedTrayObjects = trayObjects.map(obj => {
+        if (obj.type === trayType) {
+          const collectedTrayAnimal = { ...obj };
           collectedTrayAnimal.collected = true;
           return collectedTrayAnimal;
         } else {
-          return ta;
+          return obj;
         }
       });
-      setTrayAnimals(updatedTrayAnimals);
+      setTrayObjects(updatedTrayObjects);
     } else {
       setShowModal(true);
     }
     setTraySelectionType(undefined);
   };
 
-  //const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState(Array(kTotalHabitatFeatures).fill(false));
+  const handleMoveTrayObject = (trayIndex: number, left: number, top: number) => {
+    const currZIndex = trayObjects.find((obj) => obj.trayIndex === trayIndex)?.zIndex;
+    const updatedTrayObjects = trayObjects.map((obj) => {
+      if (obj.trayIndex === trayIndex) {
+        const movedTrayObject = { ...obj };
+        const newPos = calculateBoundedPosition(left, top, movedTrayObject.width, movedTrayObject.height,
+          kMaxTrayX, kMinTrayX, kMaxTrayY, kMinTrayY);
+        movedTrayObject.left = newPos.left;
+        movedTrayObject.top = newPos.top;
+        movedTrayObject.zIndex = trayObjects.length - 1;
+        return movedTrayObject;
+      } else if (currZIndex && obj.zIndex > currZIndex) {
+        const restackedTrayObject = { ...obj };
+        restackedTrayObject.zIndex = restackedTrayObject.zIndex - 1;
+        return restackedTrayObject;
+      } else {
+        return obj;
+      }
+    });
+    setTrayObjects(updatedTrayObjects);
+  };
+
   const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState<Record<HabitatFeatureType, boolean>>(
     { [HabitatFeatureType.pools]: false, [HabitatFeatureType.riffles]: false, [HabitatFeatureType.runs]: false,
       [HabitatFeatureType.manyTrees]: false, [HabitatFeatureType.someTrees]: false, [HabitatFeatureType.noTrees]: false,
@@ -244,45 +294,48 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     <div className="app" data-testid="app">
       <div className="content">
         <ThumbnailChooser {...thumbnailChooserProps} />
-        <div className="simulation" data-testid="simulation">
-          <MainViewWrapper
-            title={selectedContainerId}
-            isSaved={isSaved}
-            isFinished={isFinished}
-            onSaveClicked={saveToSelectedContainer}
-            currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
-            currentTime={time}
-            maxTime={1}
-            savedBgColor={kSavedBgColor}
-          >
-            <SimulationView
-              backgroundImage={backgroundImage}
-              environment={environment}
-              leafPackState={leafPackState}
-              fish={fish}
-              onShowTray={() => setShowTray(true)}
+        <DndProvider backend={TouchBackend} options={{enableMouseEvents: true}} >
+          <div className="simulation" data-testid="simulation">
+            <MainViewWrapper
+              title={selectedContainerId}
+              isSaved={isSaved}
               isFinished={isFinished}
-              isRunning={isRunning}
-            />
-            <Tray
-              trayAnimals={trayAnimals}
-              onHideTray={() => setShowTray(false)}
-              onTrayObjectSelect={handleTrayObjectSelect}
+              onSaveClicked={saveToSelectedContainer}
+              currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
+              currentTime={time}
+              maxTime={1}
+              savedBgColor={kSavedBgColor}
+            >
+              <SimulationView
+                backgroundImage={backgroundImage}
+                environment={environment}
+                leafPackState={leafPackState}
+                fish={fish}
+                onShowTray={() => setShowTray(true)}
+                isFinished={isFinished}
+                isRunning={isRunning}
+              />
+              <Tray
+                trayObjects={trayObjects}
+                onHideTray={() => setShowTray(false)}
+                onTrayObjectSelect={handleTrayObjectSelect}
+                traySelectionType={traySelectionType}
+                hidden={!showTray}
+                onTrayObjectMove={handleMoveTrayObject}
+                isRunning={isRunning}
+              />
+            </MainViewWrapper>
+            <Notebook
+              trayObjects={trayObjects}
+              environment={environment}
+              featureSelections={habitatSelectedFeatures}
+              onSelectFeature={handleHabitatSelectFeature}
+              onCategorizeAnimal={handleCategorizeAnimal}
               traySelectionType={traySelectionType}
-              hidden={!showTray}
               isRunning={isRunning}
             />
-          </MainViewWrapper>
-          <Notebook
-            trayAnimals={trayAnimals}
-            environment={environment}
-            featureSelections={habitatSelectedFeatures}
-            onSelectFeature={handleHabitatSelectFeature}
-            onCategorizeAnimal={handleCategorizeAnimal}
-            traySelectionType={traySelectionType}
-            isRunning={isRunning}
-          />
-        </div>
+          </div>
+        </DndProvider>
         <ControlPanel
           isRunning={isRunning}
           isPaused={isPaused}
