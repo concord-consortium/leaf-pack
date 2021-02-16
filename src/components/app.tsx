@@ -15,10 +15,10 @@ import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kTraySpawnPadding,
-         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, LeafType, TrayType, Leaves
+         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
-import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger } from "../utils/math-utils";
+import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger, shuffleArray } from "../utils/math-utils";
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -118,6 +118,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         endSimulation();
 
         const numLeaves = getRandomInteger(kMinLeaves, kMaxLeaves);
+        const numAnimals = Animals.length;
+        const shuffledZIndices = shuffleArray(Array.from(Array(numLeaves + numAnimals).keys()));
 
         // add animals to the tray
         const newTrayObjects: TrayObject[] = Animals.map((animal, index) => {
@@ -137,7 +139,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                    boundingBoxHeight: boundingBox.height,
                    collected: false,
                    selectionPath: animal.selectionPath,
-                   zIndex: numLeaves + index };
+                   zIndex: shuffledZIndices[index] };
         });
         modelSimulationState.animalInstances.forEach((animalInstance) => {
           if (animalInstance.spawned) {
@@ -146,9 +148,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           }
         });
 
-        // add leaves
-        // TODO: these should be interspersed throughout the tray, place on bottom for now
-        // since they cannot be moved
+        // add leaves to the tray
         const trayIndexOffset = newTrayObjects.length;
         for (let l = 0; l < numLeaves; l++) {
           // TODO: this will need to be based on leafpack deterioration
@@ -156,7 +156,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           const leaf = Leaves[leafIndex];
           const rotation = Math.random() * 360;
           const boundingBox = calculateRotatedBoundingBox(leaf.width, leaf.height, rotation);
-          newTrayObjects.unshift(
+          newTrayObjects.push(
             { type: leaf.type,
               trayIndex: trayIndexOffset + l,
               image: leaf.image,
@@ -171,7 +171,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               boundingBoxHeight: boundingBox.height,
               collected: false,
               selectionPath: leaf.selectionPath,
-              zIndex: l
+              zIndex: shuffledZIndices[numAnimals + l]
             }
           );
         }
@@ -228,7 +228,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   const [traySelectionType, setTraySelectionType] = useState<TrayType | undefined>(undefined);
   const handleTrayObjectSelect = (objectType: TrayType) => {
-    if (objectType !== LeafType.birch && objectType !== LeafType.oak && objectType !== LeafType.maple) {
+    if (draggableAnimalTypes.find((obj) => obj === objectType)) {
       setTraySelectionType(objectType);
     }
   };
