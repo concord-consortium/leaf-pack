@@ -26,6 +26,7 @@ export const SimulationAnimation: React.FC<IProps> = (props) => {
       src={animation.frames[currentFrame]}
       className={"simulation-animation"}
       style={{ top: animation.top, left: animation.left, transform: transformation }}
+      alt={animation.altText}
     />
   );
 };

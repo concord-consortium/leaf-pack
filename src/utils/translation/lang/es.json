@@ -5,6 +5,7 @@
   "BUTTON.REWIND": "Rebobinar",
   "BUTTON.START": "Comienzo",
   "BUTTON.PAUSE": "Pausa",
+  "BUTTON.CLOSE": "Cerrar",
 
   "LABEL.TIME_WEEK": "%{weeks} Semana",
   "LABEL.TIME_WEEKS": "%{weeks} Semanas",
@@ -19,6 +20,17 @@
   "ENVIRONMENT.2": "Corriente 2",
   "ENVIRONMENT.3": "Corriente 3",
   "ENVIRONMENT.4": "Corriente 4",
+
+  "ENVIRONMENT.SKETCH.DESCRIPTION": "Un boceto de un arroyo",
+  "ENVIRONMENT1.DESCRIPTION": "Un arroyo en un bosque",
+  "ENVIRONMENT2.DESCRIPTION": "Un arroyo en un bosque con edificios en la distancia",
+  "ENVIRONMENT3.DESCRIPTION": "Un arroyo que va desde el borde de una ciudad hacia un bosque",
+  "ENVIRONMENT4.DESCRIPTION": "Un arroyo que atraviesa una ciudad",
+
+  "LEAFPACK.LITTLE": "Un paquete de hojas con poca descomposición",
+  "LEAFPACK.SOME": "Un paquete de hojas con algo de descomposición",
+  "LEAFPACK.LOTS": "Un paquete de hojas con mucha descomposición",
+  "SIMANIMAL.FISH": "Un pez",
 
   "NOTEBOOK.HABITAT": "Habitat",
   "NOTEBOOK.MACRO": "Macroinvertebrados",

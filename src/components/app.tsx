@@ -13,7 +13,7 @@ import { Tray } from "./simulation/tray";
 import { ModalDialog } from "./modal-dialog";
 import Modal from "react-modal";
 import { Model } from "../model";
-import { LeafEatersAmountType, Environment, Environments, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
+import { LeafEatersAmountType, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kTraySpawnPadding,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes
        } from "../utils/sim-utils";
@@ -212,8 +212,6 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     setInputState({environment: value});
   };
 
-  const currentEnvironment = Environments.find((env: Environment) => env.type === environment);
-  const backgroundImage = currentEnvironment?.backgroundImage;
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
   const [trayObjects, setTrayObjects] = useState<TrayObject[]>([]);
@@ -307,7 +305,6 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               savedBgColor={kSavedBgColor}
             >
               <SimulationView
-                backgroundImage={backgroundImage}
                 environment={environment}
                 leafPackState={leafPackState}
                 fish={fish}

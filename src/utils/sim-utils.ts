@@ -129,7 +129,9 @@ export interface Environment {
   type: EnvironmentType;
   name: string;
   backgroundImage: any;
+  backgroundImageAltText: string;
   sketchImage: any;
+  sketchImageAltText: string;
 }
 
 export const Environments: Environment[] = [
@@ -137,25 +139,33 @@ export const Environments: Environment[] = [
     type: EnvironmentType.environment1,
     name: t("ENVIRONMENT.1"),
     backgroundImage: EnvironmentImage1,
-    sketchImage: EnvironmentSketchImage1
+    backgroundImageAltText: t("ENVIRONMENT1.DESCRIPTION"),
+    sketchImage: EnvironmentSketchImage1,
+    sketchImageAltText: t("ENVIRONMENT.SKETCH.DESCRIPTION")
   },
   {
     type: EnvironmentType.environment2,
     name: t("ENVIRONMENT.2"),
     backgroundImage: EnvironmentImage2,
-    sketchImage: EnvironmentSketchImage2
+    backgroundImageAltText: t("ENVIRONMENT2.DESCRIPTION"),
+    sketchImage: EnvironmentSketchImage2,
+    sketchImageAltText: t("ENVIRONMENT.SKETCH.DESCRIPTION")
   },
   {
     type: EnvironmentType.environment3,
     name: t("ENVIRONMENT.3"),
     backgroundImage: EnvironmentImage3,
-    sketchImage: EnvironmentSketchImage3
+    backgroundImageAltText: t("ENVIRONMENT3.DESCRIPTION"),
+    sketchImage: EnvironmentSketchImage3,
+    sketchImageAltText: t("ENVIRONMENT.SKETCH.DESCRIPTION")
   },
   {
     type: EnvironmentType.environment4,
     name: t("ENVIRONMENT.4"),
     backgroundImage: EnvironmentImage4,
-    sketchImage: EnvironmentSketchImage4
+    backgroundImageAltText: t("ENVIRONMENT4.DESCRIPTION"),
+    sketchImage: EnvironmentSketchImage4,
+    sketchImageAltText: t("ENVIRONMENT.SKETCH.DESCRIPTION")
   },
 ];
 
@@ -451,12 +461,13 @@ export const LeafPackConfigurations: LeafPackConfiguration[] = [
 export interface LeafPackState {
   leafDecomposition: LeafDecompositionType;
   image: any;
+  altText: string;
 }
 
 export const LeafPackStates: LeafPackState[] = [
-  { leafDecomposition: LeafDecompositionType.little, image: LeafPackImage1 },
-  { leafDecomposition: LeafDecompositionType.some, image: LeafPackImage2 },
-  { leafDecomposition: LeafDecompositionType.lots, image: LeafPackImage3 }
+  { leafDecomposition: LeafDecompositionType.little, image: LeafPackImage1, altText: t("LEAFPACK.LITTLE") },
+  { leafDecomposition: LeafDecompositionType.some, image: LeafPackImage2, altText: t("LEAFPACK.SOME") },
+  { leafDecomposition: LeafDecompositionType.lots, image: LeafPackImage3, altText: t("LEAFPACK.LOTS") }
 ];
 
 // The content that we position and display visually on the sim
@@ -478,6 +489,7 @@ export interface SimAnimal {
   type: SimAnimationType;
   frames: any[],
   layouts: SimAnimationLayout[],
+  altText: string;
 }
 
 export const SimAnimals: SimAnimal[] = [
@@ -507,7 +519,8 @@ export const SimAnimals: SimAnimal[] = [
       { environment: EnvironmentType.environment4, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
       { environment: EnvironmentType.environment4, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
       { environment: EnvironmentType.environment4, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
-    ]
+    ],
+    altText: t("SIMANIMAL.FISH")
   },
 ];
 
@@ -518,6 +531,7 @@ export interface SimAnimation {
   xScale: number;
   yScale: number;
   rotation: number;
+  altText: string;
 }
 
 // The content that is positioned and shown in the tray

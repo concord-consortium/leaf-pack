@@ -1,8 +1,8 @@
 import React from "react";
 import { LeafPack } from "./leaf-pack";
 import { SimulationAnimation } from "./simulation-animation";
-import { EnvironmentType, LeafPackConfigurations, LeafPackState, SimAnimals, SimAnimation, FishAmountType, SimAnimationType
-       } from "../../utils/sim-utils";
+import { EnvironmentType, LeafPackConfigurations, LeafPackState, SimAnimals, SimAnimation, FishAmountType, SimAnimationType,
+         Environment, Environments } from "../../utils/sim-utils";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import "./simulation-view.scss";
@@ -13,7 +13,6 @@ const kFishCountLots = 5;
 const kSimulationOneWeekPeriodInMilliseconds = 3667;
 
 interface IProps {
-  backgroundImage: any;
   environment: EnvironmentType;
   leafPackState: LeafPackState;
   fish: FishAmountType;
@@ -23,7 +22,11 @@ interface IProps {
 }
 
 export const SimulationView: React.FC<IProps> = (props) => {
-  const { backgroundImage, environment, leafPackState, fish, isRunning, isFinished, onShowTray } = props;
+  const { environment, leafPackState, fish, isRunning, isFinished, onShowTray } = props;
+  const currentEnvironment = Environments.find((env: Environment) => env.type === environment);
+  const backgroundImage = currentEnvironment?.backgroundImage;
+  const backgroundImageAltText = currentEnvironment?.backgroundImageAltText;
+
   const leafPackConfiguration = LeafPackConfigurations.find((lp) => lp.environment === environment);
   const fishCount = fish === FishAmountType.few
     ? kFishCountFew
@@ -38,7 +41,8 @@ export const SimulationView: React.FC<IProps> = (props) => {
           top: layout.top,
           xScale: layout.xScale,
           yScale: layout.yScale,
-          rotation: layout.rotation
+          rotation: layout.rotation,
+          altText: fishAnimationConfig.altText
         }
       );
     }
@@ -46,7 +50,7 @@ export const SimulationView: React.FC<IProps> = (props) => {
 
   return (
     <div className="simulation-view" data-testid="simulation-view">
-      <img src={backgroundImage} className="background" />
+      <img src={backgroundImage} className="background" alt={backgroundImageAltText} />
       <LeafPack
         leafDecomposition={leafPackState.leafDecomposition}
         left={leafPackConfiguration?.left}
