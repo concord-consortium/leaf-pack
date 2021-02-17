@@ -20,6 +20,7 @@ export const LeafPack: React.FC<IProps> = (props) => {
           src={leafState.image}
           key={`leaf-${index}`}
           className={`${leafState.leafDecomposition === leafDecomposition ? "selected" : ""} ${isRunning ? "slow-animate" : ""}`}
+          alt={leafState.altText}
         />
       )}
     </div>

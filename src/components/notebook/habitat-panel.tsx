@@ -20,6 +20,7 @@ export const HabitatPanel: React.FC<IProps> = (props) => {
   const [currentSection, setCurrentSection] = useState(0);
   const numSections = Math.ceil(habitatCategories.length / kCategoriesPerSection);
   const environmentImage = Environments.find((env) => env.type === environment)?.sketchImage;
+  const environmentImageAltText = Environments.find((env) => env.type === environment)?.sketchImageAltText;
 
   const featureOrder: string[] = [];
   habitatCategories.forEach((hCat) => {
@@ -42,13 +43,14 @@ export const HabitatPanel: React.FC<IProps> = (props) => {
                     <button
                       className={`checkbox ${featureSelections[feature] ? "selected" : ""}`}
                       onClick={() => onSelectFeature(feature, !featureSelections[feature])}
+                      aria-label={habitatFeatures.find((f) => f.type === feature)?.label}
                     >
                       <CheckIcon />
                     </button>
                     <div key={`feature-${fIndex}`}>{habitatFeatures.find((f) => f.type === feature)?.label}</div>
                   </div>
                 )
-              : <img src={environmentImage} />
+              : <img src={environmentImage} alt={environmentImageAltText} />
             }
           </div>
         )}

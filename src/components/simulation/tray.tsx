@@ -36,7 +36,7 @@ export const Tray: React.FC<IProps> = (props) => {
       <SortingTray />
       <div className="header">
         <div className="title">{t("SORTINGTRAY")}</div>
-        <button className="close" onClick={onHideTray}>
+        <button className="close" onClick={onHideTray} aria-label={t("BUTTON.CLOSE")}>
           <CloseIcon />
         </button>
       </div>

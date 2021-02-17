@@ -5,6 +5,7 @@
   "BUTTON.REWIND": "Rewind",
   "BUTTON.START": "Start",
   "BUTTON.PAUSE": "Pause",
+  "BUTTON.CLOSE": "Close",
 
   "LABEL.TIME_WEEK": "%{weeks} Week",
   "LABEL.TIME_WEEKS": "%{weeks} Weeks",
@@ -19,6 +20,17 @@
   "ENVIRONMENT.2": "Stream 2",
   "ENVIRONMENT.3": "Stream 3",
   "ENVIRONMENT.4": "Stream 4",
+
+  "ENVIRONMENT.SKETCH.DESCRIPTION": "A sketch of a stream",
+  "ENVIRONMENT1.DESCRIPTION": "A stream in a forest",
+  "ENVIRONMENT2.DESCRIPTION": "A stream in a forest with buildings in the distance",
+  "ENVIRONMENT3.DESCRIPTION": "A stream running from the edge of a city into a forest",
+  "ENVIRONMENT4.DESCRIPTION": "A stream running through a city",
+
+  "LEAFPACK.LITTLE": "A leafpack with little decomposition",
+  "LEAFPACK.SOME": "A leafpack with some decomposition",
+  "LEAFPACK.LOTS": "A leafpack with lots of decomposition",
+  "SIMANIMAL.FISH": "A fish",
 
   "NOTEBOOK.HABITAT": "Habitat",
   "NOTEBOOK.MACRO": "Macroinvertebrates",

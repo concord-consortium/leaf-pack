@@ -1,5 +1,5 @@
 import React from "react";
-import { TrayType, TrayObject, LeafType } from "../../utils/sim-utils";
+import { TrayType, TrayObject } from "../../utils/sim-utils";
 import { useDrag } from "react-dnd";
 import { usePreview } from "react-dnd-preview";
 

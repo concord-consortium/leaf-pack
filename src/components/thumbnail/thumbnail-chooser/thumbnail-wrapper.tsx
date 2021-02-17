@@ -3,6 +3,7 @@ import { ThumbnailTitle } from "./thumbnail-title";
 import { ContainerId, IContainer } from "../../../hooks/use-model-state";
 import { IThumbnailProps } from "./thumbnail-chooser";
 import CloseIcon from "../../../assets/close-icon.svg";
+import t from "../../../utils/translation/translate";
 
 import "./thumbnail-wrapper.scss";
 
@@ -43,7 +44,7 @@ export const ThumbnailWrapper: React.FC<IThumbnailWrapperProps<Record<string, an
       { props.container && <div className={`container ${!props.selected ? " disabled" : ""}`}><props.Thumbnail container={props.container} /></div> }
       {
         props.selected &&
-        <button className="close" onClick={handleClose} disabled={props.disabled}>
+        <button className="close" onClick={handleClose} disabled={props.disabled} aria-label={t("BUTTON.CLOSE")}>
           <CloseIcon />
         </button>
       }
