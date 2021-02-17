@@ -1,6 +1,6 @@
 import React from "react";
 import t from "../../utils/translation/translate";
-import { PTIRatingLevels } from "../../utils/sim-utils";
+import { PTIRatingLevels } from "../../utils/macro-utils";
 
 import "./macro-score.scss";
 
