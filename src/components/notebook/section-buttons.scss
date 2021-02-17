@@ -10,6 +10,9 @@
   background-color: white;
 
   .section-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: "Lato", sans-serif;
     font-size: 18px;
     font-weight: bold;
@@ -29,12 +32,20 @@
     &:active {
       background-color: black;
       color: white;
+
+      .home-icon {
+        fill: white;
+      }
     }
 
     &.selected {
       background-color: black;
       color: white;
       pointer-events: none;
+
+      .home-icon {
+        fill: white;
+      }
     }
 
     &:first-child {
@@ -43,5 +54,33 @@
     &:last-child {
       margin-right: 5px;
     }
+
+  }
+}
+
+.habitat-panel .section-buttons .section-button {
+  &:hover {
+    background-color: $habitat-brown-dark2;
+  }
+  &.selected, &:active {
+    background-color: $habitat-brown-dark3;
+  }
+}
+
+.macro-panel .section-buttons .section-button {
+  &:hover {
+    background-color: $macro-green-dark2;
+  }
+  &.selected, &:active {
+    background-color: $macro-green-dark3;
+  }
+}
+
+.chemistry-panel .section-buttons .section-button {
+  &:hover {
+    background-color: $chemistry-blue-dark2;
+  }
+  &.selected, &:active {
+    background-color: $chemistry-blue-dark3;
   }
 }
