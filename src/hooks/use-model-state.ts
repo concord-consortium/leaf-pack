@@ -49,6 +49,7 @@ export interface IUseModelStateOptions<IModelInputState, IModelOutputState, IMod
   initialInputState: IModelInputState;
   initialOutputState: IModelOutputState;
   initialTransientState: IModelTransientState;
+  finalTransientState: IModelTransientState;
   onStateChange: ModelStateChangeCallback<IModelInputState, IModelOutputState>;
   addExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
   removeExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
@@ -61,7 +62,8 @@ export const hasOwnProperties = (obj: Record<string, any>, properties: string[])
 export const useModelState = <IModelInputState, IModelOutputState, IModelTransientState>(options: IUseModelStateOptions<IModelInputState, IModelOutputState, IModelTransientState>) => {
   type ContainerMap = IContainerMap<IModelInputState, IModelOutputState>;
 
-  const {initialInputState, initialOutputState, initialTransientState, onStateChange, addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, logEvent} = options;
+  const {initialInputState, initialOutputState, initialTransientState, finalTransientState,
+        onStateChange, addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, logEvent} = options;
   const [inputState, _setInputState] = useState<IModelInputState>(initialInputState);
   const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState);
   const [transientState, _setTransientState] = useState<IModelTransientState>(initialTransientState);
@@ -126,9 +128,9 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
         _setSelectedContainerId(containerId);
         _setInputState(container?.inputState || initialInputState);
 
-        _setOutputState(initialOutputState);
+        _setOutputState(container?.outputState || initialOutputState);
         _setSimulationState(initialSimulationState);
-        _setTransientState(initialTransientState);
+        _setTransientState(container?.outputState ? finalTransientState : initialTransientState);
 
         _setIsDirty(false);
         _setIsSaved(!!container?.isSaved);

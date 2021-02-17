@@ -36,8 +36,10 @@ export interface IModelOutputState {
   algaeEaters: AlgaeEatersAmountType;
   fish: FishAmountType;
   animalInstances: AnimalInstance[];
+  showTray: boolean;
   trayObjects: TrayObject[];
   pti?: number;
+  habitatFeatures: Set<HabitatFeatureType>;
 }
 export interface IModelTransientState {
   time: number;
@@ -65,9 +67,15 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                           algaeEaters: AlgaeEatersAmountType.few,
                           fish: FishAmountType.few,
                           animalInstances: [],
-                          trayObjects: [] },
+                          showTray: false,
+                          trayObjects: [],
+                          habitatFeatures: new Set()
+                        },
     initialTransientState: {
       time: 0
+    },
+    finalTransientState: {
+      time: 1
     },
     onStateChange,
     addExternalSetStateListener,
@@ -84,7 +92,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     startSimulation, endSimulation, inputControlsDisabled
   } = modelState;
   const {environment, sunnyDayFequency} = inputState;
-  const {leafDecomposition, fish} = outputState;
+  const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects} = outputState;
   const {time} = transientState;
   const {isRunning, isPaused, isFinished} = simulationState;
   const modelRef = useRef<Model>(new Model(inputState));
@@ -181,8 +189,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           );
         }
 
-        setTrayObjectsAndSave(newTrayObjects);
-        setShowTray(true);
+        setOutputStateAndSave({ trayObjects: newTrayObjects, showTray: true});
       }
     };
 
@@ -196,6 +203,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   const thumbnailChooserProps: IThumbnailChooserProps<IModelInputState, IModelOutputState> = {
     Thumbnail,
+    disableUnselectedThumbnails: isRunning,
     containers,
     clearContainer,
     selectedContainerId,
@@ -225,18 +233,13 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
-  const [trayObjects, setTrayObjects] = useState<TrayObject[]>([]);
-  const [showTray, setShowTray] = useState(false);
-
-  const setTrayObjectsAndSave = (newTrayObjects: TrayObject[]) => {
-    setTrayObjects(newTrayObjects);
-    const pti = getPTIScore(newTrayObjects);
-    setOutputState({ trayObjects: newTrayObjects, pti });
+  const setOutputStateAndSave = (output: Partial<IModelOutputState>) => {
+    const pti = output.trayObjects ? { pti: getPTIScore(output.trayObjects) }: undefined;
+    setOutputState({ ...output, ...pti });
   };
 
   const handleRewind = () => {
-    setShowTray(false);
-    setTrayObjects([]);
+    setOutputStateAndSave({ trayObjects: [], showTray: false });
     setTraySelectionType(undefined);
     rewindSimulation();
   };
@@ -258,7 +261,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           return obj;
         }
       });
-      setTrayObjectsAndSave(updatedTrayObjects);
+      setOutputStateAndSave({ trayObjects: updatedTrayObjects });
     } else {
       setShowModal(true);
     }
@@ -284,23 +287,13 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         return obj;
       }
     });
-    setTrayObjectsAndSave(updatedTrayObjects);
+    setOutputStateAndSave({ trayObjects: updatedTrayObjects });
   };
 
-  const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState<Record<HabitatFeatureType, boolean>>(
-    { [HabitatFeatureType.pools]: false, [HabitatFeatureType.riffles]: false, [HabitatFeatureType.runs]: false,
-      [HabitatFeatureType.manyTrees]: false, [HabitatFeatureType.someTrees]: false, [HabitatFeatureType.noTrees]: false,
-      [HabitatFeatureType.grassOnly]: false, [HabitatFeatureType.pavement]: false, [HabitatFeatureType.leaves]: false,
-      [HabitatFeatureType.cobbles]: false, [HabitatFeatureType.woodyDebris]: false, [HabitatFeatureType.plantRoots]: false,
-      [HabitatFeatureType.lightCover]: false, [HabitatFeatureType.thickCover]: false, [HabitatFeatureType.thickCoverClumps]: false,
-      [HabitatFeatureType.fish]: false, [HabitatFeatureType.beavers]: false, [HabitatFeatureType.trash]: false,
-      [HabitatFeatureType.pipes]: false
-    }
-  );
   const handleHabitatSelectFeature = (feature: HabitatFeatureType, value: boolean) => {
-    const newSelectedFeatures = { ...habitatSelectedFeatures };
-    newSelectedFeatures[feature] = value;
-    setHabitatSelectedFeatures(newSelectedFeatures);
+    if (value) habitatFeatures.add(feature);
+    else habitatFeatures.delete(feature);
+    setOutputStateAndSave({ habitatFeatures });
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -325,13 +318,13 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                 environment={environment}
                 leafPackState={leafPackState}
                 fish={fish}
-                onShowTray={() => setShowTray(true)}
+                onShowTray={() => setOutputStateAndSave({ showTray: true })}
                 isFinished={isFinished}
                 isRunning={isRunning}
               />
               <Tray
                 trayObjects={trayObjects}
-                onHideTray={() => setShowTray(false)}
+                onHideTray={() => setOutputStateAndSave({ showTray: false })}
                 onTrayObjectSelect={handleTrayObjectSelect}
                 traySelectionType={traySelectionType}
                 hidden={!showTray}
@@ -342,7 +335,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
             <Notebook
               trayObjects={trayObjects}
               environment={environment}
-              featureSelections={habitatSelectedFeatures}
+              featureSelections={habitatFeatures}
               onSelectFeature={handleHabitatSelectFeature}
               onCategorizeAnimal={handleCategorizeAnimal}
               traySelectionType={traySelectionType}

@@ -25,6 +25,10 @@ const initialOutputState: IModelOutputState = {
 };
 
 const initialTransientState: IModelTransientState = {
+  baz: 0
+};
+
+const finalTransientState: IModelTransientState = {
   baz: 1000
 };
 
@@ -47,6 +51,7 @@ describe("useModelState", () => {
       initialInputState,
       initialOutputState,
       initialTransientState,
+      finalTransientState,
       onStateChange,
       addExternalSetStateListener,
       removeExternalSetStateListener,
@@ -272,6 +277,7 @@ describe("useModelState", () => {
       initialInputState,
       initialOutputState,
       initialTransientState,
+      finalTransientState,
       onStateChange,
       addExternalSetStateListener: testAddExternalSetStateListener,
       removeExternalSetStateListener,

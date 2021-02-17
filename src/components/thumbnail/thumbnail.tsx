@@ -13,8 +13,11 @@ import t from "../../utils/translation/translate";
 import "./thumbnail.scss";
 
 export const Thumbnail: React.FC<IThumbnailProps<IModelInputState, IModelOutputState>> = (props) => {
-  const {inputState: {environment, sunnyDayFequency}, outputState: {pti}} = props.container;
-  const {showHabitat, showMacro, showChemistry} = { showHabitat: true, showMacro: true, showChemistry: true }; // outputState
+  const {inputState: {environment, sunnyDayFequency},
+        outputState: {habitatFeatures, pti}} = props.container;
+  const showHabitatIcon = habitatFeatures.size > 0;
+  const showMacroinvertebratesIcon = (pti ?? 0) > 0;
+  const showChemistryIcon = false;  // TODO: figure out criteria for showing chemistry icon
   const sunnyDays = sunnyDayFequency === 0 ? t("SUNNYDAY.FEW.SHORT") : t("SUNNYDAY.MANY.SHORT");
   const environmentIndex = Environments.findIndex((e) => e.type === environment) + 1;
   return (
@@ -32,9 +35,9 @@ export const Thumbnail: React.FC<IThumbnailProps<IModelInputState, IModelOutputS
         <div className="label">{pti}</div>
       </div>
       <div className="notebook-row">
-        {showHabitat && <IconHabitatNotebook />}
-        {showMacro && <IconMacroinvertebratesNotebook />}
-        {showChemistry && <IconChemistryNotebook />}
+        <IconHabitatNotebook style={{ visibility: showHabitatIcon ? "visible" : "hidden"}} />
+        <IconMacroinvertebratesNotebook style={{ visibility: showMacroinvertebratesIcon ? "visible" : "hidden"}} />
+        <IconChemistryNotebook style={{ visibility: showChemistryIcon ? "visible" : "hidden"}} />
       </div>
     </div>
   );

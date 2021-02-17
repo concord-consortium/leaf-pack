@@ -20,10 +20,12 @@ export interface IThumbnailWrapperProps<IModelInputState, IModelOutputState> {
 }
 
 export const ThumbnailWrapper: React.FC<IThumbnailWrapperProps<Record<string, any>, Record<string, any>>> = (props) => {
-  const className = `thumbnail-button${props.selected ? " selected" : ""}${!props.container ? " empty" : ""}`;
-  const style = {backgroundColor: props.selected ? props.selectedContainerBgColor : undefined};
-  const isSaved = !!props.container?.isSaved;
-  const handleSelect = (e: React.MouseEvent<HTMLButtonElement>) => props.setSelectedContainerId(props.containerId);
+  const { containerId, selected, setSelectedContainerId, disabled, Thumbnail, container,
+          savedBgColor, selectedContainerBgColor } = props;
+  const className = `thumbnail-button${selected ? " selected" : ""}${!container ? " empty" : ""}`;
+  const style = {backgroundColor: selected ? selectedContainerBgColor : undefined};
+  const isSaved = !!container?.isSaved;
+  const handleSelect = (e: React.MouseEvent<HTMLElement>) => setSelectedContainerId(containerId);
   // const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   e.stopPropagation();
   //   props.clearContainer(props.containerId);
@@ -31,8 +33,8 @@ export const ThumbnailWrapper: React.FC<IThumbnailWrapperProps<Record<string, an
 
   return (
     <div className="thumbnail-wrapper" data-testid="thumbnail-wrapper">
-      <button className={className} style={style} data-testid="thumbnail-button" onClick={handleSelect} disabled={props.disabled}>
-        <ThumbnailTitle title={props.containerId} empty={!props.selected} saved={isSaved} savedBgColor={props.savedBgColor} />
+      <button className={className} style={style} data-testid="thumbnail-button" onClick={handleSelect} disabled={disabled}>
+        <ThumbnailTitle title={containerId} empty={!selected} saved={isSaved} savedBgColor={savedBgColor} />
         {/* {
           !props.selected &&
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
@@ -41,7 +43,10 @@ export const ThumbnailWrapper: React.FC<IThumbnailWrapperProps<Record<string, an
           </svg>
         } */}
       </button>
-      { props.container && <div className={`container ${!props.selected ? " disabled" : ""}`}><props.Thumbnail container={props.container} /></div> }
+      { container &&
+        <div className={`container ${!selected ? " disabled" : ""}`} onClick={disabled ? undefined : handleSelect}>
+          <Thumbnail container={container} />
+        </div> }
       {/* {
         props.selected &&
         <button className="close" onClick={handleClose} disabled={props.disabled} aria-label={t("BUTTON.CLOSE")}>
