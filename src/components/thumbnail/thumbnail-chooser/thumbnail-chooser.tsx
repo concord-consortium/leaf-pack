@@ -1,5 +1,5 @@
 import React from "react";
-import { ContainerId, IContainer } from "../../../hooks/use-model-state";
+import { ContainerId, ContainerIds, IContainer } from "../../../hooks/use-model-state";
 import { ThumbnailWrapper } from "./thumbnail-wrapper";
 import t from "../../../utils/translation/translate";
 
@@ -28,7 +28,7 @@ export const ThumbnailChooser: React.FC<IThumbnailChooserProps<Record<string, an
     <div className="thumbnail-chooser" data-testid="thumbnail-chooser">
       <div className="thumbnail-chooser-title">{t("THUMBNAIL-CHOOSER.TITLE")}</div>
       <div className="thumbnail-chooser-list">
-        {Object.keys(containers).map((containerId: ContainerId) => {
+        {ContainerIds.map(containerId => {
           const container = containers[containerId];
           const selected = containerId === selectedContainerId;
           return (

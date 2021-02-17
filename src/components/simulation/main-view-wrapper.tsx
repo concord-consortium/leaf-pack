@@ -1,8 +1,8 @@
 import React from "react";
-import t from "../../utils/translation/translate";
-import { ProgressBar, SaveButton } from "@concord-consortium/react-components";
-import "./main-view-wrapper.scss";
+import { ProgressBar } from "@concord-consortium/react-components";
 import { ThumbnailTitle } from "../thumbnail/thumbnail-chooser/thumbnail-title";
+
+import "./main-view-wrapper.scss";
 
 export interface IMainViewWrapperProps {
   title: string;
@@ -16,7 +16,7 @@ export interface IMainViewWrapperProps {
 }
 
 export const MainViewWrapper: React.FC<IMainViewWrapperProps> = (props) => {
-  const { title, isSaved, isFinished, onSaveClicked, children, currentTime, maxTime, currentTimeLabel, savedBgColor } = props;
+  const { title, isSaved, children, currentTime, maxTime, currentTimeLabel, savedBgColor } = props;
   return (
     <div className="main-view-wrapper">
       <ThumbnailTitle title={title} empty={false} saved={isSaved} savedBgColor={savedBgColor} />
@@ -30,14 +30,14 @@ export const MainViewWrapper: React.FC<IMainViewWrapperProps> = (props) => {
           currentTimeLabel={currentTimeLabel}
         />
       </div>
-      <div className="save-container">
+      {/* <div className="save-container">
         <SaveButton
           label={isSaved ? t("BUTTON.SAVED") : t("BUTTON.SAVE")}
           customClassName={isSaved ? "saved-btn" : ""}
           onClick={onSaveClicked}
           disabled={!isFinished || isSaved}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
