@@ -1,7 +1,7 @@
 import React from "react";
 import IconArrow from "../../assets/scale-pointer.svg";
 import t from "../../utils/translation/translate";
-import { PTIRatingLevels, PTIRatingLevel } from "../../utils/sim-utils";
+import { PTIRatingLevels, PTIRatingLevel } from "../../utils/macro-utils";
 
 import "./macro-rating.scss";
 

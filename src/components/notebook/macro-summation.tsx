@@ -4,7 +4,8 @@ import PTIIcon from "../../assets/pti-icon.svg";
 import { MacroSensitivities } from "./macro-sensitivities";
 import { MacroScore } from "./macro-score";
 import { MacroRating } from "./macro-rating";
-import { Sensitivities, SensitivityType, PTIRatingLevels, TrayObject, Animals } from "../../utils/sim-utils";
+import { SensitivityType, TrayObject, Animals } from "../../utils/sim-utils";
+import { getPTIScore, getPTIRatingIndex } from "../../utils/macro-utils";
 
 import "./macro-summation.scss";
 
@@ -25,17 +26,8 @@ export const MacroSummation: React.FC<IProps> = (props) => {
     }
   });
 
-  let score = 0;
-  Sensitivities.forEach((s, i) => {
-    score = score + taxaSensitivities[s.type] * (Sensitivities.length - i);
-  });
-
-  let ratingIndex = 0;
-  for (let i = PTIRatingLevels.length - 1; i >= 0; i--) {
-    if (score >= PTIRatingLevels[i].min) {
-      ratingIndex = i;
-    }
-  }
+  const score = getPTIScore(trayObjects);
+  const ratingIndex = getPTIRatingIndex(score);
 
   return (
     <div className="macro-summation">
