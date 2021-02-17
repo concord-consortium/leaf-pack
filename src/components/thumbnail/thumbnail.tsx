@@ -24,20 +24,26 @@ export const Thumbnail: React.FC<IThumbnailProps<IModelInputState, IModelOutputS
     <div className="thumbnail" data-testid="thumbnail">
       <div className="environment">
         <IconEnvironment />
-        <div className="label">{environmentIndex}</div>
+        <div className="label" data-testid="environment-label">{environmentIndex}</div>
       </div>
       <div className="sunny-days">
         <IconSun />
-        <div className="label">{t(sunnyDays)}</div>
+        <div className="label" data-testid="sunny-days-label">{t(sunnyDays)}</div>
       </div>
       <div className="pollution-tolerance">
         <IconPTI />
-        <div className="label">{pti}</div>
+        <div className="label" data-testid="pollution-tolerance-label">{pti}</div>
       </div>
       <div className="notebook-row">
-        <IconHabitatNotebook style={{ visibility: showHabitatIcon ? "visible" : "hidden"}} />
-        <IconMacroinvertebratesNotebook style={{ visibility: showMacroinvertebratesIcon ? "visible" : "hidden"}} />
-        <IconChemistryNotebook style={{ visibility: showChemistryIcon ? "visible" : "hidden"}} />
+        <IconHabitatNotebook
+          style={{ visibility: showHabitatIcon ? "visible" : "hidden"}}
+          data-testid="habitat-icon" />
+        <IconMacroinvertebratesNotebook
+          style={{ visibility: showMacroinvertebratesIcon ? "visible" : "hidden"}}
+          data-testid="macroinvertebrates-icon" />
+        <IconChemistryNotebook
+          style={{ visibility: showChemistryIcon ? "visible" : "hidden"}}
+          data-testid="chemistry-icon" />
       </div>
     </div>
   );
