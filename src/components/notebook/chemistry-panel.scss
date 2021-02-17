@@ -2,11 +2,20 @@
 
 .chemistry-panel {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 438px;
   height: 304px;
   border-radius: 0 0 10px 10px;
   border: solid 1px $gray-dark;
   border-top: none;
+  font-size: 14px;
+  font-weight: bold;
+
+  .section-content {
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+    height: 237px;
+  }
 }
