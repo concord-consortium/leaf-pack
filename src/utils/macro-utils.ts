@@ -31,7 +31,7 @@ export const getPTIScore = (trayObjects: TrayObject[]) => {
     score = score + taxaSensitivities[s.type] * (Sensitivities.length - i);
   });
   return score;
-}
+};
 
 export const getPTIRatingIndex = (score: number) => {
   let ratingIndex = 0;
@@ -41,4 +41,4 @@ export const getPTIRatingIndex = (score: number) => {
     }
   }
   return ratingIndex;
-}
+};
