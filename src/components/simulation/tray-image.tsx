@@ -41,7 +41,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
     }
     const boundingBoxDeltaX = (trayObject.boundingBoxWidth - trayObject.width) / 2;
     const boundingBoxDeltaY = (trayObject.boundingBoxHeight - trayObject.height) / 2;
-    let previewStyle = {};
+    let previewStyle: React.CSSProperties;
     const isLeaf = draggableLeafTypes.includes(trayObject.type as any);
     if (dragOverTray || isLeaf) {
       previewStyle = {
@@ -53,7 +53,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
       const previewHeight = Math.min(kNonTrayPreviewHeight, trayObject.height);
       previewStyle = {
         height: previewHeight,
-        left: dragPosition.x - previewHeight / trayObject.height * trayObject.width / 2,
+        left: dragPosition.x - (previewHeight / trayObject.height) * trayObject.width / 2,
         top: dragPosition.y - previewHeight / 2,
       };
     }
