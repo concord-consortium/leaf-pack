@@ -1,5 +1,5 @@
 import React from "react";
-import { TrayType, TrayObject } from "../../utils/sim-utils";
+import { TrayType, TrayObject, draggableLeafTypes } from "../../utils/sim-utils";
 import { useDrag } from "react-dnd";
 import { usePreview } from "react-dnd-preview";
 
@@ -11,39 +11,51 @@ import "./tray-image.scss";
 // corner. This ends up being about 5 pixels for all tray objects. Technically it could be computed
 // by hand for ALL tray objects, but subtracting 5 pixels works pretty well in practice.
 const kOutlineOffset = 5;
+const kNonTrayPreviewHeight = 30;
 
 interface IProps {
   trayObject: TrayObject;
   onTrayObjectSelect: (type: TrayType) => void;
   traySelectionType?: TrayType;
+  dragOverTray: boolean;
 }
 
 export const TrayImage: React.FC<IProps> = (props) => {
-  const { trayObject, onTrayObjectSelect, traySelectionType } = props;
+  const { trayObject, onTrayObjectSelect, traySelectionType, dragOverTray } = props;
   const TrayObjectImage = trayObject.image;
 
-  const [{isDragging, dragSourcePosition}, drag ] = useDrag({
+  const [{isDragging, dragSourcePosition, dragPosition}, drag ] = useDrag({
     item: { type: trayObject.type, trayIndex: trayObject.trayIndex, dragImage: trayObject.dragImage,
             left: trayObject.left, top: trayObject.top },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
-      dragSourcePosition: monitor.getSourceClientOffset()
+      dragPosition: monitor.getClientOffset(),
+      dragSourcePosition: monitor.getSourceClientOffset(),
     }),
   });
 
   const PreviewImage = () => {
     const {display, item} = usePreview();
-    if (!display || !dragSourcePosition) {
+    if (!display || !dragSourcePosition || !dragPosition) {
       return null;
     }
     const boundingBoxDeltaX = (trayObject.boundingBoxWidth - trayObject.width) / 2;
     const boundingBoxDeltaY = (trayObject.boundingBoxHeight - trayObject.height) / 2;
-    const previewStyle = {
-      left: dragSourcePosition.x + boundingBoxDeltaX - kOutlineOffset,
-      top: dragSourcePosition.y + boundingBoxDeltaY - kOutlineOffset,
-      transform: `rotate(${trayObject.rotation}deg)`
-    };
-    return <img style={previewStyle} src={item.dragImage} className="preview" />;
+    let previewStyle = {};
+    const isLeaf = draggableLeafTypes.includes(trayObject.type as any);
+    if (dragOverTray || isLeaf) {
+      previewStyle = {
+        left: dragSourcePosition.x + boundingBoxDeltaX - kOutlineOffset,
+        top: dragSourcePosition.y + boundingBoxDeltaY - kOutlineOffset,
+        transform: `rotate(${trayObject.rotation}deg)`
+      };
+    } else {
+      previewStyle = {
+        left: dragPosition.x - kNonTrayPreviewHeight / trayObject.height * trayObject.width / 2,
+        top: dragPosition.y - kNonTrayPreviewHeight / 2,
+      };
+    }
+    return <img style={previewStyle} src={item.dragImage} className={`preview ${(!dragOverTray && !isLeaf) ? "small" : ""}`} />;
   };
 
   const containerStyle = {left: trayObject.left, top: trayObject.top, width: trayObject.width, height: trayObject.height,

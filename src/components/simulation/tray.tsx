@@ -21,7 +21,7 @@ interface IProps {
 export const Tray: React.FC<IProps> = (props) => {
   const { trayObjects, hidden, onTrayObjectSelect, onHideTray, traySelectionType, onTrayObjectMove } = props;
 
-  const [, drop] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: [...draggableAnimalTypes, ...draggableLeafTypes],
     drop: (item: any, monitor) => {
       const delta = monitor.getDifferenceFromInitialOffset();
@@ -29,6 +29,9 @@ export const Tray: React.FC<IProps> = (props) => {
       const top = Math.round(item.top + delta?.y);
       onTrayObjectMove(item.trayIndex, left, top);
     },
+    collect: monitor => ({
+      isOver: !!monitor.isOver(),
+    }),
   });
 
   return (
@@ -47,6 +50,7 @@ export const Tray: React.FC<IProps> = (props) => {
             trayObject={trayObject}
             onTrayObjectSelect={onTrayObjectSelect}
             traySelectionType={traySelectionType}
+            dragOverTray={isOver}
           />
         );
       })}
