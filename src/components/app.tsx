@@ -189,7 +189,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           );
         }
 
-        setOutputStateAndSave({ trayObjects: newTrayObjects, showTray: true});
+        setOutputStateAndSave({ trayObjects: newTrayObjects, showTray: true });
       }
     };
 
