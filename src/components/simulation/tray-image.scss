@@ -21,6 +21,10 @@
         display: block;
       }
     }
+
+    &.dragging {
+      opacity: 0;
+    }
   }
 
   .tray-object-image-selectable {

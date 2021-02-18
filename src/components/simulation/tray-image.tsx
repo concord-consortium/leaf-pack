@@ -11,7 +11,7 @@ import "./tray-image.scss";
 // corner. This ends up being about 5 pixels for all tray objects. Technically it could be computed
 // by hand for ALL tray objects, but subtracting 5 pixels works pretty well in practice.
 const kOutlineOffset = 5;
-const kNonTrayPreviewHeight = 64;
+const kNonTrayPreviewHeight = 48;
 
 interface IProps {
   trayObject: TrayObject;
@@ -69,7 +69,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
       {isDragging && <PreviewImage />}
       <div style={containerStyle} className="tray-image-container">
         <TrayObjectImage
-          className={`tray-object-image ${isDragging || trayObject.type === traySelectionType ? "highlight" : ""}`}
+          className={`tray-object-image ${trayObject.type === traySelectionType ? "highlight" : ""} ${isDragging ? "dragging" : ""}`}
           style={imageStyle}
         />
         <svg version="1.1" className="tray-object-image-selectable" style={imageStyle}>
