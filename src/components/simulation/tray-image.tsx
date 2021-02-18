@@ -50,12 +50,14 @@ export const TrayImage: React.FC<IProps> = (props) => {
         transform: `rotate(${trayObject.rotation}deg)`
       };
     } else {
+      const previewHeight = Math.min(kNonTrayPreviewHeight, trayObject.height);
       previewStyle = {
-        left: dragPosition.x - kNonTrayPreviewHeight / trayObject.height * trayObject.width / 2,
-        top: dragPosition.y - kNonTrayPreviewHeight / 2,
+        height: previewHeight,
+        left: dragPosition.x - previewHeight / trayObject.height * trayObject.width / 2,
+        top: dragPosition.y - previewHeight / 2,
       };
     }
-    return <img style={previewStyle} src={item.dragImage} className={`preview ${(!dragOverTray && !isLeaf) ? "small" : ""}`} />;
+    return <img style={previewStyle} src={item.dragImage} className="preview" />;
   };
 
   const containerStyle = {left: trayObject.left, top: trayObject.top, width: trayObject.width, height: trayObject.height,
