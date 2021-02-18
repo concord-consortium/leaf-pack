@@ -116,5 +116,8 @@
   "ANIMAL.PLANARIAN": "Planarians / Flatworms",
   "ANIMAL.RIFFLEBEETLE": "Riffle Beetle Larvae / Adults",
   "ANIMAL.SCUD": "Scuds",
-  "ANIMAL.STONEFLY": "Stoneflies"
+  "ANIMAL.STONEFLY": "Stoneflies",
+
+  "CHEM.TEST": "Test",
+  "CHEM.RESULT": "Water Quality Result"
 }
