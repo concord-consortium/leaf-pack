@@ -1,5 +1,6 @@
 import React from "react";
-import { ChemistryTest, ChemTestType, ChemistryTestResult } from "../../utils/chem-utils";
+import { ChemistryTest, ChemTestType, ChemistryTestResult, StepType } from "../../utils/chem-utils";
+import { ChemTestSlider } from "./chem-test-slider";
 import CheckIcon from "../../assets/check-icon.svg";
 import t from "../../utils/translation/translate";
 
@@ -9,13 +10,19 @@ interface IProps {
   chemistryTest: ChemistryTest;
   testIndex: number;
   chemistryTestResults: ChemistryTestResult[];
-  onUpdateTestResult: (type: ChemTestType, completedStep: number) => void;
+  onUpdateTestResult: (type: ChemTestType, completedStep: number, value?: number) => void;
 }
 
 export const ChemTest: React.FC<IProps> = (props) => {
   const { chemistryTest, testIndex, chemistryTestResults, onUpdateTestResult } = props;
   const testResult = chemistryTestResults.find((result) => result.type === chemistryTest.type);
   const stepsComplete = testResult?.stepsComplete ?? 0;
+  const currentStep = chemistryTest.steps[Math.min(stepsComplete, chemistryTest.steps.length - 1)];
+
+  const handleChangeSlider = (event: any, value: number) => {
+    onUpdateTestResult(chemistryTest.type, chemistryTest.steps.length, chemistryTest.values[value].value);
+  };
+
   return (
     <div className="chem-test">
       <div className="header">
@@ -23,7 +30,15 @@ export const ChemTest: React.FC<IProps> = (props) => {
         {`${chemistryTest.label} ${t("CHEM.TEST")}`}
       </div>
       <div className="test-container">
-        <div className="test-content"/>
+        <div className="test-content">
+        { currentStep.type === StepType.resultSlider &&
+          <ChemTestSlider
+            onChangeSlider={handleChangeSlider}
+            sliderValue={chemistryTest.values.findIndex((val) => val.value === testResult?.value) || 0}
+            testValues={chemistryTest.values}
+          />
+        }
+        </div>
         <div className="step-buttons">
           { chemistryTest.steps.map((step, index) =>
             <button

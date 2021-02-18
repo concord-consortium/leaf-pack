@@ -21,7 +21,7 @@ interface IProps {
   onSelectFeature: (feature: HabitatFeatureType, selected: boolean) => void;
   onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
   chemistryTestResults: ChemistryTestResult[];
-  onUpdateTestResult: (type: ChemTestType, completedStep: number) => void;
+  onUpdateTestResult: (type: ChemTestType, completedStep: number, value?: number) => void;
   traySelectionType?: TrayType;
   isRunning: boolean;
 }

@@ -1,0 +1,46 @@
+@import "../vars.scss";
+
+.chem-slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+
+  .slider-values {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .value-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      width: 25px;
+
+      &.selected {
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .bubble {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        border: solid 2px white;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  .slider {
+    margin-right: 8px;
+  }
+
+  .label {
+    margin-left: 4px;
+    color: $gray-dark
+  }
+}

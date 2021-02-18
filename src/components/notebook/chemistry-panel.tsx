@@ -8,7 +8,7 @@ import "./chemistry-panel.scss";
 
 interface IProps {
   chemistryTestResults: ChemistryTestResult[];
-  onUpdateTestResult: (type: ChemTestType, completedStep: number) => void;
+  onUpdateTestResult: (type: ChemTestType, completedStep: number, value?: number) => void;
   isRunning: boolean;
 }
 

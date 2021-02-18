@@ -1,0 +1,47 @@
+import React from "react";
+import Slider from "@material-ui/core/Slider";
+import { ChemTestValue } from "../../utils/chem-utils";
+import IconHorizontalHandle from "../../assets/icon-slider-horizontal.svg";
+
+import "./chem-test-slider.scss";
+import "../../components/control-panel/slider.scss";
+
+const kSliderValWidth = 25;
+
+interface IProps {
+  onChangeSlider: (event: any, value: number) => void;
+  sliderValue: number;
+  testValues: ChemTestValue[];
+}
+
+export const ChemTestSlider: React.FC<IProps> = (props) => {
+  const { sliderValue, onChangeSlider, testValues } = props;
+  const sliderMarks = testValues.map((val, index) => {return ({value: index});});
+  return (
+    <div className="chem-slider" data-testid="chem-slider">
+      <div className="slider-values">
+        { testValues.map((val, index) =>
+          <div className={`value-container ${sliderValue === index ? "selected" : ""}`} key={`value-${val.value}`}>
+            {val.value}
+            <div className="bubble" style={{backgroundColor: val.color, borderColor: sliderValue === index ? "black" : "white"}}>
+              {val.icon && <val.icon className="slider-icon" width={21} />}
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="slider" style={{width: kSliderValWidth * (testValues.length - 1)}}>
+        <Slider
+          classes={{thumb: "thumb" }}
+          min={0}
+          max={testValues.length - 1}
+          value={sliderValue}
+          step={1}
+          marks={sliderMarks}
+          onChange={onChangeSlider}
+          ThumbComponent={IconHorizontalHandle}
+          data-test="chem-test-slider"
+        />
+      </div>
+    </div>
+  );
+};
