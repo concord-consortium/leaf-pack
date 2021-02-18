@@ -39,6 +39,7 @@
         border: solid 2px $gray-dark;
         border-radius: 5px;
         margin: 5px;
+        background-color: white;
 
         .animal-icon {
           height: 30px;
@@ -67,14 +68,6 @@
         &.enabled {
           pointer-events: auto;
           cursor: pointer;
-
-          &:hover {
-            border-style: solid;
-          }
-        }
-
-        &.highlight{
-          border-style: solid;
         }
       }
 
