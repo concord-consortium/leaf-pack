@@ -11,7 +11,7 @@ import "./tray-image.scss";
 // corner. This ends up being about 5 pixels for all tray objects. Technically it could be computed
 // by hand for ALL tray objects, but subtracting 5 pixels works pretty well in practice.
 const kOutlineOffset = 5;
-const kNonTrayPreviewHeight = 30;
+const kNonTrayPreviewHeight = 64;
 
 interface IProps {
   trayObject: TrayObject;
