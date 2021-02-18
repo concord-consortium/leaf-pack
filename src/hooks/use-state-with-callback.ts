@@ -29,12 +29,8 @@ const useStateWithCallbackLazy = <T>(initialState: T) => {
 
   const setValueWithCallback = useCallback((newValueOrFn: React.SetStateAction<T>, callback?: (state?: T) => void) => {
     callbackRef.current = callback ?? null;
-
-    const newValue = typeof newValueOrFn === "function"
-                      ? (newValueOrFn as ((prevState: T) => T))(value)
-                      : newValueOrFn;
-    return setValue(newValue);
-  }, [value]);
+    setValue(newValueOrFn);
+  }, []);
 
   return [value, setValueWithCallback] as const;
 };
