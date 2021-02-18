@@ -20,6 +20,7 @@ import { LeafEatersAmountType, EnvironmentType, getSunnyDayLogLabel, AlgaeEaters
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 import { getPTIScore } from "../utils/macro-utils";
+import { ChemistryTestResult, ChemTestType, chemistryTests } from "../utils/chem-utils";
 import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger, shuffleArray } from "../utils/math-utils";
 import t from "../utils/translation/translate";
 
@@ -40,6 +41,7 @@ export interface IModelOutputState {
   trayObjects: TrayObject[];
   pti?: number;
   habitatFeatures: Set<HabitatFeatureType>;
+  chemistryTestResults: ChemistryTestResult[];
 }
 export interface IModelTransientState {
   time: number;
@@ -69,6 +71,14 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                           animalInstances: [],
                           showTray: false,
                           trayObjects: [],
+                          chemistryTestResults: [
+                            {type: ChemTestType.airTemperature, stepsComplete: 0, value: 0},
+                            {type: ChemTestType.waterTemperature, stepsComplete: 0, value: 0},
+                            {type: ChemTestType.pH, stepsComplete: 0, value: 0},
+                            {type: ChemTestType.nitrate, stepsComplete: 0, value: 0},
+                            {type: ChemTestType.turbidity, stepsComplete: 0, value: 0},
+                            {type: ChemTestType.dissolvedOxygen, stepsComplete: 0, value: 0}
+                          ],
                           habitatFeatures: new Set()
                         },
     initialTransientState: {
@@ -92,7 +102,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     startSimulation, endSimulation, inputControlsDisabled
   } = modelState;
   const {environment, sunnyDayFequency} = inputState;
-  const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects} = outputState;
+  const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects, chemistryTestResults} = outputState;
   const {time} = transientState;
   const {isRunning, isPaused, isFinished} = simulationState;
   const modelRef = useRef<Model>(new Model(inputState));
@@ -296,6 +306,24 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     setOutputStateAndSave({ habitatFeatures });
   };
 
+  const handleUpdateTestResult = (type: ChemTestType, completedStep: number) => {
+    const updatedChemistryTestResults = chemistryTestResults.map((result: ChemistryTestResult) => {
+      if (result.type === type) {
+        const updatedResult = { ...result };
+        updatedResult.stepsComplete = completedStep;
+        const currentTest = chemistryTests.find((test) => test.type === type);
+        if (completedStep === currentTest?.steps.length) {
+          // TODO: user defines value, pick random number for now
+          updatedResult.value = currentTest.values[getRandomInteger(0, currentTest.values.length - 1)].value;
+        }
+        return updatedResult;
+      } else {
+        return result;
+      }
+    });
+    setOutputStateAndSave({ chemistryTestResults: updatedChemistryTestResults });
+  };
+
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -338,6 +366,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               featureSelections={habitatFeatures}
               onSelectFeature={handleHabitatSelectFeature}
               onCategorizeAnimal={handleCategorizeAnimal}
+              chemistryTestResults={chemistryTestResults}
+              onUpdateTestResult={handleUpdateTestResult}
               traySelectionType={traySelectionType}
               isRunning={isRunning}
             />
