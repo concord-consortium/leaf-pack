@@ -61,7 +61,7 @@ export const SimulationView: React.FC<IProps> = (props) => {
       />
       <TransitionGroup>
         { animations.map((animation, index) =>
-          <CSSTransition key={index} timeout={kSimulationOneWeekPeriodInMilliseconds} classNames="animation-item">
+          <CSSTransition key={index} timeout={isRunning ? kSimulationOneWeekPeriodInMilliseconds : 0} classNames="animation-item">
             <SimulationAnimation
               animation={animation}
               key={`animation-${index}`}
