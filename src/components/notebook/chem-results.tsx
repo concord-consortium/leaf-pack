@@ -40,7 +40,7 @@ export const ChemResults: React.FC<IProps> = (props) => {
                     {rating && <div className="test-rating" style={{backgroundColor: rating.color}}>{rating.label}</div>}
                   </div>
                 : <div className="incomplete">
-                    {started ? "Test not yet complete" : "Test not yet run"}
+                    {started ? t("CHEM.TEST.INCOMPLETE") : t("CHEM.TEST.UNSTARTED")}
                   </div>
               }
             </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { ChemistryTest, ChemTestType, ChemistryTestResult } from "../../utils/chem-utils";
 import CheckIcon from "../../assets/check-icon.svg";
+import t from "../../utils/translation/translate";
 
 import "./chem-test.scss";
 
@@ -19,7 +20,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
     <div className="chem-test">
       <div className="header">
         <div className="test-num">{testIndex + 1}</div>
-        {`${chemistryTest.label} Test`}
+        {`${chemistryTest.label} ${t("CHEM.TEST")}`}
       </div>
       <div className="test-container">
         <div className="test-content"/>
