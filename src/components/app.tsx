@@ -288,6 +288,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
       }
     });
     setOutputStateAndSave({ trayObjects: updatedTrayObjects });
+    setTraySelectionType(undefined);
   };
 
   const handleHabitatSelectFeature = (feature: HabitatFeatureType, value: boolean) => {
