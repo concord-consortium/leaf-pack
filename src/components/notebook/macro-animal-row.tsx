@@ -40,7 +40,7 @@ export const MacroAnimalRow: React.FC<IProps> = (props) => {
           </div>
         : <div
             className={`empty-box ${traySelectionType ? "enabled" : ""} ${isOver ? "highlight" : ""}`}
-            style={{backgroundColor: sensitivity?.blockColor,
+            style={{backgroundColor: isOver ? sensitivity?.backgroundColor : sensitivity?.blockColor,
                     borderColor: isOver ? sensitivity?.graphColor : "#333333"}}
             onClick={() => onCategorizeAnimal(traySelectionType, trayAnimal?.type)}
           />
