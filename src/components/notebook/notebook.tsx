@@ -16,8 +16,8 @@ import "./notebook.scss";
 interface IProps {
   trayObjects: TrayObject[];
   environment: EnvironmentType;
-  featureSelections: Record<HabitatFeatureType, boolean>;
-  onSelectFeature: (feture: HabitatFeatureType, selected: boolean) => void;
+  featureSelections: Set<HabitatFeatureType>;
+  onSelectFeature: (feature: HabitatFeatureType, selected: boolean) => void;
   onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
   traySelectionType?: TrayType;
   isRunning: boolean;

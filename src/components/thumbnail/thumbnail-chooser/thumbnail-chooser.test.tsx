@@ -2,7 +2,9 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { IThumbnailChooserProps, ThumbnailChooser } from "./thumbnail-chooser";
-import { ContainerId, IContainer, initialSimulationState } from "../../../hooks/use-model-state";
+import {
+  ContainerId, ContainerIds, IContainer, initContainerMap, initialSimulationState
+} from "../../../hooks/use-model-state";
 
 interface IModelInputState {
   foo: boolean;
@@ -24,7 +26,7 @@ describe("ThumbnailChooser component", () => {
     const Thumbnail = () => <div data-testid="thumbnail">Thumbnail</div>;
 
     const thumbnailChooserProps: IThumbnailChooserProps<IModelInputState, IModelOutputState> = {
-      containers: {"A": container, "B": null, "C": null, "D": null, "E": null},
+      containers: initContainerMap({"A": container}),
       Thumbnail,
       selectedContainerId: "A",
       setSelectedContainerId: (containerId: ContainerId) => undefined,
@@ -35,7 +37,7 @@ describe("ThumbnailChooser component", () => {
 
     render(<ThumbnailChooser {...thumbnailChooserProps} />);
     expect(screen.getAllByTestId("thumbnail-chooser")).toHaveLength(1);
-    expect(screen.getAllByTestId("thumbnail-wrapper")).toHaveLength(5);
+    expect(screen.getAllByTestId("thumbnail-wrapper")).toHaveLength(ContainerIds.length);
     expect(screen.getAllByTestId("thumbnail")).toHaveLength(1);
   });
 });

@@ -5,36 +5,68 @@
   width: 90px;
   position: relative;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
 
-  .foreground {
+  .environment {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  .inputs {
+    left: 40px;
+    top: 2px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: flex-end;
-    height: 90%;
+    align-items: center;
+    margin: 5px;
 
-    .environment {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin: 5px;
+    svg {
+      margin-right: 2px;
     }
+  }
 
-    .sunny-days {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin: 5px;
+  .sunny-days {
+    position: absolute;
+    left: 0;
+    top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+
+    svg {
+      margin-right: 2px;
+    }
+  }
+
+  .pollution-tolerance {
+    position: absolute;
+    left: 42px;
+    top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .notebook-row {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: calc(100% - 10px);
+    padding: 0 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    svg {
+      width: 20px;
+      height: 20px;
     }
   }
 

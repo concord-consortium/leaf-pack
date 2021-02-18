@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
+import Modal from "react-modal";
 import { IThumbnailChooserProps, ThumbnailChooser } from "../components/thumbnail/thumbnail-chooser/thumbnail-chooser";
 import { IAppProps } from "./render-app";
-import { useModelState, IModelCurrentState, hasOwnProperties } from "../hooks/use-model-state";
+import { useModelState, IModelCurrentState, hasOwnProperties, ContainerId } from "../hooks/use-model-state";
 import { MainViewWrapper } from "./simulation/main-view-wrapper";
 import { SimulationView } from "./simulation/simulation-view";
 import { ControlPanel } from "./control-panel/control-panel";
@@ -11,13 +12,14 @@ import { Thumbnail } from "./thumbnail/thumbnail";
 import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
 import { ModalDialog } from "./modal-dialog";
-import Modal from "react-modal";
 import { Model } from "../model";
 import { LeafEatersAmountType, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
          LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kTraySpawnPadding,
-         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes
+         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes,
+         containerIdForEnvironmentMap, environmentForContainerId
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
+import { getPTIScore } from "../utils/macro-utils";
 import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger, shuffleArray } from "../utils/math-utils";
 import t from "../utils/translation/translate";
 
@@ -34,6 +36,10 @@ export interface IModelOutputState {
   algaeEaters: AlgaeEatersAmountType;
   fish: FishAmountType;
   animalInstances: AnimalInstance[];
+  showTray: boolean;
+  trayObjects: TrayObject[];
+  pti?: number;
+  habitatFeatures: Set<HabitatFeatureType>;
 }
 export interface IModelTransientState {
   time: number;
@@ -60,9 +66,16 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                           leafEaters: LeafEatersAmountType.few,
                           algaeEaters: AlgaeEatersAmountType.few,
                           fish: FishAmountType.few,
-                          animalInstances: [] },
+                          animalInstances: [],
+                          showTray: false,
+                          trayObjects: [],
+                          habitatFeatures: new Set()
+                        },
     initialTransientState: {
       time: 0
+    },
+    finalTransientState: {
+      time: 1
     },
     onStateChange,
     addExternalSetStateListener,
@@ -79,7 +92,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     startSimulation, endSimulation, inputControlsDisabled
   } = modelState;
   const {environment, sunnyDayFequency} = inputState;
-  const {leafDecomposition, fish} = outputState;
+  const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects} = outputState;
   const {time} = transientState;
   const {isRunning, isPaused, isFinished} = simulationState;
   const modelRef = useRef<Model>(new Model(inputState));
@@ -176,20 +189,25 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           );
         }
 
-        setTrayObjects(newTrayObjects);
-        setShowTray(true);
+        setOutputStateAndSave({ trayObjects: newTrayObjects, showTray: true});
       }
     };
 
     startSimulation(simulationStep);
   };
 
+  const _setSelectedContainerId = (containerId: ContainerId) => {
+    setSelectedContainerId(containerId);
+    setInputState({environment: environmentForContainerId[containerId]});
+  };
+
   const thumbnailChooserProps: IThumbnailChooserProps<IModelInputState, IModelOutputState> = {
     Thumbnail,
+    disableUnselectedThumbnails: isRunning,
     containers,
     clearContainer,
     selectedContainerId,
-    setSelectedContainerId,
+    setSelectedContainerId: _setSelectedContainerId,
     savedBgColor: kSavedBgColor,
     selectedContainerBgColor: kSelectedContainerBgColor
   };
@@ -209,17 +227,19 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     if (value !== environment) {
       logEvent("changEnvironment", {data: {value}});
     }
+    setSelectedContainerId(containerIdForEnvironmentMap[value]);
     setInputState({environment: value});
   };
 
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
-  const [trayObjects, setTrayObjects] = useState<TrayObject[]>([]);
-  const [showTray, setShowTray] = useState(false);
+  const setOutputStateAndSave = (output: Partial<IModelOutputState>) => {
+    const pti = output.trayObjects ? { pti: getPTIScore(output.trayObjects) }: undefined;
+    setOutputState({ ...output, ...pti });
+  };
 
   const handleRewind = () => {
-    setShowTray(false);
-    setTrayObjects([]);
+    setOutputStateAndSave({ trayObjects: [], showTray: false });
     setTraySelectionType(undefined);
     rewindSimulation();
   };
@@ -241,7 +261,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
           return obj;
         }
       });
-      setTrayObjects(updatedTrayObjects);
+      setOutputStateAndSave({ trayObjects: updatedTrayObjects });
     } else {
       setShowModal(true);
     }
@@ -267,23 +287,13 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         return obj;
       }
     });
-    setTrayObjects(updatedTrayObjects);
+    setOutputStateAndSave({ trayObjects: updatedTrayObjects });
   };
 
-  const [habitatSelectedFeatures, setHabitatSelectedFeatures] = useState<Record<HabitatFeatureType, boolean>>(
-    { [HabitatFeatureType.pools]: false, [HabitatFeatureType.riffles]: false, [HabitatFeatureType.runs]: false,
-      [HabitatFeatureType.manyTrees]: false, [HabitatFeatureType.someTrees]: false, [HabitatFeatureType.noTrees]: false,
-      [HabitatFeatureType.grassOnly]: false, [HabitatFeatureType.pavement]: false, [HabitatFeatureType.leaves]: false,
-      [HabitatFeatureType.cobbles]: false, [HabitatFeatureType.woodyDebris]: false, [HabitatFeatureType.plantRoots]: false,
-      [HabitatFeatureType.lightCover]: false, [HabitatFeatureType.thickCover]: false, [HabitatFeatureType.thickCoverClumps]: false,
-      [HabitatFeatureType.fish]: false, [HabitatFeatureType.beavers]: false, [HabitatFeatureType.trash]: false,
-      [HabitatFeatureType.pipes]: false
-    }
-  );
   const handleHabitatSelectFeature = (feature: HabitatFeatureType, value: boolean) => {
-    const newSelectedFeatures = { ...habitatSelectedFeatures };
-    newSelectedFeatures[feature] = value;
-    setHabitatSelectedFeatures(newSelectedFeatures);
+    if (value) habitatFeatures.add(feature);
+    else habitatFeatures.delete(feature);
+    setOutputStateAndSave({ habitatFeatures });
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -308,13 +318,13 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                 environment={environment}
                 leafPackState={leafPackState}
                 fish={fish}
-                onShowTray={() => setShowTray(true)}
+                onShowTray={() => setOutputStateAndSave({ showTray: true })}
                 isFinished={isFinished}
                 isRunning={isRunning}
               />
               <Tray
                 trayObjects={trayObjects}
-                onHideTray={() => setShowTray(false)}
+                onHideTray={() => setOutputStateAndSave({ showTray: false })}
                 onTrayObjectSelect={handleTrayObjectSelect}
                 traySelectionType={traySelectionType}
                 hidden={!showTray}
@@ -325,7 +335,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
             <Notebook
               trayObjects={trayObjects}
               environment={environment}
-              featureSelections={habitatSelectedFeatures}
+              featureSelections={habitatFeatures}
               onSelectFeature={handleHabitatSelectFeature}
               onCategorizeAnimal={handleCategorizeAnimal}
               traySelectionType={traySelectionType}

@@ -97,6 +97,7 @@ import { stoneFlySelectionPath, mayFlySelectionPath, caddisFlySelectionPath, dob
 } from "./selection-utils";
 
 import t from "./translation/translate";
+import { ContainerId } from "../hooks/use-model-state";
 
 export const sunnyDaySliderMarks = [
   {
@@ -124,6 +125,20 @@ export enum EnvironmentType {
   environment3 = "environment3",
   environment4 = "environment4",
 }
+
+export const containerIdForEnvironmentMap: Record<EnvironmentType, ContainerId> = {
+  [EnvironmentType.environment1]: "A",
+  [EnvironmentType.environment2]: "B",
+  [EnvironmentType.environment3]: "C",
+  [EnvironmentType.environment4]: "D"
+};
+
+export const environmentForContainerId: Record<ContainerId, EnvironmentType> = {
+  A: EnvironmentType.environment1,
+  B: EnvironmentType.environment2,
+  C: EnvironmentType.environment3,
+  D: EnvironmentType.environment4
+};
 
 export interface Environment {
   type: EnvironmentType;

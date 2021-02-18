@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalSetStateListenerCallback, LogEventMethod } from "../components/render-app";
+import { useStateWithCallbackLazy } from "./use-state-with-callback";
 
-export type ContainerId = "A" | "B" | "C" | "D" | "E"
+// cf. https://stackoverflow.com/a/45486495
+export const ContainerIds = ["A", "B", "C", "D"] as const;
+export type ContainerId = typeof ContainerIds[number];
 
 export interface ISimulationState {
   isRunning: boolean;
@@ -22,10 +25,21 @@ export interface IContainer<IModelInputState, IModelOutputState> {
   isSaved: boolean;
 }
 
+export type IContainerMap<IModelInputState, IModelOutputState> = Record<ContainerId, IContainer<IModelInputState, IModelOutputState> | null>;
+export type IPartialContainerMap<IModelInputState, IModelOutputState> = Partial<IContainerMap<IModelInputState, IModelOutputState>>;
+
+export const initContainerMap = <IModelInputState, IModelOutputState>(
+  input?: IPartialContainerMap<IModelInputState, IModelOutputState>
+): IContainerMap<IModelInputState, IModelOutputState> => {
+  const result: IPartialContainerMap<IModelInputState, IModelOutputState> = {};
+  for (const id of ContainerIds) result[id] = null;
+  return { ...result, ...input } as IContainerMap<IModelInputState, IModelOutputState>;
+};
+
 export interface IModelCurrentState<IModelInputState, IModelOutputState> {
   inputState: IModelInputState;
   outputState: IModelOutputState;
-  containers: Record<ContainerId, IContainer<IModelInputState, IModelOutputState> | null>;
+  containers: IContainerMap<IModelInputState, IModelOutputState>;
   selectedContainerId: ContainerId;
 }
 
@@ -35,6 +49,7 @@ export interface IUseModelStateOptions<IModelInputState, IModelOutputState, IMod
   initialInputState: IModelInputState;
   initialOutputState: IModelOutputState;
   initialTransientState: IModelTransientState;
+  finalTransientState: IModelTransientState;
   onStateChange: ModelStateChangeCallback<IModelInputState, IModelOutputState>;
   addExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
   removeExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
@@ -45,21 +60,16 @@ export interface IUseModelStateOptions<IModelInputState, IModelOutputState, IMod
 export const hasOwnProperties = (obj: Record<string, any>, properties: string[]) => properties.reduce<boolean>((acc, prop) => acc && Object.prototype.hasOwnProperty.call(obj, prop), true);
 
 export const useModelState = <IModelInputState, IModelOutputState, IModelTransientState>(options: IUseModelStateOptions<IModelInputState, IModelOutputState, IModelTransientState>) => {
-  type ContainerMap = Record<ContainerId, IContainer<IModelInputState, IModelOutputState> | null>;
+  type ContainerMap = IContainerMap<IModelInputState, IModelOutputState>;
 
-  const {initialInputState, initialOutputState, initialTransientState, onStateChange, addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, logEvent} = options;
+  const {initialInputState, initialOutputState, initialTransientState, finalTransientState,
+        onStateChange, addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, logEvent} = options;
   const [inputState, _setInputState] = useState<IModelInputState>(initialInputState);
-  const [outputState, _setOutputState] = useState<IModelOutputState>(initialOutputState);
+  const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState);
   const [transientState, _setTransientState] = useState<IModelTransientState>(initialTransientState);
   const [simulationState, _setSimulationState] = useState<ISimulationState>(initialSimulationState);
   const [selectedContainerId, _setSelectedContainerId] = useState<ContainerId>("A");
-  const [containers, _setContainers] = useState<ContainerMap>({
-    "A": null,
-    "B": null,
-    "C": null,
-    "D": null,
-    "E": null,
-  });
+  const [containers, _setContainers] = useState<ContainerMap>(initContainerMap());
   const [isDirty, _setIsDirty] = useState(false);
   const [isSaved, _setIsSaved] = useState(false);
 
@@ -84,7 +94,7 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
     };
     addExternalSetStateListener(listener);
     return () => removeExternalSetStateListener(listener);
-  }, [addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, initialTransientState]);
+  }, [addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, initialTransientState, _setOutputState]);
 
   // notify PCI about any state changes
   useEffect(() => {
@@ -100,7 +110,8 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   };
 
   const setOutputState = (update: Partial<IModelOutputState>) => {
-    _setOutputState(oldOutputState => ({...oldOutputState, ...update}));
+    _setOutputState(oldOutputState => ({...oldOutputState, ...update}),
+                    newOutputState => saveToSelectedContainer(newOutputState));
   };
 
   const setTransientState = (update: Partial<IModelTransientState>) => {
@@ -117,9 +128,9 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
         _setSelectedContainerId(containerId);
         _setInputState(container?.inputState || initialInputState);
 
-        _setOutputState(initialOutputState);
+        _setOutputState(container?.outputState || initialOutputState);
         _setSimulationState(initialSimulationState);
-        _setTransientState(initialTransientState);
+        _setTransientState(container?.outputState ? finalTransientState : initialTransientState);
 
         _setIsDirty(false);
         _setIsSaved(!!container?.isSaved);
@@ -134,18 +145,19 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
     logEvent("clear", {data: {containerId}, includeState: true});
     _setContainers(oldContainers => ({...oldContainers, [containerId]: null}));
 
-    const sortedKeys: ContainerId[] = Object.keys(containers).sort() as ContainerId[];
-    let lastNonEmptyBefore: string | null = null;
-    let firstNonEmptyAfter: string | null = null;
-    sortedKeys.forEach(key => {
-      if (key < containerId && containers[key]) {
-        lastNonEmptyBefore = key;
-      }
-      if (!firstNonEmptyAfter && key > containerId && containers[key]) {
-        firstNonEmptyAfter = key;
+    let lastNonEmptyBefore: ContainerId | null = null;
+    let firstNonEmptyAfter: ContainerId | null = null;
+    ContainerIds.forEach(key => {
+      if (containers[key]) {
+        if ((key as string) < (containerId as string)) {
+          lastNonEmptyBefore = key;
+        }
+        if (!firstNonEmptyAfter && (key as string) > (containerId as string)) {
+          firstNonEmptyAfter = key;
+        }
       }
     });
-    const containerToSelect = lastNonEmptyBefore || firstNonEmptyAfter;
+    const containerToSelect: ContainerId | null = lastNonEmptyBefore || firstNonEmptyAfter;
     if (containerToSelect) {
       setSelectedContainerId(containerToSelect);
     } else {
@@ -160,11 +172,13 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
     }
   };
 
-  const saveToSelectedContainer = () => {
+  const saveToSelectedContainer = (output?: IModelOutputState) => {
     _setContainers(oldContainers => {
-      logEvent("save", {data: {containerId: selectedContainerId, inputState, outputState}, includeState: true});
+      // `output` argument can be more current than closure's `outputState`
+      const _outputState = output ?? outputState;
+      logEvent("save", {data: {containerId: selectedContainerId, inputState, outputState: _outputState}, includeState: true});
       const newContainer: IContainer<IModelInputState, IModelOutputState> = {
-        inputState, outputState, simulationState, isSaved: true
+        inputState, outputState: _outputState, simulationState, isSaved: true
       };
       return {...oldContainers, [selectedContainerId]: newContainer};
     });

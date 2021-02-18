@@ -10,7 +10,7 @@ const kCategoriesPerSection = 3;
 
 interface IProps {
   environment: EnvironmentType;
-  featureSelections: Record<HabitatFeatureType, boolean>;
+  featureSelections: Set<HabitatFeatureType>;
   onSelectFeature: (feture: HabitatFeatureType, selected: boolean) => void;
   isRunning: boolean;
 }
@@ -41,8 +41,8 @@ export const HabitatPanel: React.FC<IProps> = (props) => {
               ? category.features.map((feature, fIndex) =>
                   <div className="feature-row" key={`feature-row-${fIndex}`}>
                     <button
-                      className={`checkbox ${featureSelections[feature] ? "selected" : ""}`}
-                      onClick={() => onSelectFeature(feature, !featureSelections[feature])}
+                      className={`checkbox ${featureSelections.has(feature) ? "selected" : ""}`}
+                      onClick={() => onSelectFeature(feature, !featureSelections.has(feature))}
                       aria-label={habitatFeatures.find((f) => f.type === feature)?.label}
                     >
                       <CheckIcon />
