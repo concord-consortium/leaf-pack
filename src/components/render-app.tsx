@@ -6,7 +6,7 @@ import { IModelCurrentState, ModelStateChangeCallback } from "../hooks/use-model
 export type LogEventMethod = (name: string, options?: {data?: any, includeState?: boolean}) => void;
 export type PCILogEventMethod = (name: string, data: any) => void;
 
-export interface PCIApp{
+export interface PCIApp {
   setState: (state: any) => void;
   getState: () => any;
 }

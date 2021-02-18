@@ -6,10 +6,14 @@
   "jest": {
     "testURL": "https://leaf-pack.unexisting.url.com",
     "setupFilesAfterEnv": [
-      "<rootDir>src/setupTests.js"
+      "<rootDir>/src/setupTests.ts"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/@concord-consortium/react-components"
     ],
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.(ts|tsx)$": "ts-jest",
+      "^.+\\.(js|jsx)$": "babel-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "testPathIgnorePatterns": [
