@@ -15,7 +15,7 @@ interface IProps {
 export const ChemTest: React.FC<IProps> = (props) => {
   const { chemistryTest, testIndex, chemistryTestResults, onUpdateTestResult } = props;
   const testResult = chemistryTestResults.find((result) => result.type === chemistryTest.type);
-  const stepsComplete = testResult ? testResult?.stepsComplete : 0;
+  const stepsComplete = testResult?.stepsComplete ?? 0;
   return (
     <div className="chem-test">
       <div className="header">
