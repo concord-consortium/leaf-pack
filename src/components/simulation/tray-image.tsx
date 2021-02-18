@@ -17,11 +17,11 @@ interface IProps {
   trayObject: TrayObject;
   onTrayObjectSelect: (type: TrayType) => void;
   traySelectionType?: TrayType;
-  dragOverTray: boolean;
+  trayWrapper: HTMLDivElement | null;
 }
 
 export const TrayImage: React.FC<IProps> = (props) => {
-  const { trayObject, onTrayObjectSelect, traySelectionType, dragOverTray } = props;
+  const { trayObject, onTrayObjectSelect, traySelectionType, trayWrapper } = props;
   const TrayObjectImage = trayObject.image;
 
   const [{isDragging, dragSourcePosition, dragPosition}, drag ] = useDrag({
@@ -43,7 +43,12 @@ export const TrayImage: React.FC<IProps> = (props) => {
     const boundingBoxDeltaY = (trayObject.boundingBoxHeight - trayObject.height) / 2;
     let previewStyle: React.CSSProperties;
     const isLeaf = draggableLeafTypes.includes(trayObject.type as any);
-    if (dragOverTray || isLeaf) {
+
+    const trayRect = trayWrapper?.getBoundingClientRect();
+    const overTray = trayRect && (dragPosition.x >= trayRect.x && dragPosition.x <= (trayRect.x + trayRect.width) &&
+                     dragPosition.y >= trayRect.y && dragPosition.y <= (trayRect.x + trayRect.height));
+
+    if (overTray || isLeaf) {
       previewStyle = {
         left: dragSourcePosition.x + boundingBoxDeltaX - kOutlineOffset,
         top: dragSourcePosition.y + boundingBoxDeltaY - kOutlineOffset,

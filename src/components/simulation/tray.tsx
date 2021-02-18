@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import t from "../../utils/translation/translate";
 import SortingTray from "../../assets/sorting-tray.svg";
 import CloseIcon from "../../assets/close-icon.svg";
@@ -20,8 +20,9 @@ interface IProps {
 
 export const Tray: React.FC<IProps> = (props) => {
   const { trayObjects, hidden, onTrayObjectSelect, onHideTray, traySelectionType, onTrayObjectMove } = props;
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const [{ isOver }, drop] = useDrop({
+  const [, drop] = useDrop({
     accept: [...draggableAnimalTypes, ...draggableLeafTypes],
     drop: (item: any, monitor) => {
       const delta = monitor.getDifferenceFromInitialOffset();
@@ -29,31 +30,30 @@ export const Tray: React.FC<IProps> = (props) => {
       const top = Math.round(item.top + delta?.y);
       onTrayObjectMove(item.trayIndex, left, top);
     },
-    collect: monitor => ({
-      isOver: !!monitor.isOver(),
-    }),
   });
 
   return (
     <div className={`tray ${hidden ? "hidden" : ""}`} ref={drop}>
-      <SortingTray />
-      <div className="header">
-        <div className="title">{t("SORTINGTRAY")}</div>
-        <button className="close" onClick={onHideTray} aria-label={t("BUTTON.CLOSE")}>
-          <CloseIcon />
-        </button>
+      <div className="tray-wrapper" ref={wrapperRef}>
+        <SortingTray />
+        <div className="header">
+          <div className="title">{t("SORTINGTRAY")}</div>
+          <button className="close" onClick={onHideTray} aria-label={t("BUTTON.CLOSE")}>
+            <CloseIcon />
+          </button>
+        </div>
+        { trayObjects.map((trayObject, index) => {
+          return ((trayObject.count > 0 && !trayObject.collected) &&
+            <TrayImage
+              key={`animal-image-${index}`}
+              trayObject={trayObject}
+              onTrayObjectSelect={onTrayObjectSelect}
+              traySelectionType={traySelectionType}
+              trayWrapper={wrapperRef.current}
+            />
+          );
+        })}
       </div>
-      { trayObjects.map((trayObject, index) => {
-        return ((trayObject.count > 0 && !trayObject.collected) &&
-          <TrayImage
-            key={`animal-image-${index}`}
-            trayObject={trayObject}
-            onTrayObjectSelect={onTrayObjectSelect}
-            traySelectionType={traySelectionType}
-            dragOverTray={isOver}
-          />
-        );
-      })}
     </div>
   );
 };

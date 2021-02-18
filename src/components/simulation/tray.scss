@@ -4,14 +4,18 @@
   position: absolute;
   top: 6px;
   left: -16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 444px;
   height: 342px;
   opacity: 1;
   transition: opacity 250ms;
+
+  .tray-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
 
   &.hidden {
     pointer-events: none;
