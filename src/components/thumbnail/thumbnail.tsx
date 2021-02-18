@@ -14,10 +14,10 @@ import "./thumbnail.scss";
 
 export const Thumbnail: React.FC<IThumbnailProps<IModelInputState, IModelOutputState>> = (props) => {
   const {inputState: {environment, sunnyDayFequency},
-        outputState: {habitatFeatures, pti}} = props.container;
+        outputState: {habitatFeatures, pti, chemistryTestResults}} = props.container;
   const showHabitatIcon = habitatFeatures.size > 0;
   const showMacroinvertebratesIcon = (pti ?? 0) > 0;
-  const showChemistryIcon = false;  // TODO: figure out criteria for showing chemistry icon
+  const showChemistryIcon = !!chemistryTestResults.find((result) => result.stepsComplete > 0);
   const sunnyDays = sunnyDayFequency === 0 ? t("SUNNYDAY.FEW.SHORT") : t("SUNNYDAY.MANY.SHORT");
   const environmentIndex = Environments.findIndex((e) => e.type === environment) + 1;
   return (

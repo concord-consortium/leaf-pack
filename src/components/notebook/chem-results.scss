@@ -1,0 +1,108 @@
+@import "../vars.scss";
+
+.chem-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    width: 408px;
+    background-color: $chemistry-blue-dark1;
+  }
+
+  .results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 175px;
+    width: 100%;
+
+    .result-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      height: 31px;
+      border-bottom: solid 2px $gray-lighter1;
+      width: 100%;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .test-check {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+
+        &.complete {
+          background-color: $habitat-green-check;
+        }
+      }
+
+      .test-num {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: $chemistry-blue-dark1;
+      }
+
+      .test-name {
+         width: 178px;
+      }
+
+      .incomplete {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 180px;
+        height: 23px;
+        border-radius: 4px;
+        background-color: $chemistry-blue;
+        font-size: 14px;
+        font-weight: normal;
+        font-style: italic;
+      }
+
+      .complete {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .test-result {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 73px;
+        height: 23px;
+        border-radius: 4px;
+        background-color: $chemistry-blue;
+        margin-right: 6px;
+      }
+
+      .test-rating {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 86px;
+        height: 23px;
+        border-radius: 4px;
+        margin-left: 6px;
+        background-color: $macro-score-pink;
+      }
+    }
+  }
+
+}

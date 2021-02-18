@@ -17,7 +17,8 @@ describe("Thumbnail component", () => {
       animalInstances: [],
       showTray: false,
       trayObjects: [],
-      habitatFeatures: new Set() },
+      habitatFeatures: new Set(),
+      chemistryTestResults: [] },
     simulationState: { isRunning: false, isPaused: false, isFinished: true },
     isSaved: true
   };

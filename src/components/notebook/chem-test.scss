@@ -1,0 +1,92 @@
+@import "../vars.scss";
+
+.chem-test {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    width: 408px;
+    background-color: $chemistry-blue-dark1;
+
+    .test-num {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      font-size: 12px;
+      font-weight: bold;
+      margin: 5px;
+    }
+  }
+
+  .test-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+
+    .test-content {
+      width: 240px;
+    }
+  }
+
+  .step-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .step-button {
+      position: relative;
+      width: 164px;
+      height: 32px;
+      margin: 5px 0;
+      border-radius: 5px;
+      box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.35);
+      border: solid 1px $gray-dark;
+      background-color: #ffffff;
+      font-family: "Lato", sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $chemistry-blue-dark1;
+      }
+      &:active {
+        background-color: $chemistry-blue-dark2;
+      }
+
+      &.disabled {
+        pointer-events: none;
+        opacity: .5;
+      }
+      &.finished {
+        pointer-events: none;
+        border: solid 1px $gray-dark25;
+        color: $gray-dark2;
+        box-shadow: none;
+      }
+
+      .step-check {
+        position: absolute;
+        top: 9px;
+        right: -7px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: $habitat-green-check;
+      }
+    }
+  }
+}
