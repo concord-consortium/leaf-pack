@@ -12,6 +12,11 @@
     height: 24px;
     width: 408px;
     background-color: $chemistry-blue-dark1;
+
+    .category-label {
+      width: 50%;
+      text-align: center;
+    }
   }
 
   .results {
