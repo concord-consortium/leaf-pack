@@ -17,6 +17,12 @@
     border-bottom-right-radius: $component-border-radius;
   }
 
+  .stream-score-container {
+    position: absolute;
+    top: 0;
+    left: 32px;
+  }
+
   .progress-container {
     position: absolute;
     top: 0;

@@ -1,0 +1,35 @@
+.stream-score {
+  width: 104px;
+  height: 38px;
+  opacity: 0.8;
+  border-radius: 19px;
+
+  svg {
+    position: absolute;
+    top: 4px;
+    left: 12px;
+    width: 13px;
+    height: 13px;
+  }
+
+  .pti-results {
+    position: absolute;
+    top: 2px;
+    left: 24px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .pti-score {
+      min-width: 44px;
+    }
+
+    .pti-rating {
+      min-width: 52px;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+}

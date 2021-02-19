@@ -1,5 +1,6 @@
 import React from "react";
 import { ProgressBar } from "@concord-consortium/react-components";
+import { StreamScore } from "./stream-score";
 import { ThumbnailTitle } from "../thumbnail/thumbnail-chooser/thumbnail-title";
 
 import "./main-view-wrapper.scss";
@@ -9,6 +10,7 @@ export interface IMainViewWrapperProps {
   isSaved: boolean;
   isFinished: boolean;
   onSaveClicked: () => void;
+  ptiScore?: number;
   currentTime: number;
   maxTime: number;
   currentTimeLabel: string;
@@ -16,12 +18,15 @@ export interface IMainViewWrapperProps {
 }
 
 export const MainViewWrapper: React.FC<IMainViewWrapperProps> = (props) => {
-  const { title, isSaved, children, currentTime, maxTime, currentTimeLabel, savedBgColor } = props;
+  const { title, isSaved, children, ptiScore, currentTime, maxTime, currentTimeLabel, savedBgColor } = props;
   return (
     <div className="main-view-wrapper">
       <ThumbnailTitle title={title} empty={false} saved={isSaved} savedBgColor={savedBgColor} />
       <div className="model-view">
         { children }
+      </div>
+      <div className="stream-score-container">
+        <StreamScore ptiScore={ptiScore} />
       </div>
       <div className="progress-container">
         <ProgressBar
