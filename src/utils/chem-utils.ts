@@ -54,26 +54,26 @@ export interface ChemistryTest {
   type: ChemTestType,
   label: string,
   steps: ChemTestStep[],
-  values: ChemTestValue[],
+  results: ChemTestValue[],
   units: string,
 }
 
 export const chemistryTests: ChemistryTest[] = [
   { type: ChemTestType.airTemperature, label: t("CHEM.AIRTEMP.TEST"), units: t("CHEM.TEMP.UNIT"),
     steps: [{type: StepType.tempDisplay, label: t("CHEM.READ.THERMOMETER")}],
-    values: [{value: 14}, {value: 16}, {value: 18}, {value: 20}, {value: 22}, {value: 24}, {value: 26}, {value: 28},
+    results: [{value: 14}, {value: 16}, {value: 18}, {value: 20}, {value: 22}, {value: 24}, {value: 26}, {value: 28},
              {value: 30}, {value: 32}, {value: 34}, {value: 36}, {value: 38}, {value: 40}],
   },
   { type: ChemTestType.waterTemperature, label: t("CHEM.WATERTEMP.TEST"), units: t("CHEM.TEMP.UNIT"),
     steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")},
             {type: StepType.tempDisplay, label: t("CHEM.READ.THERMOMETER")}],
-    values: [{value: 14}, {value: 16}, {value: 18}, {value: 20}, {value: 22}, {value: 24}, {value: 26}, {value: 28},
+            results: [{value: 14}, {value: 16}, {value: 18}, {value: 20}, {value: 22}, {value: 24}, {value: 26}, {value: 28},
              {value: 30}, {value: 32}, {value: 34}, {value: 36}, {value: 38}, {value: 40}]
   },
   { type: ChemTestType.pH, label: t("CHEM.PH.TEST"), units: t("CHEM.PH.UNIT"),
     steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.animation, label: t("CHEM.ADD.TABLET")},
             {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR")}],
-    values: [{value: 4, rating: ChemTestRatingType.poor, color: "#e16f4e"}, {value: 5, rating: ChemTestRatingType.poor, color: "#f0895b"},
+    results: [{value: 4, rating: ChemTestRatingType.poor, color: "#e16f4e"}, {value: 5, rating: ChemTestRatingType.poor, color: "#f0895b"},
              {value: 6, rating: ChemTestRatingType.good, color: "#f6c842"}, {value: 7, rating: ChemTestRatingType.excellent, color: "#cad04c"},
              {value: 8, rating: ChemTestRatingType.good, color: "#9fc051"}, {value: 9, rating: ChemTestRatingType.poor, color: "#767a76"},
              {value: 10, rating: ChemTestRatingType.poor, color: "#713357"}]
@@ -81,18 +81,18 @@ export const chemistryTests: ChemistryTest[] = [
   { type: ChemTestType.nitrate, label: t("CHEM.NITRATE.TEST"), units: t("CHEM.AIR.UNIT"),
     steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.animation, label: t("CHEM.ADD.TABLET")},
             {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR")}],
-    values: [{value: 0, rating: ChemTestRatingType.excellent, color: "#f7fdfd"}, {value: 5, rating: ChemTestRatingType.fair, color: "#e5bd94"},
+    results: [{value: 0, rating: ChemTestRatingType.excellent, color: "#f7fdfd"}, {value: 5, rating: ChemTestRatingType.fair, color: "#e5bd94"},
              {value: 20, rating: ChemTestRatingType.poor, color: "#dc8c74"}, {value: 40, rating: ChemTestRatingType.poor, color: "#d24116"}]
   },
   { type: ChemTestType.turbidity, label: t("CHEM.TURBIDITY.TEST"), units: t("CHEM.TURBIDITY.UNIT"),
     steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.resultSlider, label: t("CHEM.MATCH.VALUE")}],
-    values: [{value: 0, rating: ChemTestRatingType.excellent, icon: Turbidity0}, {value: 40, rating: ChemTestRatingType.good, icon: Turbidity40},
+    results: [{value: 0, rating: ChemTestRatingType.excellent, icon: Turbidity0}, {value: 40, rating: ChemTestRatingType.good, icon: Turbidity40},
              {value: 100, rating: ChemTestRatingType.fair, icon: Turbidity100}]
   },
   { type: ChemTestType.dissolvedOxygen, label: t("CHEM.OXYGEN.TEST"), units: t("CHEM.AIR.UNIT"),
     steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.animation, label: t("CHEM.ADD.TABLETS")},
             {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR")}],
-    values: [{value: 0, rating: ChemTestRatingType.poor, color: "#f7fdfd"}, {value: 4, rating: ChemTestRatingType.fair, color: "#db9363"},
+    results: [{value: 0, rating: ChemTestRatingType.poor, color: "#f7fdfd"}, {value: 4, rating: ChemTestRatingType.fair, color: "#db9363"},
              {value: 8, rating: ChemTestRatingType.excellent, color: "#d65c2c"}]
   },
 ];

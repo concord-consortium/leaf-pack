@@ -22,7 +22,7 @@ export const ChemResults: React.FC<IProps> = (props) => {
         {chemistryTests.map((test, index) => {
           const testResult = chemistryTestResults.find((result) => result.type === test.type);
           const complete = testResult?.stepsComplete === test.steps.length;
-          const testValue = test.values.find((val) => val.value === testResult?.value);
+          const testValue = test.results.find((res) => res.value === testResult?.value);
           const ratingType = testValue?.rating;
           const rating = chemTestRatings.find((r) => r.type === ratingType);
           const started = testResult ? testResult.stepsComplete > 0 : false;

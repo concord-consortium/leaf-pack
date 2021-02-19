@@ -11,7 +11,7 @@ interface IProps {
 
 export const InputResult: React.FC<IProps> = (props) => {
   const { chemistryTest, chemistryTestResult } = props;
-  const testValue = chemistryTest.values.find((val) => val.value === chemistryTestResult?.value);
+  const testValue = chemistryTest.results.find((res) => res.value === chemistryTestResult?.value);
   const ratingType = testValue?.rating;
   const rating = chemTestRatings.find((r) => r.type === ratingType);
   return (

@@ -22,11 +22,11 @@ export const ChemTest: React.FC<IProps> = (props) => {
     ? chemistryTest.steps[Math.min(stepsComplete - 1, chemistryTest.steps.length - 1)]
     : undefined;
   const testValueIndex = testResult?.value
-    ? chemistryTest.values.findIndex((val) => val.value === testResult.value)
+    ? chemistryTest.results.findIndex((res) => res.value === testResult.value)
     : 0;
 
-  const handleChangeSlider = (event: any, value: number) => {
-    onUpdateTestResult(chemistryTest.type, chemistryTest.steps.length, chemistryTest.values[value].value);
+  const handleChangeSlider = (event: any, val: number) => {
+    onUpdateTestResult(chemistryTest.type, chemistryTest.steps.length, chemistryTest.results[val].value);
   };
 
   return (
@@ -46,7 +46,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
             <ChemTestSlider
               onChangeSlider={handleChangeSlider}
               sliderValue={testValueIndex}
-              testValues={chemistryTest.values}
+              testValues={chemistryTest.results}
               units={chemistryTest.units}
             />
           }
