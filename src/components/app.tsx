@@ -4,7 +4,6 @@ import { TouchBackend } from "react-dnd-touch-backend";
 import Modal from "react-modal";
 import { IThumbnailChooserProps, ThumbnailChooser } from "../components/thumbnail/thumbnail-chooser/thumbnail-chooser";
 import { IAppProps } from "./render-app";
-import { useModelState, IModelCurrentState, hasOwnProperties, ContainerId } from "../hooks/use-model-state";
 import { MainViewWrapper } from "./simulation/main-view-wrapper";
 import { SimulationView } from "./simulation/simulation-view";
 import { ControlPanel } from "./control-panel/control-panel";
@@ -12,9 +11,10 @@ import { Thumbnail } from "./thumbnail/thumbnail";
 import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
 import { ModalDialog } from "./modal-dialog";
+import { ContainerId, useLeafModelState } from "../hooks/use-leaf-model-state";
+import { IModelConfig, IModelInputState, IModelOutputState } from "../leaf-model-types";
 import { Model } from "../model";
-import { LeafEatersAmountType, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kTraySpawnPadding,
+import { EnvironmentType, getSunnyDayLogLabel, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes,
          containerIdForEnvironmentMap, environmentForContainerId
        } from "../utils/sim-utils";
@@ -26,27 +26,6 @@ import t from "../utils/translation/translate";
 
 import "./app.scss";
 
-export interface IModelConfig {}
-export interface IModelInputState {
-  environment: EnvironmentType;
-  sunnyDayFequency: number;
-}
-export interface IModelOutputState {
-  leafDecomposition: LeafDecompositionType;
-  leafEaters: LeafEatersAmountType;
-  algaeEaters: AlgaeEatersAmountType;
-  fish: FishAmountType;
-  animalInstances: AnimalInstance[];
-  showTray: boolean;
-  trayObjects: TrayObject[];
-  pti?: number;
-  habitatFeatures: Set<HabitatFeatureType>;
-  chemistryTestResults: ChemistryTestResult[];
-}
-export interface IModelTransientState {
-  time: number;
-}
-
 const kTargetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / kTargetStepsPerSecond;
 let lastStepTime: number;
@@ -56,43 +35,9 @@ const kSelectedContainerBgColor = "#f5f5f5";
 Modal.setAppElement("#app");
 
 // TODO: some of these app props are likely not needed
-export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModelConfig>> = ({onStateChange, addExternalSetStateListener, removeExternalSetStateListener, logEvent}) => {
-  const isValidExternalState = (newState: IModelCurrentState<IModelInputState, IModelOutputState>) => {
-    return hasOwnProperties(newState.inputState, ["environment", "sunnyDayFequency"]) &&
-           hasOwnProperties(newState.outputState, ["leafDecomposition", "leafEaters", "algaeEaters", "fish", "animalInstances"]);
-  };
-  const modelState = useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
-    initialInputState: { environment: EnvironmentType.environment1,
-                         sunnyDayFequency: 0 },
-    initialOutputState: { leafDecomposition: LeafDecompositionType.little,
-                          leafEaters: LeafEatersAmountType.few,
-                          algaeEaters: AlgaeEatersAmountType.few,
-                          fish: FishAmountType.few,
-                          animalInstances: [],
-                          showTray: false,
-                          trayObjects: [],
-                          chemistryTestResults: [
-                            {type: ChemTestType.airTemperature, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.waterTemperature, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.pH, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.nitrate, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.turbidity, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.dissolvedOxygen, stepsComplete: 0, value: 0}
-                          ],
-                          habitatFeatures: new Set()
-                        },
-    initialTransientState: {
-      time: 0
-    },
-    finalTransientState: {
-      time: 1
-    },
-    onStateChange,
-    addExternalSetStateListener,
-    removeExternalSetStateListener,
-    isValidExternalState,
-    logEvent
-  });
+export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModelConfig>> = (appProps) => {
+  const { logEvent } = appProps;
+  const modelState = useLeafModelState(appProps);
   const {inputState, setInputState,
     outputState, setOutputState,
     simulationState, pauseSimulation, rewindSimulation,
