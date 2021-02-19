@@ -1,11 +1,11 @@
 import React from "react";
 import { IThumbnailProps } from "./thumbnail-chooser/thumbnail-chooser";
-import { IModelInputState, IModelOutputState } from "../app";
 import IconChemistryNotebook from "../../assets/chemistry-icon.svg";
 import IconHabitatNotebook from "../../assets/habitat-icon.svg";
 import IconMacroinvertebratesNotebook from "../../assets/macro-icon.svg";
 import IconPTI from "../../assets/pti-icon.svg";
 import IconSun from "../../assets/sunny-icon.svg";
+import { IModelInputState, IModelOutputState } from "../../leaf-model-types";
 import t from "../../utils/translation/translate";
 
 import "./thumbnail.scss";

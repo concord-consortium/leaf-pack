@@ -1,4 +1,4 @@
-import { IModelInputState } from "./components/app";
+import { IModelInputState } from "./leaf-model-types";
 import { EnvironmentType, LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
          AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
        } from "./utils/sim-utils";

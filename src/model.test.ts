@@ -1,5 +1,5 @@
+import { IModelInputState } from "./leaf-model-types";
 import { Model, kMaxSteps } from "./model";
-import { IModelInputState } from "./components/app";
 import { EnvironmentType } from "./utils/sim-utils";
 
 describe("model", () => {

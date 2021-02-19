@@ -12,9 +12,10 @@ import { Thumbnail } from "./thumbnail/thumbnail";
 import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
 import { ModalDialog } from "./modal-dialog";
+import { IModelConfig, IModelInputState, IModelOutputState, IModelTransientState } from "../leaf-model-types";
 import { Model } from "../model";
 import { LeafEatersAmountType, EnvironmentType, getSunnyDayLogLabel, AlgaeEatersAmountType,
-         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, AnimalInstance, Animals, kTraySpawnPadding,
+         LeafDecompositionType, FishAmountType, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes,
          containerIdForEnvironmentMap, environmentForContainerId
        } from "../utils/sim-utils";
@@ -25,27 +26,6 @@ import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger
 import t from "../utils/translation/translate";
 
 import "./app.scss";
-
-export interface IModelConfig {}
-export interface IModelInputState {
-  environment: EnvironmentType;
-  sunnyDayFequency: number;
-}
-export interface IModelOutputState {
-  leafDecomposition: LeafDecompositionType;
-  leafEaters: LeafEatersAmountType;
-  algaeEaters: AlgaeEatersAmountType;
-  fish: FishAmountType;
-  animalInstances: AnimalInstance[];
-  showTray: boolean;
-  trayObjects: TrayObject[];
-  pti?: number;
-  habitatFeatures: Set<HabitatFeatureType>;
-  chemistryTestResults: ChemistryTestResult[];
-}
-export interface IModelTransientState {
-  time: number;
-}
 
 const kTargetStepsPerSecond = 60;
 const targetFramePeriod = 1000 / kTargetStepsPerSecond;
