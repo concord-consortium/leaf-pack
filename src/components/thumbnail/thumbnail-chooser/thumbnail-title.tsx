@@ -1,20 +1,22 @@
+import classNames from "classnames";
 import React from "react";
 
 import "./thumbnail-title.scss";
 
 interface IProps {
   title: string;
+  fullWidth?: boolean;
   empty: boolean;
   saved: boolean;
   savedBgColor: string;
 }
 
-export const ThumbnailTitle: React.FC<IProps> = (props) => {
-  const className = `thumbnail-title${props.empty ? " empty" : ""}${props.saved ? " saved" : ""}`;
-  const style = { backgroundColor: props.saved ? props.savedBgColor : undefined };
+export const ThumbnailTitle: React.FC<IProps> = ({ title, fullWidth, empty, saved, savedBgColor }) => {
+  const className = classNames("thumbnail-title", { fullWidth, empty, saved });
+  const style: React.CSSProperties = { backgroundColor: saved ? savedBgColor : undefined };
   return (
     <div className={className} data-testid="thumbnail-title" style={style}>
-      {props.title}
+      {title}
     </div>
   );
 };

@@ -25,7 +25,6 @@ describe("Thumbnail component", () => {
 
   it("renders empty thumbnail", () => {
     render(<Thumbnail container={emptyContainer} />);
-    expect(screen.getByTestId("environment-label")).toHaveTextContent("1");
     expect(screen.getByTestId("sunny-days-label")).toHaveTextContent("F");
     expect(screen.getByTestId("pollution-tolerance-label")).toHaveTextContent("");
     expect(screen.getByTestId("habitat-icon")).not.toBeVisible();

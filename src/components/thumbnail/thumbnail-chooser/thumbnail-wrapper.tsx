@@ -3,7 +3,7 @@ import { ThumbnailTitle } from "./thumbnail-title";
 import { ContainerId, IContainer } from "../../../hooks/use-model-state";
 import { IThumbnailProps } from "./thumbnail-chooser";
 // import CloseIcon from "../../../assets/close-icon.svg";
-// import t from "../../../utils/translation/translate";
+import t from "../../../utils/translation/translate";
 
 import "./thumbnail-wrapper.scss";
 
@@ -31,10 +31,11 @@ export const ThumbnailWrapper: React.FC<IThumbnailWrapperProps<Record<string, an
   //   props.clearContainer(props.containerId);
   // };
 
+  const fullTitle = t("ENVIRONMENT.VAR", { vars: { env: containerId } });
   return (
     <div className="thumbnail-wrapper" data-testid="thumbnail-wrapper">
       <button className={className} style={style} data-testid="thumbnail-button" onClick={handleSelect} disabled={disabled}>
-        <ThumbnailTitle title={containerId} empty={!selected} saved={isSaved} savedBgColor={savedBgColor} />
+        <ThumbnailTitle title={fullTitle} fullWidth={true} empty={!selected} saved={isSaved} savedBgColor={savedBgColor} />
         {/* {
           !props.selected &&
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
