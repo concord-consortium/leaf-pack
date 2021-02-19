@@ -30,15 +30,20 @@
   .test-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 10px;
 
     .test-content {
       width: 240px;
-      height: 100%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      align-items: flex-end;
+      align-items: center;
+
+      .image-stack {
+        height: 100px;
+        width: 100%;
+      }
     }
   }
 

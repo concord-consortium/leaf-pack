@@ -12,11 +12,13 @@ interface IProps {
   onChangeSlider: (event: any, value: number) => void;
   sliderValue: number;
   testValues: ChemTestValue[];
+  units: string;
 }
 
 export const ChemTestSlider: React.FC<IProps> = (props) => {
-  const { sliderValue, onChangeSlider, testValues } = props;
+  const { sliderValue, onChangeSlider, testValues, units } = props;
   const sliderMarks = testValues.map((val, index) => {return ({value: index});});
+
   return (
     <div className="chem-slider" data-testid="chem-slider">
       <div className="slider-values">
@@ -28,6 +30,7 @@ export const ChemTestSlider: React.FC<IProps> = (props) => {
             </div>
           </div>
         )}
+        <div className="slider-units">{units}</div>
       </div>
       <div className="slider" style={{width: kSliderValWidth * (testValues.length - 1)}}>
         <Slider

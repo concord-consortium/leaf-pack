@@ -18,6 +18,9 @@ export const ChemTest: React.FC<IProps> = (props) => {
   const testResult = chemistryTestResults.find((result) => result.type === chemistryTest.type);
   const stepsComplete = testResult?.stepsComplete ?? 0;
   const currentStep = chemistryTest.steps[Math.min(stepsComplete, chemistryTest.steps.length - 1)];
+  const testValueIndex = testResult?.value
+   ? chemistryTest.values.findIndex((val) => val.value === testResult.value)
+   : 0;
 
   const handleChangeSlider = (event: any, value: number) => {
     onUpdateTestResult(chemistryTest.type, chemistryTest.steps.length, chemistryTest.values[value].value);
@@ -31,13 +34,19 @@ export const ChemTest: React.FC<IProps> = (props) => {
       </div>
       <div className="test-container">
         <div className="test-content">
-        { currentStep.type === StepType.resultSlider &&
-          <ChemTestSlider
-            onChangeSlider={handleChangeSlider}
-            sliderValue={chemistryTest.values.findIndex((val) => val.value === testResult?.value) || 0}
-            testValues={chemistryTest.values}
-          />
-        }
+          { (currentStep.type === StepType.resultSlider || currentStep.type === StepType.animation) &&
+            <div className="image-stack">
+              {`${currentStep.label} image`}
+            </div>
+          }
+          { currentStep.type === StepType.resultSlider &&
+            <ChemTestSlider
+              onChangeSlider={handleChangeSlider}
+              sliderValue={testValueIndex}
+              testValues={chemistryTest.values}
+              units={chemistryTest.units}
+            />
+          }
         </div>
         <div className="step-buttons">
           { chemistryTest.steps.map((step, index) =>
