@@ -1,3 +1,4 @@
+import queryString from "query-string";
 import enUS from "./lang/en-us.json";
 import es from "./lang/es.json";
 
@@ -8,8 +9,16 @@ const languageFiles = [
 
 // returns baseLANG from baseLANG-REGION if REGION exists
 // this will, for example, convert en-US to en
-const getBaseLanguage = (langKey: any) => {
-  return langKey.split("-")[0];
+const getBaseLanguage = (langKey?: string) => {
+  return langKey?.split("-")[0];
+};
+
+const getQueryParamLanguage = () =>{
+  const params = queryString.parse(location.search);
+  const lang = params.lang ? params.lang as string : undefined;
+  const foundLang = languageFiles.find(file => (file.key === lang) ||
+                                              (getBaseLanguage(file.key) === getBaseLanguage(lang)));
+  if (foundLang) return params.lang;
 };
 
 // Get the HTML DOM lang property of the root element of the document
@@ -39,7 +48,7 @@ languageFiles.forEach((langFile) => {
 
 const varRegExp = /%\{\s*([^}\s]*)\s*\}/g;
 
-const currentLang = getPageLanguage() || getFirstBrowserLanguage();
+const currentLang = getQueryParamLanguage() || getPageLanguage() || getFirstBrowserLanguage();
 const baseLang = getBaseLanguage(currentLang || "");
 const defaultLang = currentLang && translations[currentLang]
                     ? currentLang
