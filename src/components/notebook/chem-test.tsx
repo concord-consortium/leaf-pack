@@ -17,12 +17,13 @@ interface IProps {
 export const ChemTest: React.FC<IProps> = (props) => {
   const { chemistryTest, testIndex, chemistryTestResults, onUpdateTestResult } = props;
   const testResult = chemistryTestResults.find((result) => result.type === chemistryTest.type);
-  console.log(testResult);
   const stepsComplete = testResult?.stepsComplete ?? 0;
-  const currentStep = chemistryTest.steps[Math.min(stepsComplete, chemistryTest.steps.length - 1)];
+  const currentStep = stepsComplete > 0
+    ? chemistryTest.steps[Math.min(stepsComplete - 1, chemistryTest.steps.length - 1)]
+    : undefined;
   const testValueIndex = testResult?.value
-   ? chemistryTest.values.findIndex((val) => val.value === testResult.value)
-   : 0;
+    ? chemistryTest.values.findIndex((val) => val.value === testResult.value)
+    : 0;
 
   const handleChangeSlider = (event: any, value: number) => {
     onUpdateTestResult(chemistryTest.type, chemistryTest.steps.length, chemistryTest.values[value].value);
@@ -36,12 +37,12 @@ export const ChemTest: React.FC<IProps> = (props) => {
       </div>
       <div className="test-container">
         <div className="test-content">
-          {(currentStep.type === StepType.resultSlider || currentStep.type === StepType.animation) &&
+          {(!currentStep || currentStep?.type === StepType.resultSlider || currentStep?.type === StepType.animation) &&
             <div className="image-stack">
-              {`${currentStep.label} image`}
+              {currentStep ? `${currentStep.label} image` : "start"}
             </div>
           }
-          {currentStep.type === StepType.resultSlider &&
+          {currentStep?.type === StepType.resultSlider &&
             <ChemTestSlider
               onChangeSlider={handleChangeSlider}
               sliderValue={testValueIndex}
@@ -67,7 +68,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
               }
             </button>
           )}
-          {testResult && currentStep.type === StepType.resultSlider &&
+          {testResult && currentStep?.type === StepType.resultSlider &&
             <InputResult
               chemistryTest={chemistryTest}
               chemistryTestResult={testResult}
