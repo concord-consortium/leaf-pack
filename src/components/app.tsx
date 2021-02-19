@@ -16,7 +16,7 @@ import { IModelConfig, IModelInputState, IModelOutputState } from "../leaf-model
 import { Model } from "../model";
 import { EnvironmentType, getSunnyDayLogLabel, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes,
-         containerIdForEnvironmentMap, environmentForContainerId, FishFinalValues
+         containerIdForEnvironmentMap, environmentForContainerId
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 import { getPTIScore } from "../utils/macro-utils";
@@ -154,13 +154,6 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   const _setSelectedContainerId = (containerId: ContainerId) => {
     setSelectedContainerId(containerId);
     setInputState({environment: environmentForContainerId[containerId]});
-
-    // changing the environment also needs to change the fish output num so we can show none or few fish
-    const finalFish = FishFinalValues.find((f) => f.environment === environmentForContainerId[containerId]
-                                                  && f.sunny === (sunnyDayFequency === 1));
-    const finalFishVal = finalFish?.value || FishFinalValues.some;
-    const startFish = finalFishVal === FishAmountType.none ? FishAmountType.none : FishAmountType.few;
-    setOutputState({fish: startFish});
   };
 
   const thumbnailChooserProps: IThumbnailChooserProps<IModelInputState, IModelOutputState> = {
