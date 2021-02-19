@@ -198,13 +198,13 @@ export interface LeafDecompositionFinalValue {
 
 export const LeafDecompositionFinalValues: LeafDecompositionFinalValue[] = [
   { environment: EnvironmentType.environment1, value: LeafDecompositionType.lots, sunny: false},
-  { environment: EnvironmentType.environment1, value: LeafDecompositionType.lots, sunny: true},
-  { environment: EnvironmentType.environment2, value: LeafDecompositionType.little, sunny: false}, // TODO: get final val
-  { environment: EnvironmentType.environment2, value: LeafDecompositionType.little, sunny: true}, // TODO: get final val
+  { environment: EnvironmentType.environment1, value: LeafDecompositionType.some, sunny: true},
+  { environment: EnvironmentType.environment2, value: LeafDecompositionType.lots, sunny: false},
+  { environment: EnvironmentType.environment2, value: LeafDecompositionType.some, sunny: true},
   { environment: EnvironmentType.environment3, value: LeafDecompositionType.some, sunny: false},
-  { environment: EnvironmentType.environment3, value: LeafDecompositionType.little, sunny: true},
-  { environment: EnvironmentType.environment4, value: LeafDecompositionType.little, sunny: false}, // TODO: get final val
-  { environment: EnvironmentType.environment4, value: LeafDecompositionType.little, sunny: true}, // TODO: get final val
+  { environment: EnvironmentType.environment3, value: LeafDecompositionType.some, sunny: true},
+  { environment: EnvironmentType.environment4, value: LeafDecompositionType.little, sunny: false},
+  { environment: EnvironmentType.environment4, value: LeafDecompositionType.little, sunny: true},
 ];
 
 export enum LeafEatersAmountType {
@@ -254,6 +254,7 @@ export const AlgaeEatersFinalValues: AlgaeEatersFinalValue[] = [
 ];
 
 export enum FishAmountType {
+  none = "none",
   few = "few",
   some = "some",
   lots = "lots",
@@ -269,11 +270,11 @@ export const FishFinalValues: FishFinalValue[] = [
   { environment: EnvironmentType.environment1, value: FishAmountType.lots, sunny: false},
   { environment: EnvironmentType.environment1, value: FishAmountType.some, sunny: true},
   { environment: EnvironmentType.environment2, value: FishAmountType.some, sunny: false},
-  { environment: EnvironmentType.environment2, value: FishAmountType.lots, sunny: true},
+  { environment: EnvironmentType.environment2, value: FishAmountType.some, sunny: true},
   { environment: EnvironmentType.environment3, value: FishAmountType.some, sunny: false},
-  { environment: EnvironmentType.environment3, value: FishAmountType.some, sunny: true},
-  { environment: EnvironmentType.environment4, value: FishAmountType.few, sunny: false},
-  { environment: EnvironmentType.environment4, value: FishAmountType.few, sunny: true},
+  { environment: EnvironmentType.environment3, value: FishAmountType.few, sunny: true},
+  { environment: EnvironmentType.environment4, value: FishAmountType.none, sunny: false},
+  { environment: EnvironmentType.environment4, value: FishAmountType.none, sunny: true},
 ];
 
 export enum AnimalType {
@@ -467,10 +468,10 @@ export interface LeafPackConfiguration {
 }
 
 export const LeafPackConfigurations: LeafPackConfiguration[] = [
-  { environment: EnvironmentType.environment1, top: 257, left: 90 },
+  { environment: EnvironmentType.environment1, top: 259, left: 90 },
   { environment: EnvironmentType.environment2, top: 255, left: 85 },
-  { environment: EnvironmentType.environment3, top: 240, left: 231 },
-  { environment: EnvironmentType.environment4, top: 237, left: 172 }
+  { environment: EnvironmentType.environment3, top: 241, left: 231 },
+  { environment: EnvironmentType.environment4, top: 239, left: 172 }
 ];
 
 export interface LeafPackState {
@@ -511,21 +512,21 @@ export const SimAnimals: SimAnimal[] = [
   { type: SimAnimationType.fish,
     frames: [FishA, FishB, FishC, FishB, FishA, FishD, FishE, FishD],
     layouts: [
-      { environment: EnvironmentType.environment1, left: 160, top: 235, xScale: 1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment1, left: 140, top: 235, xScale: 1, yScale: 1, rotation: 0 },
       { environment: EnvironmentType.environment1, left: 70, top: 260, xScale: -.9, yScale: .9, rotation: 0 },
       { environment: EnvironmentType.environment1, left: 165, top: 190, xScale: .8, yScale: .8, rotation: 0 },
-      { environment: EnvironmentType.environment1, left: 195, top: 200, xScale: .8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment1, left: 195, top: 195, xScale: .8, yScale: .8, rotation: 0 },
       { environment: EnvironmentType.environment1, left: 195, top: 175, xScale: .6, yScale: .6, rotation: 0 },
 
-      { environment: EnvironmentType.environment2, left: 85, top: 235, xScale: -1, yScale: 1, rotation: 0 },
-      { environment: EnvironmentType.environment2, left: 160, top: 230, xScale: .9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment2, left: 125, top: 225, xScale: .8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment2, left: 160, top: 230, xScale: 1, yScale: 1, rotation: 0 },
+      { environment: EnvironmentType.environment2, left: 195, top: 195, xScale: .9, yScale: .9, rotation: 0 },
+      { environment: EnvironmentType.environment2, left: 125, top: 242, xScale: .8, yScale: .8, rotation: 0 },
       { environment: EnvironmentType.environment2, left: 160, top: 195, xScale: .7, yScale: .7, rotation: 0 },
       { environment: EnvironmentType.environment2, left: 195, top: 190, xScale: .7, yScale: .7, rotation: 0 },
 
       { environment: EnvironmentType.environment3, left: 200, top: 235, xScale: -1, yScale: 1, rotation: 0 },
       { environment: EnvironmentType.environment3, left: 235, top: 225, xScale: .9, yScale: .9, rotation: 0 },
-      { environment: EnvironmentType.environment3, left: 205, top: 195, xScale: -.8, yScale: .8, rotation: 0 },
+      { environment: EnvironmentType.environment3, left: 185, top: 195, xScale: -.8, yScale: .8, rotation: 0 },
       { environment: EnvironmentType.environment3, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
       { environment: EnvironmentType.environment3, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
 
