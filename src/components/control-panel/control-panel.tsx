@@ -31,6 +31,7 @@ export const ControlPanel: React.FC<IProps> = (props) => {
     <div className="control-panel" data-testid="control-panel">
       <ControlGroup>
         <EnvironmentSelect
+          labelOnly={true}
           environment={environment}
           onChange={onChangeEnvironment}
           disabled={inputControlsDisabled}

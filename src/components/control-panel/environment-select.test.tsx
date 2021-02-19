@@ -6,7 +6,7 @@ import { EnvironmentType } from "../../utils/sim-utils";
 
 describe("Environment Select component", () => {
   it("renders environment select", () => {
-    render(<EnvironmentSelect onChange={()=>{/*no-op*/}} environment={EnvironmentType.environment1} disabled={false} />);
+    render(<EnvironmentSelect labelOnly={false} onChange={()=>{/*no-op*/}} environment={EnvironmentType.environment1} disabled={false} />);
     expect(screen.getAllByTestId("environment-select")).toHaveLength(1);
     expect(screen.getAllByTestId("location-select")).toHaveLength(1);
     expect(screen.getByText("Environment")).toBeInTheDocument();

@@ -2,7 +2,7 @@ import React from "react";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { EnvironmentType, Environments, Environment } from "../../utils/sim-utils";
+import { containerIdForEnvironmentMap, EnvironmentType, Environments, Environment } from "../../utils/sim-utils";
 import ExpandIcon from "../../assets/expand-icon.svg";
 import IconEnvironment from "../../assets/stream-icon.svg";
 import t from "../../utils/translation/translate";
@@ -10,6 +10,7 @@ import t from "../../utils/translation/translate";
 import "./environment-select.scss";
 
 interface IProps {
+  labelOnly: boolean;
   environment: EnvironmentType;
   disabled: boolean;
   onChange: (value: EnvironmentType) => void;
@@ -17,7 +18,8 @@ interface IProps {
 
 export const EnvironmentSelect: React.FC<IProps> = (props) => {
 
-  const { environment, disabled, onChange } = props;
+  const { labelOnly, environment, disabled, onChange } = props;
+  const environmentName = t("ENVIRONMENT.VAR", { vars: { env: containerIdForEnvironmentMap[environment] } });
 
   const handleChange = (event: React.ChangeEvent<{value: EnvironmentType;}>) => {
     const environmentType = event.target.value;
@@ -36,26 +38,29 @@ export const EnvironmentSelect: React.FC<IProps> = (props) => {
         className={`location-select ${disabled ? "disabled" : ""}`}
         data-testid="location-select"
       >
-        <Select
-          value={environment}
-          name="environment"
-          onChange={handleChange}
-          IconComponent={ExpandIcon}
-          disabled={disabled}
-          aria-label={t("ENVIRONMENT.LABEL")}
-        >
-          {Environments.map((env: Environment, key) => (
-            <MenuItem
-              value={env.type}
-              key={key}
-              aria-label={env.name}
-            >
-              <div>
-                {env.name}
-              </div>
-            </MenuItem>
-          ))}
-        </Select>
+        {labelOnly && <label className="environment-name">{environmentName}</label>}
+        {!labelOnly &&
+          <Select
+            value={environment}
+            name="environment"
+            onChange={handleChange}
+            IconComponent={ExpandIcon}
+            disabled={disabled}
+            aria-label={t("ENVIRONMENT.LABEL")}
+          >
+            {Environments.map((env: Environment, key) => (
+              <MenuItem
+                value={env.type}
+                key={key}
+                aria-label={env.name}
+              >
+                <div>
+                  {env.name}
+                </div>
+              </MenuItem>
+            ))}
+          </Select>
+        }
       </FormControl>
     </div>
   );

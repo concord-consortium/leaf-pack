@@ -16,6 +16,7 @@
     box-sizing: content-box;
     position: relative;
     transition: background-color .25s;
+    overflow: hidden;
 
     &:not(:disabled) {
       cursor: pointer;
@@ -37,7 +38,6 @@
 
     &.selected {
       border: solid 2px #000;
-      margin: 0;
       background-color: $gray-dark10;
     }
   }
