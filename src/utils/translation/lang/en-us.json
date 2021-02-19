@@ -120,7 +120,8 @@
   "ANIMAL.STONEFLY": "Stoneflies",
 
   "CHEM.TEST": "Test",
-  "CHEM.RESULT": "Water Quality Result",
+  "CHEM.RESULT": "Result",
+  "CHEM.WATER.RESULT": "Water Quality Result",
   "CHEM.TEST.INCOMPLETE": "Test not yet complete",
   "CHEM.TEST.UNSTARTED": "Test not yet run",
   "CHEM.EXCELLENT": "Excellent",

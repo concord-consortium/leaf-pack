@@ -16,7 +16,7 @@ export const ChemResults: React.FC<IProps> = (props) => {
     <div className="chem-results">
       <div className="header">
         {t("CHEM.TEST")}
-        {t("CHEM.RESULT")}
+        {t("CHEM.WATER.RESULT")}
       </div>
       <div className="results">
         {chemistryTests.map((test, index) => {

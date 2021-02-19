@@ -1,6 +1,7 @@
 import React from "react";
 import { ChemistryTest, ChemTestType, ChemistryTestResult, StepType } from "../../utils/chem-utils";
 import { ChemTestSlider } from "./chem-test-slider";
+import { InputResult } from "./input-result";
 import CheckIcon from "../../assets/check-icon.svg";
 import t from "../../utils/translation/translate";
 
@@ -16,6 +17,7 @@ interface IProps {
 export const ChemTest: React.FC<IProps> = (props) => {
   const { chemistryTest, testIndex, chemistryTestResults, onUpdateTestResult } = props;
   const testResult = chemistryTestResults.find((result) => result.type === chemistryTest.type);
+  console.log(testResult);
   const stepsComplete = testResult?.stepsComplete ?? 0;
   const currentStep = chemistryTest.steps[Math.min(stepsComplete, chemistryTest.steps.length - 1)];
   const testValueIndex = testResult?.value
@@ -34,12 +36,12 @@ export const ChemTest: React.FC<IProps> = (props) => {
       </div>
       <div className="test-container">
         <div className="test-content">
-          { (currentStep.type === StepType.resultSlider || currentStep.type === StepType.animation) &&
+          {(currentStep.type === StepType.resultSlider || currentStep.type === StepType.animation) &&
             <div className="image-stack">
               {`${currentStep.label} image`}
             </div>
           }
-          { currentStep.type === StepType.resultSlider &&
+          {currentStep.type === StepType.resultSlider &&
             <ChemTestSlider
               onChangeSlider={handleChangeSlider}
               sliderValue={testValueIndex}
@@ -48,8 +50,8 @@ export const ChemTest: React.FC<IProps> = (props) => {
             />
           }
         </div>
-        <div className="step-buttons">
-          { chemistryTest.steps.map((step, index) =>
+        <div className="step-buttons-results">
+          {chemistryTest.steps.map((step, index) =>
             <button
               className={`step-button ${index > stepsComplete ? "disabled" : ""} ${index < stepsComplete ? "finished" : ""}`}
               key={`${chemistryTest.type}-step-button-${index}`}
@@ -65,6 +67,12 @@ export const ChemTest: React.FC<IProps> = (props) => {
               }
             </button>
           )}
+          {testResult && currentStep.type === StepType.resultSlider &&
+            <InputResult
+              chemistryTest={chemistryTest}
+              chemistryTestResult={testResult}
+            />
+          }
         </div>
       </div>
     </div>

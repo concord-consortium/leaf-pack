@@ -1,0 +1,39 @@
+@import "../vars.scss";
+
+.input-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+
+  .current-result {
+    width: 164px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $chemistry-blue;
+
+    .test-result {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 63px;
+      height: 23px;
+      border-radius: 4px;
+      background-color: white;
+      margin-right: 3px;
+    }
+
+    .test-rating {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 74px;
+      height: 23px;
+      border-radius: 4px;
+      margin-left: 3px;
+      background-color: $macro-score-pink;
+    }
+  }
+}
