@@ -30,18 +30,28 @@
   .test-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 10px;
 
     .test-content {
       width: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .image-stack {
+        height: 100px;
+        width: 100%;
+      }
     }
   }
 
-  .step-buttons {
+  .step-buttons-results {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    height: 186px;
 
     .step-button {
       position: relative;

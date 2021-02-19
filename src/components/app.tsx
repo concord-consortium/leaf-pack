@@ -252,15 +252,14 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     setOutputStateAndSave({ habitatFeatures });
   };
 
-  const handleUpdateTestResult = (type: ChemTestType, completedStep: number) => {
+  const handleUpdateTestResult = (type: ChemTestType, completedStep: number, value?: number) => {
     const updatedChemistryTestResults = chemistryTestResults.map((result: ChemistryTestResult) => {
       if (result.type === type) {
         const updatedResult = { ...result };
         updatedResult.stepsComplete = completedStep;
         const currentTest = chemistryTests.find((test) => test.type === type);
-        if (completedStep === currentTest?.steps.length) {
-          // TODO: user defines value, pick random number for now
-          updatedResult.value = currentTest.values[getRandomInteger(0, currentTest.values.length - 1)].value;
+        if (completedStep === currentTest?.steps.length && value !== undefined) {
+          updatedResult.value = value;
         }
         return updatedResult;
       } else {

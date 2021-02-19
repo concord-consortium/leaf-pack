@@ -120,7 +120,8 @@
   "ANIMAL.STONEFLY": "Stoneflies",
 
   "CHEM.TEST": "Test",
-  "CHEM.RESULT": "Water Quality Result",
+  "CHEM.RESULT": "Result",
+  "CHEM.WATER.RESULT": "Water Quality Result",
   "CHEM.TEST.INCOMPLETE": "Test not yet complete",
   "CHEM.TEST.UNSTARTED": "Test not yet run",
   "CHEM.EXCELLENT": "Excellent",
@@ -135,7 +136,7 @@
   "CHEM.OXYGEN.TEST": "Dissolved Oxygen",
   "CHEM.TEMP.UNIT": "°C",
   "CHEM.PH.UNIT": "pH",
-  "CHEM.AIR.UNIT": "PPM",
+  "CHEM.AIR.UNIT": "ppm",
   "CHEM.TURBIDITY.UNIT": "JTU",
   "CHEM.COLLECT.SAMPLE": "Collect sample",
   "CHEM.READ.THERMOMETER": "Read thermometer",

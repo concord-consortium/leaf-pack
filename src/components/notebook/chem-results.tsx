@@ -15,14 +15,14 @@ export const ChemResults: React.FC<IProps> = (props) => {
   return (
     <div className="chem-results">
       <div className="header">
-        {t("CHEM.TEST")}
-        {t("CHEM.RESULT")}
+        <div className="category-label">{t("CHEM.TEST")}</div>
+        <div className="category-label">{t("CHEM.WATER.RESULT")}</div>
       </div>
       <div className="results">
         {chemistryTests.map((test, index) => {
           const testResult = chemistryTestResults.find((result) => result.type === test.type);
           const complete = testResult?.stepsComplete === test.steps.length;
-          const testValue = test.values.find((val) => val.value === testResult?.value);
+          const testValue = test.results.find((res) => res.value === testResult?.value);
           const ratingType = testValue?.rating;
           const rating = chemTestRatings.find((r) => r.type === ratingType);
           const started = testResult ? testResult.stepsComplete > 0 : false;
