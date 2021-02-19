@@ -338,6 +338,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               isSaved={isSaved}
               isFinished={isFinished}
               onSaveClicked={saveToSelectedContainer}
+              ptiScore={outputState.pti}
               currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
               currentTime={time}
               maxTime={1}
