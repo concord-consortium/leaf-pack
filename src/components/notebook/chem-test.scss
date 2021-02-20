@@ -34,14 +34,16 @@
     margin-top: 10px;
 
     .test-content {
-      width: 240px;
+      position: relative;
+      width: 226px;
+      height: 200px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
 
       .image-stack {
-        height: 100px;
+        height: 100%;
         width: 100%;
       }
     }

@@ -2,9 +2,9 @@ import React from "react";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { containerIdForEnvironmentMap, EnvironmentType, Environments, Environment } from "../../utils/sim-utils";
 import ExpandIcon from "../../assets/expand-icon.svg";
 import IconEnvironment from "../../assets/stream-icon.svg";
+import { EnvironmentType, containerIdForEnvironmentMap, Environments, Environment } from "../../utils/environment";
 import t from "../../utils/translation/translate";
 
 import "./environment-select.scss";

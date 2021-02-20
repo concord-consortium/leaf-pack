@@ -1,8 +1,10 @@
 import React from "react";
 import { LeafPack } from "./leaf-pack";
 import { SimulationAnimation } from "./simulation-animation";
-import { EnvironmentType, LeafPackConfigurations, LeafPackState, SimAnimals, SimAnimation, FishAmountType, SimAnimationType,
-         Environment, Environments } from "../../utils/sim-utils";
+import { EnvironmentType, Environments, Environment } from "../../utils/environment";
+import {
+  LeafPackConfigurations, LeafPackState, SimAnimals, SimAnimation, FishAmountType, SimAnimationType,
+} from "../../utils/sim-utils";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import "./simulation-view.scss";

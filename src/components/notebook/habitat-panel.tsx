@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SectionButtons } from "./section-buttons";
-import { EnvironmentType, Environments } from "../../utils/sim-utils";
+import { Environments, EnvironmentType } from "../../utils/environment";
 import { HabitatFeatureType, habitatCategories, habitatFeatures } from "../../utils/habitat-utils";
 import CheckIcon from "../../assets/check-icon.svg";
 

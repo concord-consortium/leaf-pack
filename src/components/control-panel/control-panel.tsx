@@ -2,8 +2,8 @@ import React from "react";
 import { ControlGroup } from "./control-group";
 import { SunnyDaySlider } from "./sunny-day-slider";
 import { EnvironmentSelect } from "./environment-select";
-import { EnvironmentType } from "../../utils/sim-utils";
 import { VCRButton } from "@concord-consortium/react-components";
+import { EnvironmentType } from "../../utils/environment";
 import t from "../../utils/translation/translate";
 
 import "./control-panel.scss";

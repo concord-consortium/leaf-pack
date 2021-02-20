@@ -14,9 +14,9 @@ import { ModalDialog } from "./modal-dialog";
 import { ContainerId, useLeafModelState } from "../hooks/use-leaf-model-state";
 import { IModelConfig, IModelInputState, IModelOutputState } from "../leaf-model-types";
 import { Model } from "../model";
-import { EnvironmentType, getSunnyDayLogLabel, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
-         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes,
-         containerIdForEnvironmentMap, environmentForContainerId
+import { containerIdForEnvironmentMap, environmentForContainerId, EnvironmentType } from "../utils/environment";
+import { getSunnyDayLogLabel, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
+         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 import { getPTIScore } from "../utils/macro-utils";
@@ -47,7 +47,8 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     startSimulation, endSimulation, inputControlsDisabled
   } = modelState;
   const {environment, sunnyDayFequency} = inputState;
-  const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects, chemistryTestResults} = outputState;
+  const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects,
+          chemistryValues, chemistryTestResults} = outputState;
   const {time} = transientState;
   const {isRunning, isPaused, isFinished} = simulationState;
   const modelRef = useRef<Model>(new Model(inputState));
@@ -70,19 +71,11 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
       for (let i = 0; i < steps; i++) {
         modelRef.current.step();
       }
-      const modelSimulationState = modelRef.current.getSimulationState();
-      setTransientState({
-        time: modelSimulationState.percentComplete,
-      });
-      setOutputState({
-        leafDecomposition: modelSimulationState.leafDecomposition,
-        leafEaters: modelSimulationState.leafEaters,
-        algaeEaters: modelSimulationState.algaeEaters,
-        fish: modelSimulationState.fish,
-        animalInstances: modelSimulationState.animalInstances
-      });
+      const { percentComplete, isFinished: _isFinished, ...modelOutputState } = modelRef.current.getSimulationState();
+      setTransientState({ time: percentComplete });
+      setOutputState(modelOutputState);
 
-      if (modelSimulationState.isFinished) {
+      if (_isFinished) {
         endSimulation();
 
         const numLeaves = getRandomInteger(kMinLeaves, kMaxLeaves);
@@ -109,7 +102,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                    selectionPath: animal.selectionPath,
                    zIndex: shuffledZIndices[index] };
         });
-        modelSimulationState.animalInstances.forEach((animalInstance) => {
+        modelOutputState.animalInstances.forEach((animalInstance) => {
           if (animalInstance.spawned) {
             const index = newTrayObjects.findIndex((obj: TrayObject) => obj.type === animalInstance.type);
             newTrayObjects[index].count++;
@@ -312,6 +305,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               featureSelections={habitatFeatures}
               onSelectFeature={handleHabitatSelectFeature}
               onCategorizeAnimal={handleCategorizeAnimal}
+              chemistryValues={chemistryValues}
               chemistryTestResults={chemistryTestResults}
               onUpdateTestResult={handleUpdateTestResult}
               traySelectionType={traySelectionType}

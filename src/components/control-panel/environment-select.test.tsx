@@ -2,7 +2,7 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { EnvironmentSelect } from "./environment-select";
-import { EnvironmentType } from "../../utils/sim-utils";
+import { EnvironmentType } from "../../utils/environment";
 
 describe("Environment Select component", () => {
   it("renders environment select", () => {

@@ -1,7 +1,8 @@
-import { ChemistryTestResult } from "./utils/chem-utils";
+import { ChemistryTestResult, ChemistryValues } from "./utils/chem-utils";
+import { EnvironmentType } from "./utils/environment";
 import { HabitatFeatureType } from "./utils/habitat-utils";
 import {
-  AlgaeEatersAmountType, AnimalInstance, EnvironmentType, FishAmountType,
+  AlgaeEatersAmountType, AnimalInstance, FishAmountType,
   LeafDecompositionType, LeafEatersAmountType, TrayObject
 } from "./utils/sim-utils";
 
@@ -20,6 +21,7 @@ export interface IModelOutputState {
   trayObjects: TrayObject[];
   pti?: number;
   habitatFeatures: Set<HabitatFeatureType>;
+  chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
 }
 export interface IModelTransientState {
