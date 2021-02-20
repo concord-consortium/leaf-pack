@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  ChemistryTest, ChemistryTestResult, ChemistryValues, ChemTestStep, ChemTestType, StepType
-} from "../../utils/chem-utils";
+  ChemistryTest, ChemTestType, ChemTestStep, StepType, ChemistryTestResult, ChemistryValues
+} from "../../utils/chem-types";
 import { ChemTestSlider } from "./chem-test-slider";
 import { InputResult } from "./input-result";
 import CheckIcon from "../../assets/check-icon.svg";

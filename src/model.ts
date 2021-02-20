@@ -1,5 +1,5 @@
 import { IModelInputState } from "./leaf-model-types";
-import { ChemistryFinalValues } from "./utils/chem-utils";
+import { chemistryFinalValues } from "./utils/chem-utils";
 import { EnvironmentType } from "./utils/environment";
 import { LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
          AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
@@ -115,7 +115,7 @@ export class Model {
       algaeEaters,
       fish,
       animalInstances: this.animalInstances,
-      chemistryValues: ChemistryFinalValues[this.environment]
+      chemistryValues: chemistryFinalValues[this.environment]
     };
   }
 }

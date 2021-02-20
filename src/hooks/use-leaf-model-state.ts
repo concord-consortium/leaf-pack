@@ -1,6 +1,6 @@
 import { IAppProps } from "../components/render-app";
 import { IModelConfig, IModelInputState, IModelOutputState, IModelTransientState } from "../leaf-model-types";
-import { ChemTestType } from "../utils/chem-utils";
+import { ChemTestType } from "../utils/chem-types";
 import { EnvironmentType } from "../utils/environment";
 import { AlgaeEatersAmountType, FishAmountType, LeafDecompositionType, LeafEatersAmountType } from "../utils/sim-utils";
 import useModelState, { ContainerId, hasOwnProperties, IModelCurrentState } from "./use-model-state";

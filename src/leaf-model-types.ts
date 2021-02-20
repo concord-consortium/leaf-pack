@@ -1,4 +1,4 @@
-import { ChemistryTestResult, ChemistryValues } from "./utils/chem-utils";
+import { ChemistryTestResult, ChemistryValues } from "./utils/chem-types";
 import { EnvironmentType } from "./utils/environment";
 import { HabitatFeatureType } from "./utils/habitat-utils";
 import {

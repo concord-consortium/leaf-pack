@@ -1,10 +1,10 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import t from "../../utils/translation/translate";
+import { ChemistryTestResult, ChemistryValues, ChemTestType } from "../../utils/chem-types";
 import { EnvironmentType } from "../../utils/environment";
 import { TrayObject, TrayType } from "../../utils/sim-utils";
 import { HabitatFeatureType } from "../../utils/habitat-utils";
-import { ChemTestType, ChemistryTestResult, ChemistryValues } from "../../utils/chem-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
 import { MacroPanel } from "./macro-panel";

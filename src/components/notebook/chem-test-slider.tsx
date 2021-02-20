@@ -1,7 +1,7 @@
 import React from "react";
 import Slider from "@material-ui/core/Slider";
-import { ChemTestValue } from "../../utils/chem-utils";
 import IconHorizontalHandle from "../../assets/icon-slider-horizontal.svg";
+import { ChemTestValue } from "../../utils/chem-types";
 
 import "./chem-test-slider.scss";
 import "../../components/control-panel/slider.scss";

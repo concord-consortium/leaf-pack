@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { chemistryTests, ChemTestType, ChemistryTestResult, ChemistryValues } from "../../utils/chem-utils";
+import { ChemistryTestResult, ChemistryValues, ChemTestType } from "../../utils/chem-types";
+import { chemistryTests } from "../../utils/chem-utils";
 import { SectionButtons } from "./section-buttons";
 import { ChemResults } from "./chem-results";
 import { ChemTest } from "./chem-test";
