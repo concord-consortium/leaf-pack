@@ -7,6 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import "./simulation-view.scss";
 
+const kFishCountNone = 0;
 const kFishCountFew = 1;
 const kFishCountSome = 3;
 const kFishCountLots = 5;
@@ -28,9 +29,14 @@ export const SimulationView: React.FC<IProps> = (props) => {
   const backgroundImageAltText = currentEnvironment?.backgroundImageAltText;
 
   const leafPackConfiguration = LeafPackConfigurations.find((lp) => lp.environment === environment);
-  const fishCount = fish === FishAmountType.few
-    ? kFishCountFew
-    : fish === FishAmountType.some ? kFishCountSome : kFishCountLots;
+  let fishCount = kFishCountNone;
+  if (fish === FishAmountType.few) {
+    fishCount = kFishCountFew;
+  } else if (fish === FishAmountType.some) {
+    fishCount = kFishCountSome;
+  } else if (fish === FishAmountType.lots) {
+    fishCount = kFishCountLots;
+  }
   const fishAnimationConfig = SimAnimals.find((simAnimal) => simAnimal.type === SimAnimationType.fish);
   const animations: SimAnimation[] = [];
   fishAnimationConfig?.layouts.filter((l) => l.environment === environment).forEach((layout, index) => {

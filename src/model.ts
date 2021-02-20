@@ -98,7 +98,7 @@ export class Model {
     // determine fish state
     const finalFish = FishFinalValues.find((f) => f.environment === this.environment && f.sunny === sunny);
     const finalFishVal = finalFish?.value || FishFinalValues.some;
-    let fish = FishAmountType.few;
+    let fish = finalFishVal === FishAmountType.none ? FishAmountType.none : FishAmountType.few;
     if (finalFishVal === FishAmountType.lots && this.frame > kMaxSteps * .33) {
       fish = FishAmountType.lots;
     } else if (finalFishVal === FishAmountType.lots || finalFishVal === FishAmountType.some) {
