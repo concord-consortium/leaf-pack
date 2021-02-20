@@ -1,6 +1,9 @@
 @import "../vars.scss";
 
 .chem-slider {
+  position: absolute;
+  height: 88px;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;

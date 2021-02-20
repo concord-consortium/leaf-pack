@@ -4,7 +4,8 @@ import { render, screen } from "@testing-library/react";
 import { Thumbnail } from "./thumbnail";
 import { IContainer } from "../../hooks/use-model-state";
 import { IModelInputState, IModelOutputState } from "../../leaf-model-types";
-import { AlgaeEatersAmountType, EnvironmentType, FishAmountType, LeafDecompositionType, LeafEatersAmountType } from "../../utils/sim-utils";
+import { EnvironmentType } from "../../utils/environment";
+import { AlgaeEatersAmountType, FishAmountType, LeafDecompositionType, LeafEatersAmountType } from "../../utils/sim-utils";
 
 describe("Thumbnail component", () => {
   const emptyContainer: IContainer<IModelInputState, IModelOutputState> = {

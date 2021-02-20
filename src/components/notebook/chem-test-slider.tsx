@@ -26,7 +26,7 @@ export const ChemTestSlider: React.FC<IProps> = (props) => {
           <div className={`value-container ${sliderValue === index ? "selected" : ""}`} key={`value-${val.value}`}>
             {val.value}
             <div className="bubble" style={{backgroundColor: val.color, borderColor: sliderValue === index ? "black" : "white"}}>
-              {val.icon && <val.icon className="slider-icon" width={21} />}
+              {val.Icon && <val.Icon className="slider-icon" width={21} />}
             </div>
           </div>
         )}
@@ -41,7 +41,7 @@ export const ChemTestSlider: React.FC<IProps> = (props) => {
           step={1}
           marks={sliderMarks}
           onChange={onChangeSlider}
-          ThumbComponent={IconHorizontalHandle}
+          ThumbComponent={IconHorizontalHandle as any}
           data-test="chem-test-slider"
         />
       </div>

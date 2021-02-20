@@ -31,7 +31,7 @@ export const SunnyDaySlider: React.FC<IProps> = (props) => {
           step={1}
           marks={sunnyDaySliderMarks}
           onChange={disabled ? undefined : props.onChangeSunnyDaySlider}
-          ThumbComponent={IconHorizontalHandle}
+          ThumbComponent={IconHorizontalHandle as any}
           data-test="sunny-day-slider"
         />
       </div>

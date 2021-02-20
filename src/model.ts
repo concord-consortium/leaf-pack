@@ -1,5 +1,7 @@
 import { IModelInputState } from "./leaf-model-types";
-import { EnvironmentType, LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
+import { ChemistryFinalValues } from "./utils/chem-utils";
+import { EnvironmentType } from "./utils/environment";
+import { LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
          AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
        } from "./utils/sim-utils";
 import { getRandomInteger } from "./utils/math-utils";
@@ -113,6 +115,7 @@ export class Model {
       algaeEaters,
       fish,
       animalInstances: this.animalInstances,
+      chemistryValues: ChemistryFinalValues[this.environment]
     };
   }
 }

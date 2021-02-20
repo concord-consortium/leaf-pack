@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { chemistryTests, ChemTestType, ChemistryTestResult } from "../../utils/chem-utils";
+import { chemistryTests, ChemTestType, ChemistryTestResult, ChemistryValues } from "../../utils/chem-utils";
 import { SectionButtons } from "./section-buttons";
 import { ChemResults } from "./chem-results";
 import { ChemTest } from "./chem-test";
@@ -7,13 +7,14 @@ import { ChemTest } from "./chem-test";
 import "./chemistry-panel.scss";
 
 interface IProps {
+  chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
   onUpdateTestResult: (type: ChemTestType, completedStep: number, value?: number) => void;
   isRunning: boolean;
 }
 
 export const ChemistryPanel: React.FC<IProps> = (props) => {
-  const { chemistryTestResults, onUpdateTestResult } = props;
+  const { chemistryValues, chemistryTestResults, onUpdateTestResult } = props;
   const [currentSection, setCurrentSection] = useState(0);
 
   // one extra page for the result summary
@@ -29,6 +30,7 @@ export const ChemistryPanel: React.FC<IProps> = (props) => {
           : <ChemTest
               chemistryTest={chemistryTests[currentSection - 1]}
               testIndex={currentSection - 1}
+              chemistryValues={chemistryValues}
               chemistryTestResults={chemistryTestResults}
               onUpdateTestResult={onUpdateTestResult}
             />

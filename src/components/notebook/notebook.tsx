@@ -1,9 +1,10 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import t from "../../utils/translation/translate";
-import { EnvironmentType, TrayObject, TrayType } from "../../utils/sim-utils";
+import { EnvironmentType } from "../../utils/environment";
+import { TrayObject, TrayType } from "../../utils/sim-utils";
 import { HabitatFeatureType } from "../../utils/habitat-utils";
-import { ChemTestType, ChemistryTestResult } from "../../utils/chem-utils";
+import { ChemTestType, ChemistryTestResult, ChemistryValues } from "../../utils/chem-utils";
 import { HabitatPanel } from "./habitat-panel";
 import { ChemistryPanel } from "./chemistry-panel";
 import { MacroPanel } from "./macro-panel";
@@ -20,6 +21,7 @@ interface IProps {
   featureSelections: Set<HabitatFeatureType>;
   onSelectFeature: (feature: HabitatFeatureType, selected: boolean) => void;
   onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
+  chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
   onUpdateTestResult: (type: ChemTestType, completedStep: number, value?: number) => void;
   traySelectionType?: TrayType;
@@ -28,7 +30,7 @@ interface IProps {
 
 export const Notebook: React.FC<IProps> = (props) => {
   const { trayObjects, environment, featureSelections, onSelectFeature, onCategorizeAnimal, traySelectionType,
-          isRunning, chemistryTestResults, onUpdateTestResult } = props;
+          isRunning, ...chemistryProps } = props;
   return (
     <div className="notebook" data-testid="notebook">
       <Tabs>
@@ -61,11 +63,7 @@ export const Notebook: React.FC<IProps> = (props) => {
           />
         </TabPanel>
         <TabPanel>
-          <ChemistryPanel
-            chemistryTestResults={chemistryTestResults}
-            onUpdateTestResult={onUpdateTestResult}
-            isRunning={isRunning}
-          />
+          <ChemistryPanel {...chemistryProps} isRunning={isRunning} />
         </TabPanel>
 
       </Tabs>
