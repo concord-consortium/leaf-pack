@@ -14,13 +14,14 @@ import { ModalDialog } from "./modal-dialog";
 import { ContainerId, useLeafModelState } from "../hooks/use-leaf-model-state";
 import { IModelConfig, IModelInputState, IModelOutputState } from "../leaf-model-types";
 import { Model } from "../model";
+import { ChemistryTestResult, ChemTestType } from "../utils/chem-types";
+import { chemistryTests } from "../utils/chem-utils";
 import { containerIdForEnvironmentMap, environmentForContainerId, EnvironmentType } from "../utils/environment";
 import { getSunnyDayLogLabel, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes
        } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 import { getPTIScore } from "../utils/macro-utils";
-import { ChemistryTestResult, ChemTestType, chemistryTests } from "../utils/chem-utils";
 import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger, shuffleArray } from "../utils/math-utils";
 import t from "../utils/translation/translate";
 

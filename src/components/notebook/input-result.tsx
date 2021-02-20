@@ -1,5 +1,6 @@
 import React from "react";
-import { ChemistryTest, ChemistryTestResult, chemTestRatings } from "../../utils/chem-utils";
+import { ChemistryTest, ChemistryTestResult } from "../../utils/chem-types";
+import { chemTestRatings } from "../../utils/chem-utils";
 import t from "../../utils/translation/translate";
 
 import "./input-result.scss";

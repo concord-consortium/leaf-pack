@@ -1,5 +1,6 @@
 import React from "react";
-import { ChemistryTestResult, chemistryTests, chemTestRatings } from "../../utils/chem-utils";
+import { ChemistryTestResult } from "../../utils/chem-types";
+import { chemistryTests, chemTestRatings } from "../../utils/chem-utils";
 import CheckIcon from "../../assets/check-icon.svg";
 import t from "../../utils/translation/translate";
 
