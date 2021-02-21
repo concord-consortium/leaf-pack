@@ -1,5 +1,4 @@
 import React from "react";
-import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Thumbnail } from "./thumbnail";
 import { IContainer } from "../../hooks/use-model-state";

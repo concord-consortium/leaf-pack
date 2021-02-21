@@ -1,7 +1,7 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import t from "../../utils/translation/translate";
-import { ChemistryTestResult, ChemistryValues, ChemTestType } from "../../utils/chem-types";
+import { ChemistryTestResult, ChemistryValues, IUpdateChemistryTestResult } from "../../utils/chem-types";
 import { EnvironmentType } from "../../utils/environment";
 import { TrayObject, TrayType } from "../../utils/sim-utils";
 import { HabitatFeatureType } from "../../utils/habitat-utils";
@@ -23,7 +23,7 @@ interface IProps {
   onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
   chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
-  onUpdateTestResult: (type: ChemTestType, completedStep: number, value?: number) => void;
+  onUpdateTestResult: ({type, currentStep, stepsComplete, value}: IUpdateChemistryTestResult) => void;
   traySelectionType?: TrayType;
   isRunning: boolean;
 }

@@ -26,7 +26,7 @@ export const turbidityTest: ChemistryTest = {
   type: ChemTestType.turbidity, label: t("CHEM.TURBIDITY.TEST"), units: t("CHEM.TURBIDITY.UNIT"),
   InitialImage: Turbidity0,
   steps: [
-    {type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE"), Image: "1f",
+    {type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE"),
       frames: [
         {label: "0", image: Turbidity0, duration: 0.25},
         {label: "1a", image: Turbidity1A, duration: 1},
@@ -37,7 +37,7 @@ export const turbidityTest: ChemistryTest = {
         {label: "1e", image: "byValue", duration: 1},
         {label: "1f", image: "byValue", duration: -1},
       ]},
-    {type: StepType.resultSlider, label: t("CHEM.MATCH.VALUE"), Image: "2b",
+    {type: StepType.resultSlider, label: t("CHEM.MATCH.VALUE"),
       frames: [
         {label: "1f", image: "byValue", duration: 0.25},
         {label: "2a", image: "byValue", duration: 0},

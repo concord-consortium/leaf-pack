@@ -14,7 +14,7 @@ import { ModalDialog } from "./modal-dialog";
 import { ContainerId, useLeafModelState } from "../hooks/use-leaf-model-state";
 import { IModelConfig, IModelInputState, IModelOutputState } from "../leaf-model-types";
 import { Model } from "../model";
-import { ChemistryTestResult, ChemTestType } from "../utils/chem-types";
+import { ChemistryTestResult, IUpdateChemistryTestResult } from "../utils/chem-types";
 import { chemistryTests } from "../utils/chem-utils";
 import { containerIdForEnvironmentMap, environmentForContainerId, EnvironmentType } from "../utils/environment";
 import { getSunnyDayLogLabel, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
@@ -246,13 +246,20 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     setOutputStateAndSave({ habitatFeatures });
   };
 
-  const handleUpdateTestResult = (type: ChemTestType, completedStep: number, value?: number) => {
+  const handleUpdateTestResult = ({type, currentStep, stepsComplete, value}: IUpdateChemistryTestResult) => {
     const updatedChemistryTestResults = chemistryTestResults.map((result: ChemistryTestResult) => {
       if (result.type === type) {
         const updatedResult = { ...result };
-        updatedResult.stepsComplete = completedStep;
+        if (stepsComplete != null) {
+          updatedResult.currentStep = stepsComplete - 1;
+          updatedResult.stepsComplete = stepsComplete;
+        }
+        else if (currentStep != null) {
+          updatedResult.currentStep = currentStep;
+          updatedResult.stepsComplete = currentStep;
+        }
         const currentTest = chemistryTests.find((test) => test.type === type);
-        if (completedStep === currentTest?.steps.length && value !== undefined) {
+        if (updatedResult.stepsComplete === currentTest?.steps.length && value !== undefined) {
           updatedResult.value = value;
         }
         return updatedResult;

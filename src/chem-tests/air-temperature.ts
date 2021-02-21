@@ -16,7 +16,7 @@ export const airTemperatureTest: ChemistryTest = {
   type: ChemTestType.airTemperature, label: t("CHEM.AIRTEMP.TEST"), units: t("CHEM.TEMP.UNIT"),
   InitialImage: AirTemp0,
   steps: [
-    {type: StepType.tempDisplay, label: t("CHEM.READ.THERMOMETER"), Image: "1g",
+    {type: StepType.tempDisplay, label: t("CHEM.READ.THERMOMETER"),
       frames: [
         {label: "0", image: AirTemp0, duration: 0.25},
         {label: "1a", image: AirTemp1A, duration: 1},
