@@ -55,18 +55,22 @@ export const SimulationView: React.FC<IProps> = (props) => {
     }
   });
 
-  const beaverAnimationConfig = simAnimationConfigurations.find((aniConfig) => aniConfig.type === SimAnimationType.beaver);
+  const simAnimationConfigs = simAnimationConfigurations.filter((aniConfig) => aniConfig.type === SimAnimationType.beaver
+   || aniConfig.type === SimAnimationType.riffleA || aniConfig.type === SimAnimationType.riffleB);
   const simAnimations: SimAnimation[] = [];
-  beaverAnimationConfig?.layouts.filter((l) => l.environment === environment).forEach((layout) => {
-    simAnimations.push(
-      { frames: beaverAnimationConfig.frames,
-        left: layout.left,
-        top: layout.top,
-        xScale: layout.xScale,
-        yScale: layout.yScale,
-        rotation: layout.rotation,
-        altText: beaverAnimationConfig.altText }
-    );
+  simAnimationConfigs.forEach((aniConfig) => {
+    aniConfig?.layouts.filter((l) => l.environment === environment).forEach((layout, index) => {
+      simAnimations.push(
+        { frames: aniConfig.frames,
+          left: layout.left,
+          top: layout.top,
+          xScale: layout.xScale,
+          yScale: layout.yScale,
+          rotation: layout.rotation,
+          altText: aniConfig.altText,
+          key: `${aniConfig.type}-animation-${index}` }
+      );
+    });
   });
 
   return (
@@ -98,7 +102,7 @@ export const SimulationView: React.FC<IProps> = (props) => {
       { simAnimations.map((animation, index) =>
           <SimulationAnimation
             animation={animation}
-            key={`sim-animation-${index}`}
+            key={animation.key || `sim-animation-${index}`}
           />
         )
       }
