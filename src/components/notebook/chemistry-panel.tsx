@@ -11,11 +11,11 @@ interface IProps {
   chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
   onUpdateTestResult: ({type, currentStep, stepsComplete, value}: IUpdateChemistryTestResult) => void;
-  isRunning: boolean;
+  isSimFinished: boolean;
 }
 
 export const ChemistryPanel: React.FC<IProps> = (props) => {
-  const { chemistryValues, chemistryTestResults, onUpdateTestResult } = props;
+  const { chemistryValues, chemistryTestResults, onUpdateTestResult, isSimFinished } = props;
   const [currentSection, setCurrentSection] = useState(0);
 
   // one extra page for the result summary
@@ -34,6 +34,7 @@ export const ChemistryPanel: React.FC<IProps> = (props) => {
               chemistryValues={chemistryValues}
               chemistryTestResults={chemistryTestResults}
               onUpdateTestResult={onUpdateTestResult}
+              isSimFinished={isSimFinished}
             />
         }
       </div>

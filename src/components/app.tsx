@@ -315,7 +315,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               chemistryTestResults={chemistryTestResults}
               onUpdateTestResult={handleUpdateTestResult}
               traySelectionType={traySelectionType}
-              isRunning={isRunning}
+              isSimFinished={isFinished}
             />
           </div>
         </DndProvider>

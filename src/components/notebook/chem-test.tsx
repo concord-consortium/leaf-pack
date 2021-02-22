@@ -18,10 +18,11 @@ interface IProps {
   chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
   onUpdateTestResult: ({type, currentStep, stepsComplete, value}: IUpdateChemistryTestResult) => void;
+  isSimFinished: boolean;
 }
 
 export const ChemTest: React.FC<IProps> = (props) => {
-  const { chemistryTest, testIndex, chemistryValues, chemistryTestResults, onUpdateTestResult } = props;
+  const { chemistryTest, testIndex, chemistryValues, chemistryTestResults, onUpdateTestResult, isSimFinished } = props;
   const testResult = useCurrent(chemistryTestResults.find((result) => result.type === chemistryTest.type));
   const currentStep = testResult.current?.currentStep;
   const stepsComplete = testResult.current?.stepsComplete ?? 0;
@@ -101,7 +102,8 @@ export const ChemTest: React.FC<IProps> = (props) => {
           {chemistryTest.steps.map((step, index) =>
             <button
               className={classNames("step-button", {
-                                      disabled: (index > stepsComplete) ||
+                                      disabled: (!isSimFinished ||
+                                                index > stepsComplete) ||
                                                 ((index === stepsComplete) &&
                                                   (index === testResult.current?.currentStep)),
                                       finished: index < stepsComplete })}
@@ -118,7 +120,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
               }
             </button>
           )}
-          {testResult.current?.value != null &&
+          {testResult.current &&
             ((currentStepInfo?.type === StepType.resultSlider) || (currentStepInfo?.type === StepType.tempDisplay)) &&
             <InputResult
               chemistryTest={chemistryTest}
