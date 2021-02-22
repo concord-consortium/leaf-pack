@@ -39,7 +39,7 @@ import nitrate_3C_5 from "../assets/chemistry/nitrate/nitrate-3c-5.svg";
 import nitrate_3C_20 from "../assets/chemistry/nitrate/nitrate-3c-20.svg";
 
 export const nitrateTest: ChemistryTest = {
-  type: ChemTestType.nitrate, label: t("CHEM.NITRATE.TEST"), units: t("CHEM.NITRATE.UNIT"),
+  type: ChemTestType.nitrate, label: t("CHEM.NITRATE.TEST"), units: t("CHEM.PPM.UNIT"),
   InitialImage: nitrate_0,
   steps: [
     {type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE"),
