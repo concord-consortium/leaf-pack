@@ -63,7 +63,7 @@ export const MacroAnimalRow: React.FC<IProps> = (props) => {
 
   return (
     <div key={`critter-${animal.type}`} className="critter" style={{backgroundColor: sensitivity?.backgroundColor}} ref={drop}
-          data-testid={`critter-${animal.type}`} onTransitionEnd={() => setErrorClass("")}>
+          data-testid={`critter-${animal.type}`}>
       { trayAnimal?.collected
         ? <div className="image-box" style={{borderColor: sensitivity?.graphColor}}>
             <AnimalIcon className="animal-icon" />

@@ -11,7 +11,7 @@ describe("useErrorClass", () => {
     jest.useRealTimers();
   });
 
-  test("works as expected", () => {
+  test("works with default values", () => {
     const { result } = renderHook<string, readonly [string, (s: string) => void]>(() => useErrorClass());
     expect(result.current[0]).toBe("");
 
@@ -21,12 +21,32 @@ describe("useErrorClass", () => {
     expect(result.current[0]).toBe("error");
 
     act(() => {
-      jest.runAllTimers();
+      jest.runOnlyPendingTimers();
     });
     expect(result.current[0]).toBe("error fading");
 
     act(() => {
-      result.current[1]("");
+      jest.runAllTimers();
+    });
+    expect(result.current[0]).toBe("");
+  });
+
+  test("works with specific values", () => {
+    const { result } = renderHook<string, readonly [string, (s: string) => void]>(() => useErrorClass(1000, 1000));
+    expect(result.current[0]).toBe("");
+
+    act(() => {
+      result.current[1]("error");
+    });
+    expect(result.current[0]).toBe("error");
+
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+    expect(result.current[0]).toBe("error fading");
+
+    act(() => {
+      jest.runAllTimers();
     });
     expect(result.current[0]).toBe("");
   });
