@@ -5,6 +5,7 @@ import { EnvironmentType } from "./environment";
 import t from "./translation/translate";
 
 import { airTemperatureTest } from "../chem-tests/air-temperature";
+import { nitrateTest } from "../chem-tests/nitrate";
 import { phTest } from "../chem-tests/ph";
 import { turbidityTest } from "../chem-tests/turbidity";
 import { waterTemperatureTest } from "../chem-tests/water-temperature";
@@ -20,12 +21,7 @@ export const chemistryTests: ChemistryTest[] = [
   airTemperatureTest,
   waterTemperatureTest,
   phTest,
-  { type: ChemTestType.nitrate, label: t("CHEM.NITRATE.TEST"), units: t("CHEM.AIR.UNIT"),
-    steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.animation, label: t("CHEM.ADD.TABLET")},
-            {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR")}],
-    results: [{value: 0, rating: ChemTestRatingType.excellent, color: "#f7fdfd"}, {value: 5, rating: ChemTestRatingType.fair, color: "#e5bd94"},
-             {value: 20, rating: ChemTestRatingType.poor, color: "#dc8c74"}, {value: 40, rating: ChemTestRatingType.poor, color: "#d24116"}]
-  },
+  nitrateTest,
   turbidityTest,
   { type: ChemTestType.dissolvedOxygen, label: t("CHEM.OXYGEN.TEST"), units: t("CHEM.AIR.UNIT"),
     steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.animation, label: t("CHEM.ADD.TABLETS")},
