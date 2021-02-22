@@ -19,9 +19,11 @@ export const InputResult: React.FC<IProps> = (props) => {
     <div className="input-result">
       {t("CHEM.RESULT")}
       <div className="current-result">
-        <div className="test-result">{`${chemistryTestResult?.value} ${chemistryTest.units}`}</div>
-        {rating && <div>=</div>}
-        {rating && <div className="test-rating" style={{backgroundColor: rating.color}}>{rating.label}</div>}
+        <div className="test-result">
+          {chemistryTestResult?.value !== undefined ? `${chemistryTestResult?.value} ${chemistryTest.units}` : ""}
+        </div>
+        <div>=</div>
+        <div className="test-rating" style={{backgroundColor: rating?.color}}>{rating ? rating.label : ""}</div>
       </div>
     </div>
   );
