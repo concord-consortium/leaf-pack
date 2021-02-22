@@ -382,6 +382,10 @@ export const Animals: Animal[] = [
   }
 ];
 
+export function getAnimal(type: AnimalType) {
+  return Animals.find(animal => animal.type === type);
+}
+
 export interface AnimalInstance {
   type: AnimalType;
   spawnTime: number;

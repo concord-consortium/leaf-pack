@@ -29,7 +29,6 @@ export const MacroPanel: React.FC<IProps> = (props) => {
           const sensitivity = Sensitivities.find((s) => s.type === animal.sensitivity);
           const trayAnimal = trayObjects.find((obj) => obj.type === animal.type);
           const count = trayAnimal?.collected ? trayAnimal.count : 0;
-          const AnimalIcon = animal.image;
           return (
             index >= kCrittersPerSection * currentSection &&
             index < kCrittersPerSection * currentSection + kCrittersPerSection &&
@@ -37,8 +36,6 @@ export const MacroPanel: React.FC<IProps> = (props) => {
               key={`row-${index}`}
               trayAnimal={trayAnimal}
               animal={animal}
-              AnimalIcon={AnimalIcon}
-              index={index}
               count={count}
               sensitivity={sensitivity}
               onCategorizeAnimal={onCategorizeAnimal}
