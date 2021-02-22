@@ -3,7 +3,7 @@ import { LeafPack } from "./leaf-pack";
 import { SimulationAnimation } from "./simulation-animation";
 import { EnvironmentType, Environments, Environment } from "../../utils/environment";
 import {
-  LeafPackConfigurations, LeafPackState, SimAnimals, SimAnimation, FishAmountType, SimAnimationType,
+  LeafPackConfigurations, LeafPackState, simAnimationConfigurations, SimAnimation, FishAmountType, SimAnimationType,
 } from "../../utils/sim-utils";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -39,21 +39,34 @@ export const SimulationView: React.FC<IProps> = (props) => {
   } else if (fish === FishAmountType.lots) {
     fishCount = kFishCountLots;
   }
-  const fishAnimationConfig = SimAnimals.find((simAnimal) => simAnimal.type === SimAnimationType.fish);
-  const animations: SimAnimation[] = [];
+  const fishAnimationConfig = simAnimationConfigurations.find((aniConfig) => aniConfig.type === SimAnimationType.fish);
+  const fishAnimations: SimAnimation[] = [];
   fishAnimationConfig?.layouts.filter((l) => l.environment === environment).forEach((layout, index) => {
     if (index < fishCount) {
-      animations.push(
+      fishAnimations.push(
         { frames: fishAnimationConfig.frames,
           left: layout.left,
           top: layout.top,
           xScale: layout.xScale,
           yScale: layout.yScale,
           rotation: layout.rotation,
-          altText: fishAnimationConfig.altText
-        }
+          altText: fishAnimationConfig.altText }
       );
     }
+  });
+
+  const beaverAnimationConfig = simAnimationConfigurations.find((aniConfig) => aniConfig.type === SimAnimationType.beaver);
+  const simAnimations: SimAnimation[] = [];
+  beaverAnimationConfig?.layouts.filter((l) => l.environment === environment).forEach((layout) => {
+    simAnimations.push(
+      { frames: beaverAnimationConfig.frames,
+        left: layout.left,
+        top: layout.top,
+        xScale: layout.xScale,
+        yScale: layout.yScale,
+        rotation: layout.rotation,
+        altText: beaverAnimationConfig.altText }
+    );
   });
 
   return (
@@ -68,15 +81,27 @@ export const SimulationView: React.FC<IProps> = (props) => {
         isRunning={isRunning}
       />
       <TransitionGroup>
-        { animations.map((animation, index) =>
-          <CSSTransition key={index} timeout={isRunning ? kSimulationOneWeekPeriodInMilliseconds : 0} classNames="animation-item">
-            <SimulationAnimation
-              animation={animation}
-              key={`animation-${index}`}
-            />
-          </CSSTransition>
-        )}
+        { fishAnimations.map((animation, index) =>
+            <CSSTransition
+              key={index}
+              timeout={isRunning ? kSimulationOneWeekPeriodInMilliseconds : 0}
+              classNames="animation-item"
+            >
+              <SimulationAnimation
+                animation={animation}
+                key={`fish-animation-${index}`}
+              />
+            </CSSTransition>
+          )
+        }
       </TransitionGroup>
+      { simAnimations.map((animation, index) =>
+          <SimulationAnimation
+            animation={animation}
+            key={`sim-animation-${index}`}
+          />
+        )
+      }
       Model running: { isRunning ? "yes" : "no" }
     </div>
   );
