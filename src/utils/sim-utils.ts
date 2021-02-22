@@ -89,6 +89,15 @@ import BeaverD from "../assets/animations/beaver/beaver-4.png";
 import BeaverE from "../assets/animations/beaver/beaver-5.png";
 import BeaverF from "../assets/animations/beaver/beaver-6.png";
 
+import RiffleA1 from "../assets/animations/riffle/rifflea-1.png";
+import RiffleA2 from "../assets/animations/riffle/rifflea-2.png";
+import RiffleA3 from "../assets/animations/riffle/rifflea-3.png";
+import RiffleA4 from "../assets/animations/riffle/rifflea-4.png";
+import RiffleB1 from "../assets/animations/riffle/riffleb-1.png";
+import RiffleB2 from "../assets/animations/riffle/riffleb-2.png";
+import RiffleB3 from "../assets/animations/riffle/riffleb-3.png";
+import RiffleB4 from "../assets/animations/riffle/riffleb-4.png";
+
 import { stoneFlySelectionPath, mayFlySelectionPath, caddisFlySelectionPath, dobsonFlySelectionPath,
   riffleBeetleSelectionPath, dragonFlySelectionPath, scudSelectionPath, clamOrMusselSelectionPath, crayFishSelectionPath,
   midgeFlySelectionPath, blackFlySelectionPath, planarianSelectionPath, leechSelectionPath, aquaticWormSelectionPath,
@@ -428,6 +437,8 @@ export const LeafPackStates: LeafPackState[] = [
 export enum SimAnimationType {
   fish = "fish",
   beaver = "beaver",
+  riffleA = "riffleA",
+  riffleB = "riffleB"
 }
 
 export interface SimAnimationLayout {
@@ -489,6 +500,20 @@ export const simAnimationConfigurations: SimAnimationConfiguration[] = [
     ],
     altText: t("SIMANIMAL.BEAVER")
   },
+  { type: SimAnimationType.riffleA,
+    frames: [RiffleA1, RiffleA2, RiffleA3, RiffleA4],
+    layouts: [
+      { environment: EnvironmentType.environment1, left: 251, top: 130, xScale: 5.52, yScale: 5.52, rotation: 0 },
+    ],
+    altText: t("SIMOBJECT.RIFFLE")
+  },
+  { type: SimAnimationType.riffleB,
+    frames: [RiffleB1, RiffleB2, RiffleB3, RiffleB4],
+    layouts: [
+      { environment: EnvironmentType.environment2, left: 261, top: 131, xScale: 6.165, yScale: 6.165, rotation: 0 },
+    ],
+    altText: t("SIMOBJECT.RIFFLE")
+  },
 ];
 
 export interface SimAnimation {
@@ -499,6 +524,7 @@ export interface SimAnimation {
   yScale: number;
   rotation: number;
   altText: string;
+  key?: string;
 }
 
 // The content that is positioned and shown in the tray
