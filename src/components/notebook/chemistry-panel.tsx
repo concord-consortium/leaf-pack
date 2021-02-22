@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChemistryTestResult, ChemistryValues, ChemTestType } from "../../utils/chem-types";
+import { ChemistryTestResult, ChemistryValues, IUpdateChemistryTestResult } from "../../utils/chem-types";
 import { chemistryTests } from "../../utils/chem-utils";
 import { SectionButtons } from "./section-buttons";
 import { ChemResults } from "./chem-results";
@@ -10,7 +10,7 @@ import "./chemistry-panel.scss";
 interface IProps {
   chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
-  onUpdateTestResult: (type: ChemTestType, completedStep: number, value?: number) => void;
+  onUpdateTestResult: ({type, currentStep, stepsComplete, value}: IUpdateChemistryTestResult) => void;
   isRunning: boolean;
 }
 

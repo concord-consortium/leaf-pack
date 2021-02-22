@@ -26,12 +26,12 @@ export const useLeafModelState = (props: IProps) => {
                           showTray: false,
                           trayObjects: [],
                           chemistryTestResults: [
-                            {type: ChemTestType.airTemperature, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.waterTemperature, stepsComplete: 0, value: 0},
+                            {type: ChemTestType.airTemperature, stepsComplete: 0},
+                            {type: ChemTestType.waterTemperature, stepsComplete: 0},
                             {type: ChemTestType.pH, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.nitrate, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.turbidity, stepsComplete: 0, value: 0},
-                            {type: ChemTestType.dissolvedOxygen, stepsComplete: 0, value: 0}
+                            {type: ChemTestType.nitrate, stepsComplete: 0},
+                            {type: ChemTestType.turbidity, stepsComplete: 0},
+                            {type: ChemTestType.dissolvedOxygen, stepsComplete: 0}
                           ],
                           habitatFeatures: new Set()
                         },

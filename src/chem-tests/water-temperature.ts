@@ -19,14 +19,14 @@ export const waterTemperatureTest: ChemistryTest = {
   type: ChemTestType.waterTemperature, label: t("CHEM.WATERTEMP.TEST"), units: t("CHEM.TEMP.UNIT"),
   InitialImage: WaterTemp0,
   steps: [
-    {type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE"), Image: WaterTemp1C,
+    {type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE"),
       frames: [
         {label: "0", image: WaterTemp0, duration: 0.25},
         {label: "1a", image: WaterTemp1A, duration: 1},
         {label: "1b", image: WaterTemp1B, duration: 1.5},
         {label: "1c", image: WaterTemp1C, duration: -1},
       ]},
-    {type: StepType.tempDisplay, label: t("CHEM.READ.THERMOMETER"), Image: "2g",
+    {type: StepType.tempDisplay, label: t("CHEM.READ.THERMOMETER"),
       frames: [
         {label: "1c", image: WaterTemp1C, duration: 0.25},
         {label: "2a", image: WaterTemp2A, duration: 0},

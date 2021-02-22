@@ -63,6 +63,15 @@ export type ChemistryValues = Record<ChemTestType, number>;
 
 export interface ChemistryTestResult {
   type: ChemTestType;
-  stepsComplete: number;
-  value: number;
+  currentStep?: number;   // currentStep is advanced at beginning of animation
+  stepsComplete: number;  // stepsComplete is advanced at end of animation
+  value?: number;
+}
+
+// argument to onUpdateTestResult()
+export interface IUpdateChemistryTestResult {
+  type: ChemTestType;
+  currentStep?: number;   // for advancing currentStep without changing stepsComplete
+  stepsComplete?: number; // as argument, stepsComplete takes precedence over currentStep
+  value?: number;
 }
