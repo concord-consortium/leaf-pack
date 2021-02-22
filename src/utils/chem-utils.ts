@@ -5,6 +5,7 @@ import { EnvironmentType } from "./environment";
 import t from "./translation/translate";
 
 import { airTemperatureTest } from "../chem-tests/air-temperature";
+import { phTest } from "../chem-tests/ph";
 import { turbidityTest } from "../chem-tests/turbidity";
 import { waterTemperatureTest } from "../chem-tests/water-temperature";
 
@@ -18,14 +19,7 @@ export const chemTestRatings: ChemTestRating[] = [
 export const chemistryTests: ChemistryTest[] = [
   airTemperatureTest,
   waterTemperatureTest,
-  { type: ChemTestType.pH, label: t("CHEM.PH.TEST"), units: t("CHEM.PH.UNIT"),
-    steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.animation, label: t("CHEM.ADD.TABLET")},
-            {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR")}],
-    results: [{value: 4, rating: ChemTestRatingType.poor, color: "#e16f4e"}, {value: 5, rating: ChemTestRatingType.poor, color: "#f0895b"},
-             {value: 6, rating: ChemTestRatingType.good, color: "#f6c842"}, {value: 7, rating: ChemTestRatingType.excellent, color: "#cad04c"},
-             {value: 8, rating: ChemTestRatingType.good, color: "#9fc051"}, {value: 9, rating: ChemTestRatingType.poor, color: "#767a76"},
-             {value: 10, rating: ChemTestRatingType.poor, color: "#713357"}]
-  },
+  phTest,
   { type: ChemTestType.nitrate, label: t("CHEM.NITRATE.TEST"), units: t("CHEM.AIR.UNIT"),
     steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.animation, label: t("CHEM.ADD.TABLET")},
             {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR")}],
