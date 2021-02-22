@@ -1,10 +1,11 @@
 import {
-  ChemistryTest, ChemistryValues, ChemTestRating, ChemTestRatingType, ChemTestType, StepType
+  ChemistryTest, ChemistryValues, ChemTestRating, ChemTestRatingType, ChemTestType
 } from "./chem-types";
 import { EnvironmentType } from "./environment";
 import t from "./translation/translate";
 
 import { airTemperatureTest } from "../chem-tests/air-temperature";
+import { dissolvedOxygen } from "../chem-tests/dissolved-oxygen";
 import { nitrateTest } from "../chem-tests/nitrate";
 import { phTest } from "../chem-tests/ph";
 import { turbidityTest } from "../chem-tests/turbidity";
@@ -23,12 +24,7 @@ export const chemistryTests: ChemistryTest[] = [
   phTest,
   nitrateTest,
   turbidityTest,
-  { type: ChemTestType.dissolvedOxygen, label: t("CHEM.OXYGEN.TEST"), units: t("CHEM.AIR.UNIT"),
-    steps: [{type: StepType.animation, label: t("CHEM.COLLECT.SAMPLE")}, {type: StepType.animation, label: t("CHEM.ADD.TABLETS")},
-            {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR")}],
-    results: [{value: 0, rating: ChemTestRatingType.poor, color: "#f7fdfd"}, {value: 4, rating: ChemTestRatingType.fair, color: "#db9363"},
-             {value: 8, rating: ChemTestRatingType.excellent, color: "#d65c2c"}]
-  },
+  dissolvedOxygen
 ];
 
 export const chemistryFinalValues: Record<EnvironmentType, ChemistryValues> = {

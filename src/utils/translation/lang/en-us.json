@@ -138,7 +138,7 @@
   "CHEM.OXYGEN.TEST": "Dissolved Oxygen",
   "CHEM.TEMP.UNIT": "°C",
   "CHEM.PH.UNIT": "pH",
-  "CHEM.AIR.UNIT": "ppm",
+  "CHEM.PPM.UNIT": "ppm",
   "CHEM.TURBIDITY.UNIT": "JTU",
   "CHEM.COLLECT.SAMPLE": "Collect sample",
   "CHEM.READ.THERMOMETER": "Read thermometer",
