@@ -79,7 +79,7 @@ export const dissolvedOxygen: ChemistryTest = {
       ]},
   ],
     results: [
-      {value: 0, rating: ChemTestRatingType.poor, color: "#f7fdfd"},
+      {value: 0, rating: ChemTestRatingType.poor, color: "#f7fdfd", borderColor: "#999999"},
       {value: 4, rating: ChemTestRatingType.fair, color: "#db9363",
         frames: {"2p": do_2P_4, "2q": do_2Q_4, "2r": do_2R_4, "2s": do_2S_4, "2t": do_2T_4, "3a": do_3A_4, "3b": do_3B_4}},
       {value: 8, rating: ChemTestRatingType.excellent, color: "#d65c2c",

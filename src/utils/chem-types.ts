@@ -46,6 +46,7 @@ export interface ChemTestValue {
   value: number;
   rating?: ChemTestRatingType;
   color?: string;
+  borderColor?: string;
   Icon?: React.FC<SVGProps<SVGSVGElement>>;
   frames?: Record<string, React.FC<SVGProps<SVGSVGElement>>>;
 }
