@@ -82,6 +82,13 @@ import FishC from "../assets/animations/fish/Frame 3.png";
 import FishD from "../assets/animations/fish/Frame 6,8.png";
 import FishE from "../assets/animations/fish/Frame 7.png";
 
+import BeaverA from "../assets/animations/beaver/beaver-1.png";
+import BeaverB from "../assets/animations/beaver/beaver-2.png";
+import BeaverC from "../assets/animations/beaver/beaver-3.png";
+import BeaverD from "../assets/animations/beaver/beaver-4.png";
+import BeaverE from "../assets/animations/beaver/beaver-5.png";
+import BeaverF from "../assets/animations/beaver/beaver-6.png";
+
 import { stoneFlySelectionPath, mayFlySelectionPath, caddisFlySelectionPath, dobsonFlySelectionPath,
   riffleBeetleSelectionPath, dragonFlySelectionPath, scudSelectionPath, clamOrMusselSelectionPath, crayFishSelectionPath,
   midgeFlySelectionPath, blackFlySelectionPath, planarianSelectionPath, leechSelectionPath, aquaticWormSelectionPath,
@@ -420,7 +427,7 @@ export const LeafPackStates: LeafPackState[] = [
 // The content that we position and display visually on the sim
 export enum SimAnimationType {
   fish = "fish",
-  crayFish = "crayFish",
+  beaver = "beaver",
 }
 
 export interface SimAnimationLayout {
@@ -432,14 +439,14 @@ export interface SimAnimationLayout {
   rotation: number;
 }
 
-export interface SimAnimal {
+export interface SimAnimationConfiguration {
   type: SimAnimationType;
   frames: any[],
   layouts: SimAnimationLayout[],
   altText: string;
 }
 
-export const SimAnimals: SimAnimal[] = [
+export const simAnimationConfigurations: SimAnimationConfiguration[] = [
   { type: SimAnimationType.fish,
     frames: [FishA, FishB, FishC, FishB, FishA, FishD, FishE, FishD],
     layouts: [
@@ -468,6 +475,19 @@ export const SimAnimals: SimAnimal[] = [
       { environment: EnvironmentType.environment4, left: 100, top: 100, xScale: .5, yScale: .5, rotation: 0 },
     ],
     altText: t("SIMANIMAL.FISH")
+  },
+  { type: SimAnimationType.beaver,
+    frames: [BeaverA, BeaverB, BeaverC, BeaverD,
+             BeaverD, BeaverD, BeaverD, BeaverD, BeaverD, BeaverD, BeaverD, BeaverD, BeaverD,
+             BeaverE, BeaverF, BeaverE, BeaverD,
+             BeaverD, BeaverD, BeaverD, BeaverD, BeaverD, BeaverD, BeaverD, BeaverD, BeaverD,
+             BeaverC, BeaverB, BeaverA,
+             BeaverA, BeaverA, BeaverA, BeaverA, BeaverA, BeaverA, BeaverA, BeaverA, BeaverA,
+            ],
+    layouts: [
+      { environment: EnvironmentType.environment1, left: 122, top: 142, xScale: 2, yScale: 2, rotation: 0 },
+    ],
+    altText: t("SIMANIMAL.BEAVER")
   },
 ];
 
