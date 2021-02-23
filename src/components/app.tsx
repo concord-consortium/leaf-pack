@@ -17,9 +17,10 @@ import { Model } from "../model";
 import { ChemistryTestResult, IUpdateChemistryTestResult } from "../utils/chem-types";
 import { chemistryTests, chemistryFinalValues } from "../utils/chem-utils";
 import { containerIdForEnvironmentMap, environmentForContainerId, EnvironmentType } from "../utils/environment";
-import { getSunnyDayLogLabel, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
-         kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes
-       } from "../utils/sim-utils";
+import {
+  Animals, AnimalType, draggableAnimalTypes, getSunnyDayLogLabel, kMinLeaves, kMaxLeaves, kMinTrayX, kMaxTrayX,
+  kMinTrayY, kMaxTrayY, kTraySpawnPadding, LeafPackStates, Leaves, TrayObject, TrayType
+} from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 import { getPTIScore } from "../utils/macro-utils";
 import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger, shuffleArray } from "../utils/math-utils";
@@ -83,6 +84,12 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
         const numAnimals = Animals.length;
         const shuffledZIndices = shuffleArray(Array.from(Array(numLeaves + numAnimals).keys()));
 
+        // preserve collection status for each organism
+        const collectedAnimals = new Set<AnimalType>();
+        outputState.trayObjects.forEach(animal => {
+          animal.collected && collectedAnimals.add(animal.type as AnimalType);
+        });
+
         // add animals to the tray
         const newTrayObjects: TrayObject[] = Animals.map((animal, index) => {
           const rotation = Math.random() * 360;
@@ -99,7 +106,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
                    height: animal.height,
                    boundingBoxWidth: boundingBox.width,
                    boundingBoxHeight: boundingBox.height,
-                   collected: false,
+                   collected: collectedAnimals.has(animal.type),
                    selectionPath: animal.selectionPath,
                    zIndex: shuffledZIndices[index] };
         });
