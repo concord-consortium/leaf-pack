@@ -14,7 +14,8 @@ export interface PCIApp {
 export interface IRenderAppOptions<IModelInputState, IModelOutputState, IModelConfig> {
   App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModelConfig>>;
   logEvent: PCILogEventMethod;
-  modelConfig: IModelConfig
+  modelConfig: IModelConfig;
+  onStateChange?: ModelStateChangeCallback<IModelInputState, IModelOutputState>;
 }
 
 export type ExternalSetStateListenerCallback<IModelInputState, IModelOutputState> = (newState: IModelCurrentState<IModelInputState, IModelOutputState>) => void;
@@ -48,8 +49,15 @@ const getState = (): any => {
   return currentState || {};
 };
 
-export const renderApp = <IModelInputState, IModelOutputState, IModelConfig>(options: IRenderAppOptions<IModelInputState, IModelOutputState, IModelConfig>) => {
-  const onStateChange: ModelStateChangeCallback<IModelInputState, IModelOutputState> = (state) => currentState = state;
+export const renderApp = <IModelInputState, IModelOutputState, IModelConfig>(
+    options: IRenderAppOptions<IModelInputState, IModelOutputState, IModelConfig>) => {
+  const onStateChange: ModelStateChangeCallback<IModelInputState, IModelOutputState> = (state) => {
+    currentState = state;
+    if (options.onStateChange) {
+      options.onStateChange(state);
+    }
+
+  };
 
   const logEventWithState: LogEventMethod = (name, logOptions) => {
     let data = logOptions?.data || {};
