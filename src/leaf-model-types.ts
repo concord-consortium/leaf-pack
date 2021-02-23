@@ -6,12 +6,12 @@ import {
   LeafDecompositionType, LeafEatersAmountType, TrayObject
 } from "./utils/sim-utils";
 
-export interface IModelConfig {}
-export interface IModelInputState {
+export interface ILeafModelConfig {}
+export interface ILeafModelInputState {
   environment: EnvironmentType;
   sunnyDayFequency: number;
 }
-export interface IModelOutputState {
+export interface ILeafModelOutputState {
   leafDecomposition: LeafDecompositionType;
   leafEaters: LeafEatersAmountType;
   algaeEaters: AlgaeEatersAmountType;
@@ -23,11 +23,11 @@ export interface IModelOutputState {
   habitatFeatures: Set<HabitatFeatureType>;
   chemistryTestResults: ChemistryTestResult[];
 }
-export interface IModelTransientState {
+export interface ILeafModelTransientState {
   time: number;
 }
 export interface ISerializableTrayObject extends Omit<TrayObject, "image" | "dragImage" | "selectionPath" | "width" | "height"> {}
-export interface ISerializableModelOutputState extends Omit<IModelOutputState, "trayObjects" | "habitatFeatures">  {
+export interface ISerializableLeafModelOutputState extends Omit<ILeafModelOutputState, "trayObjects" | "habitatFeatures">  {
   trayObjects: ISerializableTrayObject[];
   habitatFeatures: string[];
 }

@@ -1,9 +1,9 @@
-import { IModelInputState } from "./leaf-model-types";
+import { ILeafModelInputState } from "./leaf-model-types";
 import { Model, kMaxSteps } from "./model";
 import { EnvironmentType } from "./utils/environment";
 
 describe("model", () => {
-  let inputState: IModelInputState;
+  let inputState: ILeafModelInputState;
   let model: Model;
 
   beforeEach(() => {

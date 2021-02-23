@@ -1,19 +1,19 @@
 import { App} from "./components/app";
 import { renderApp } from "./components/render-app";
 import { IModelCurrentState } from "./hooks/use-model-state";
-import { IModelInputState, IModelOutputState, IModelConfig } from "./leaf-model-types";
+import { ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig } from "./leaf-model-types";
 import { deserialize, SerializableModelState, serialize } from "./utils/serialize-utils";
 import { getInitInteractiveMessage, setInteractiveState } from "@concord-consortium/lara-interactive-api";
 
 import "./index.scss";
 
-const app = renderApp<IModelInputState, IModelOutputState, IModelConfig>({App, logEvent, modelConfig: {}, onStateChange: handleStateChange});
+const app = renderApp<ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig>({App, logEvent, modelConfig: {}, onStateChange: handleStateChange});
 
 function logEvent(args: any) {
   // do nothing
 }
 
-function handleStateChange(newState: IModelCurrentState<IModelInputState, IModelOutputState>) {
+function handleStateChange(newState: IModelCurrentState<ILeafModelInputState, ILeafModelOutputState>) {
   setInteractiveState(serialize(newState));
 }
 

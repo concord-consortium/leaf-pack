@@ -1,3 +1,4 @@
+import { waitFor } from "@testing-library/react";
 import { renderHook, act } from "@testing-library/react-hooks";
 import { ExternalSetStateListenerCallback, LogEventMethod } from "../components/render-app";
 import { ContainerId, ContainerIds, initContainerMap, initialSimulationState, useModelState } from "./use-model-state";
@@ -45,6 +46,7 @@ describe("useModelState", () => {
   let removeExternalSetStateListener: () => any;
   let isValidExternalState: () => any;
   let logEvent: LogEventMethod;
+  let mockSimulationStep: () => void;
 
   beforeEach(() => {
     onStateChange = jest.fn();
@@ -52,6 +54,7 @@ describe("useModelState", () => {
     removeExternalSetStateListener = jest.fn();
     isValidExternalState = jest.fn();
     logEvent = jest.fn();
+    mockSimulationStep = jest.fn();
 
     HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
       initialInputState,
@@ -64,6 +67,17 @@ describe("useModelState", () => {
       isValidExternalState,
       logEvent
     });
+
+    // cf. https://stackoverflow.com/a/66271345
+    jest.useFakeTimers();
+    let count = 0;
+    jest.spyOn(window, "requestAnimationFrame")
+        .mockImplementation((cb: any) => window.setTimeout(() => cb(100*(++count)), 100));
+  });
+
+  afterEach(() => {
+    (window.requestAnimationFrame as any).mockRestore();
+    jest.useRealTimers();
   });
 
   it("returns correct values", () => {
@@ -116,18 +130,26 @@ describe("useModelState", () => {
     expect(result.current.selectedContainerId).toEqual("B");
   });
 
-  it("implements the simulation methods", () => {
+  it("implements the simulation methods", async () => {
     const { result } = renderHook(HookWrapper);
 
     act(() => {
-      result.current.startSimulation(() => undefined);
+      result.current.startSimulation(mockSimulationStep);
     });
     expect(result.current.isSimulationRunning.current).toEqual(true);
+    await waitFor(() => expect(mockSimulationStep).toHaveBeenCalledTimes(1));
     expect(result.current.simulationState).toEqual({
       isFinished: false,
       isPaused: false,
       isRunning: true
     });
+    expect(logEvent).toHaveBeenCalledWith("startSimulation", {"includeState": true});
+
+    act(() => {
+      // trigger call to simulationRunner()
+      result.current.startSimulation(mockSimulationStep);
+    });
+    expect(result.current.isSimulationRunning.current).toEqual(true);
     expect(logEvent).toHaveBeenCalledWith("startSimulation", {"includeState": true});
 
     act(() => {
@@ -142,6 +164,13 @@ describe("useModelState", () => {
     expect(logEvent).toHaveBeenCalledWith("pauseSimulation", {"includeState": true});
 
     act(() => {
+      result.current.startSimulation(mockSimulationStep);
+      result.current.pauseSimulation();
+    });
+    expect(result.current.isSimulationRunning.current).toEqual(false);
+    expect(logEvent).toHaveBeenCalledWith("pauseSimulation", {"includeState": true});
+
+    act(() => {
       result.current.rewindSimulation();
     });
     expect(result.current.isSimulationRunning.current).toEqual(false);
@@ -153,7 +182,7 @@ describe("useModelState", () => {
     expect(logEvent).toHaveBeenCalledWith("rewindSimulation", {"includeState": true});
 
     act(() => {
-      result.current.startSimulation(() => undefined);
+      result.current.startSimulation(mockSimulationStep);
       result.current.endSimulation();
     });
     expect(result.current.isSimulationRunning.current).toEqual(false);
@@ -163,6 +192,43 @@ describe("useModelState", () => {
       isRunning: false
     });
     expect(logEvent).toHaveBeenCalledWith("endSimulation", {includeState: true});
+
+    act(() => {
+      result.current.startSimulation(() => undefined);
+      result.current.endSimulation({ keepAnimating: true });
+    });
+    expect(result.current.isSimulationRunning.current).toEqual(true);
+    expect(result.current.simulationState).toEqual({
+      isFinished: true,
+      isPaused: false,
+      isRunning: false
+    });
+    expect(logEvent).toHaveBeenCalledWith("endSimulation", {includeState: true});
+  });
+
+  it("supports rewindOutputState option", () => {
+    const mockRewind = jest.fn();
+
+    HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
+      initialInputState,
+      initialOutputState: initialOutputStateMap,
+      initialTransientState,
+      finalTransientState,
+      onStateChange,
+      rewindOutputState: mockRewind,
+      addExternalSetStateListener,
+      removeExternalSetStateListener,
+      isValidExternalState,
+      logEvent
+    });
+
+    const { result } = renderHook(HookWrapper);
+    act(() => {
+      result.current.startSimulation(mockSimulationStep);
+      result.current.endSimulation();
+      result.current.rewindSimulation();
+    });
+    expect(mockRewind).toHaveBeenCalledTimes(1);
   });
 
   it("implements container saving and clearing", () => {
@@ -320,5 +386,55 @@ describe("useModelState", () => {
     expect(isValidExternalStateRetTrue).toHaveBeenCalled();
     expect(result.current.isDirty).toEqual(false);
     expect(result.current.isSaved).toEqual(true); // B container has been saved
+  });
+
+  it("handles invalid external state updates", () => {
+    const listeners: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>[] = [];
+    const testAddExternalSetStateListener = (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => {
+      listeners.push(listener);
+    };
+    const isValidExternalStateRetFalse = jest.fn(() => false);
+
+    HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
+      initialInputState,
+      initialOutputState: initialOutputStateMap,
+      initialTransientState,
+      finalTransientState,
+      onStateChange,
+      addExternalSetStateListener: testAddExternalSetStateListener,
+      removeExternalSetStateListener,
+      isValidExternalState: isValidExternalStateRetFalse,
+      logEvent
+    });
+    const { result } = renderHook(HookWrapper);
+    expect(result.current.isDirty).toEqual(false);
+    expect(result.current.isSaved).toEqual(false);
+
+    expect(listeners.length).toEqual(1);
+    expect(isValidExternalStateRetFalse).not.toHaveBeenCalled();
+
+    act(() => {
+      listeners.forEach(listener => listener({
+        inputState: {foo: false, bar: "test"},
+        outputState: {bam: 20},
+        selectedContainerId: "B",
+        containers: initContainerMap({A: {isSaved: true} as any})
+      }));
+    });
+    expect(isValidExternalStateRetFalse).toHaveBeenCalled();
+    expect(result.current.isDirty).toEqual(false);
+    expect(result.current.isSaved).toEqual(false); // B container is not saved yet
+
+    act(() => {
+      listeners.forEach(listener => listener({
+        inputState: {foo: false, bar: "test"},
+        outputState: {bam: 20},
+        selectedContainerId: "B",
+        containers: initContainerMap({B: {isSaved: true} as any})
+      }));
+    });
+    expect(isValidExternalStateRetFalse).toHaveBeenCalled();
+    expect(result.current.isDirty).toEqual(false);
+    expect(result.current.isSaved).toEqual(false);
   });
 });

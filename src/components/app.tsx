@@ -12,7 +12,7 @@ import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
 // import { ModalDialog } from "./modal-dialog";
 import { ContainerId, useLeafModelState } from "../hooks/use-leaf-model-state";
-import { IModelConfig, IModelInputState, IModelOutputState } from "../leaf-model-types";
+import { ILeafModelConfig, ILeafModelInputState, ILeafModelOutputState } from "../leaf-model-types";
 import { Model } from "../model";
 import { ChemistryTestResult, IUpdateChemistryTestResult } from "../utils/chem-types";
 import { chemistryTests, chemistryFinalValues } from "../utils/chem-utils";
@@ -23,7 +23,9 @@ import {
 } from "../utils/sim-utils";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 import { getPTIScore } from "../utils/macro-utils";
-import { calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger, shuffleArray } from "../utils/math-utils";
+import {
+  calculateRotatedBoundingBox, calculateBoundedPosition, getRandomInteger, shuffleArray
+} from "../utils/math-utils";
 import t from "../utils/translation/translate";
 
 import "./app.scss";
@@ -37,7 +39,7 @@ const kSelectedContainerBgColor = "#f5f5f5";
 // Modal.setAppElement("#app");
 
 // TODO: some of these app props are likely not needed
-export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModelConfig>> = (appProps) => {
+export const App: React.FC<IAppProps<ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig>> = (appProps) => {
   const { logEvent } = appProps;
   const modelState = useLeafModelState(appProps);
   const {inputState, setInputState,
@@ -157,7 +159,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
     setInputState({environment: environmentForContainerId[containerId]});
   };
 
-  const thumbnailChooserProps: IThumbnailChooserProps<IModelInputState, IModelOutputState> = {
+  const thumbnailChooserProps: IThumbnailChooserProps<ILeafModelInputState, ILeafModelOutputState> = {
     Thumbnail,
     disableUnselectedThumbnails: isRunning,
     containers,
@@ -189,7 +191,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
 
   const leafPackState = LeafPackStates.find((ls) => ls.leafDecomposition === leafDecomposition) || LeafPackStates[0];
 
-  const setOutputStateAndSave = (output: Partial<IModelOutputState>) => {
+  const setOutputStateAndSave = (output: Partial<ILeafModelOutputState>) => {
     const pti = output.trayObjects ? { pti: getPTIScore(output.trayObjects) }: undefined;
     setOutputState({ ...output, ...pti });
   };

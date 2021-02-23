@@ -5,12 +5,12 @@ import IconHabitatNotebook from "../../assets/habitat-icon.svg";
 import IconMacroinvertebratesNotebook from "../../assets/macro-icon.svg";
 import IconPTI from "../../assets/pti-icon.svg";
 import IconSun from "../../assets/sunny-icon.svg";
-import { IModelInputState, IModelOutputState } from "../../leaf-model-types";
+import { ILeafModelInputState, ILeafModelOutputState } from "../../leaf-model-types";
 import t from "../../utils/translation/translate";
 
 import "./thumbnail.scss";
 
-export const Thumbnail: React.FC<IThumbnailProps<IModelInputState, IModelOutputState>> = (props) => {
+export const Thumbnail: React.FC<IThumbnailProps<ILeafModelInputState, ILeafModelOutputState>> = (props) => {
   const {inputState: {sunnyDayFequency},
         outputState: {habitatFeatures, pti, chemistryTestResults}} = props.container;
   const showHabitatIcon = habitatFeatures.size > 0;

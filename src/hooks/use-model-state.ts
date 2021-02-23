@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalSetStateListenerCallback, LogEventMethod } from "../components/render-app";
-import { IModelOutputState as ILeafModelOutputState } from "../leaf-model-types";
 import { useStateWithCallbackLazy } from "./use-state-with-callback";
 
 // cf. https://stackoverflow.com/a/45486495
@@ -52,6 +51,7 @@ export interface IUseModelStateOptions<IModelInputState, IModelOutputState, IMod
   initialTransientState: IModelTransientState;
   finalTransientState: IModelTransientState;
   onStateChange: ModelStateChangeCallback<IModelInputState, IModelOutputState>;
+  rewindOutputState?: (initialOutputState: IModelOutputState, outputState: IModelOutputState) => IModelOutputState;
   addExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
   removeExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
   isValidExternalState: (newState: IModelCurrentState<IModelInputState, IModelOutputState>) => boolean;
@@ -60,11 +60,14 @@ export interface IUseModelStateOptions<IModelInputState, IModelOutputState, IMod
 
 export const hasOwnProperties = (obj: Record<string, any>, properties: string[]) => properties.reduce<boolean>((acc, prop) => acc && Object.prototype.hasOwnProperty.call(obj, prop), true);
 
-export const useModelState = <IModelInputState, IModelOutputState, IModelTransientState>(options: IUseModelStateOptions<IModelInputState, IModelOutputState, IModelTransientState>) => {
+export const useModelState = <IModelInputState, IModelOutputState, IModelTransientState>(
+  options: IUseModelStateOptions<IModelInputState, IModelOutputState, IModelTransientState>
+) => {
   type ContainerMap = IContainerMap<IModelInputState, IModelOutputState>;
 
   const {initialInputState, initialOutputState, initialTransientState, finalTransientState,
-        onStateChange, addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, logEvent} = options;
+        onStateChange, rewindOutputState, addExternalSetStateListener, removeExternalSetStateListener,
+        isValidExternalState, logEvent} = options;
   const [inputState, _setInputState] = useState<IModelInputState>(initialInputState);
   const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState.A);
   const [transientState, _setTransientState] = useState<IModelTransientState>(initialTransientState);
@@ -211,12 +214,9 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
 
   const rewindSimulation = () => {
     logEvent("rewindSimulation", {includeState: true});
-    // TODO: shouldn't need to cast here
-    const _outputState: ILeafModelOutputState = outputState as any;
-    // preserve parts of output state that persist through rewind
-    const { trayObjects, pti, habitatFeatures, chemistryTestResults } = _outputState;
-    _setOutputState({ ...initialOutputState[selectedContainerId],
-                      ...{ trayObjects, pti, habitatFeatures, chemistryTestResults } });
+    _setOutputState(rewindOutputState
+                      ? rewindOutputState(initialOutputState[selectedContainerId], outputState)
+                      : initialOutputState[selectedContainerId]);
     _setTransientState(initialTransientState);
     _setSimulationState({isRunning: false, isPaused: false, isFinished: false});
     isSimulationRunning.current = false;
