@@ -26,7 +26,7 @@ export interface ILeafModelOutputState {
 export interface ILeafModelTransientState {
   time: number;
 }
-export interface ISerializableTrayObject extends Omit<TrayObject, "image" | "dragImage" | "selectionPath" | "width" | "height"> {}
+export interface ISerializableTrayObject extends Omit<TrayObject, "image" | "selectionPath" | "width" | "height"> {}
 export interface ISerializableLeafModelOutputState extends Omit<ILeafModelOutputState, "trayObjects" | "habitatFeatures">  {
   trayObjects: ISerializableTrayObject[];
   habitatFeatures: string[];

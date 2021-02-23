@@ -3,7 +3,6 @@ import { EnvironmentType } from "./environment";
 import { AlgaeEatersAmountType, AnimalType, FishAmountType, LeafDecompositionType, LeafEatersAmountType } from "./sim-utils";
 import { aquaticWormSelectionPath } from "./selection-utils";
 import aquaticWormImage from "../assets/animals/aquaticworm.svg";
-import aquaticWormDragImage from "../assets/animals/drag-previews/aquaticworm.png";
 import { HabitatFeatureType } from "./habitat-utils";
 import { ChemTestType } from "./chem-types";
 import { deserialize, SerializableModelState, serialize } from "./serialize-utils";
@@ -39,7 +38,6 @@ const outputState: ILeafModelOutputState = {
       boundingBoxHeight: 1,
       rotation: 1,
       image: aquaticWormImage,
-      dragImage: aquaticWormDragImage,
       selectionPath: aquaticWormSelectionPath,
       zIndex: 1
     }
