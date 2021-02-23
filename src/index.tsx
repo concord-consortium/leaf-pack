@@ -1,16 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { App } from "./components/app";
+import { App} from "./components/app";
+import { renderApp } from "./components/render-app";
+import { IModelInputState, IModelOutputState, IModelConfig } from "./leaf-model-types";
 
 import "./index.scss";
 
-ReactDOM.render(
-  <App
-    onStateChange={()=>{ /* no-op */}}
-    addExternalSetStateListener={()=>{ /* no-op */}}
-    removeExternalSetStateListener={()=>{ /* no-op */}}
-    logEvent={()=>{ /* no-op */}}
-    modelConfig={""}
-  />,
-  document.getElementById("app")
-);
+const app = renderApp<IModelInputState, IModelOutputState, IModelConfig>({App, logEvent, modelConfig: {}});
+
+function logEvent(args: any) {
+  // do nothing
+}
