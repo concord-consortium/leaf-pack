@@ -25,7 +25,7 @@ export const airTemperatureTest: ChemistryTest = {
         {label: "1d", image: AirTemp1D, duration: 2},
         {label: "1e", image: AirTemp1E, duration: 2},
         {label: "1f", image: AirTemp1F, duration: 2},
-        {label: "1g", image: "byValue", duration: -1},
+        {label: "1g", image: "byValue", duration: 1.5},
       ]},
   ],
   results: [

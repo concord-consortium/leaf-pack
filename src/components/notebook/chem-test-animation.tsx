@@ -1,19 +1,24 @@
 import classNames from "classnames";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { useFrameTimer } from "../../hooks/use-frame-timer";
 import { ChemTestAnimationFrame, ChemTestValue } from "../../utils/chem-types";
 
 interface IProps {
   frames: ChemTestAnimationFrame[];
   timeout?: number;
   finalValueEntry?: ChemTestValue;
+  isComplete: boolean;
   onComplete?: () => void;
 }
-export const ChemTestAnimation: React.FC<IProps> = ({ frames, timeout = 500, finalValueEntry, onComplete }) => {
-  const [frameIndex, setFrameIndex] = useState(0);
+export const ChemTestAnimation: React.FC<IProps> = ({ frames, timeout = 500, finalValueEntry, isComplete, onComplete }) => {
 
   const lastFrame = frames.length - 1;
-  const frame = frames[frameIndex];
+  const initialDuration = frames.length > 0 ? frames[0].duration : undefined;
+  const [frameIndex, waitForNextFrame] = useFrameTimer({
+                                          numFrames: frames.length, initialDuration, isComplete, onComplete });
+
+  const frame = frames[Math.min(frameIndex, lastFrame)];
   const frameKey = `frame-${frame?.label}`;
   const classes = classNames(frameKey,
                               { "frame-first": frameIndex === 0, "frame-last": frameIndex === lastFrame },
@@ -26,30 +31,12 @@ export const ChemTestAnimation: React.FC<IProps> = ({ frames, timeout = 500, fin
                       : frame.image
                   : undefined;
 
-  const timerId = useRef<number | null>(null);
-  const nextFrame = useCallback(() => {
-    setFrameIndex(index => index + 1);
-    timerId.current = null;
-  }, []);
-
-  useEffect(() => {
-    // set the initial timer for the first frame
-    timerId.current = window.setTimeout(nextFrame, 1000 * frame.duration);
-    // only clear the timer when we unmount
-    return () => timerId.current ? window.clearTimeout(timerId.current) : undefined;
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <TransitionGroup>
       <CSSTransition key={frameKey} classNames={classes} timeout={timeout} unmountOnExit
                       onEntered={() => {
-                        if (frameIndex < frames.length - 1) {
-                          // not on the last frame - start the frame timer
-                          timerId.current = window.setTimeout(nextFrame, 1000 * frames[frameIndex].duration);
-                        }
-                        else {
-                          // on the last frame - signal that the animation is complete
-                          onComplete?.();
+                        if (frameIndex < frames.length) {
+                          waitForNextFrame(frames[frameIndex].duration);
                         }
                       }} >
         {Image ? <Image/> : () => null}

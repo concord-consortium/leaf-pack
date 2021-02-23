@@ -42,7 +42,7 @@ export const dissolvedOxygen: ChemistryTest = {
       frames: [
         {label: "0", image: do_0, duration: 0.25},
         {label: "1a", image: do_1A, duration: 0},
-        {label: "1b", image: do_1B, duration: -1}
+        {label: "1b", image: do_1B, duration: 1}
       ]},
     {type: StepType.animation, label: t("CHEM.ADD.TABLETS"),
       frames: [
@@ -68,14 +68,14 @@ export const dissolvedOxygen: ChemistryTest = {
         {label: "2q", image: "byValue", duration: 0},
         {label: "2r", image: "byValue", duration: 0},
         {label: "2s", image: "byValue", duration: 0},
-        {label: "2t", image: "byValue", duration: -1},
+        {label: "2t", image: "byValue", duration: 1},
       ]},
     {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR"),
       frames: [
         {label: "2t", image: "byValue", duration: 0.25},
         {label: "2t-", image: "none", duration: 0},
         {label: "3a", image: "byValue", duration: 1},
-        {label: "3b", image: "byValue", duration: -1}
+        {label: "3b", image: "byValue", duration: 0}
       ]},
   ],
     results: [

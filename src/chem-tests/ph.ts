@@ -47,7 +47,7 @@ export const phTest: ChemistryTest = {
       frames: [
         {label: "0", image: pH_0, duration: 0.25},
         {label: "1a", image: pH_1A, duration: 0},
-        {label: "1b", image: pH_1B, duration: -1}
+        {label: "1b", image: pH_1B, duration: 1}
       ]},
     {type: StepType.animation, label: t("CHEM.ADD.TABLET"),
       frames: [
@@ -63,14 +63,14 @@ export const phTest: ChemistryTest = {
         {label: "2h", image: "byValue", duration: 0},
         {label: "2i", image: "byValue", duration: 0},
         {label: "2j", image: "byValue", duration: 0},
-        {label: "2k", image: "byValue", duration: -1},
+        {label: "2k", image: "byValue", duration: 1},
       ]},
     {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR"),
       frames: [
         {label: "2k", image: "byValue", duration: 0.25},
         {label: "2k-", image: "none", duration: 0},
         {label: "3a", image: "byValue", duration: 0},
-        {label: "3b", image: "byValue", duration: -1}
+        {label: "3b", image: "byValue", duration: 0}
       ]},
   ],
   results: [

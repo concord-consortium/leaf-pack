@@ -25,6 +25,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
   const testResult = useCurrent(chemistryTestResults.find((result) => result.type === chemistryTest.type));
   const currentStep = testResult.current?.currentStep;
   const stepsComplete = testResult.current?.stepsComplete ?? 0;
+  const isComplete = (currentStep != null) && (stepsComplete > currentStep);
   const currentStepInfo = currentStep != null || stepsComplete > 0
           ? chemistryTest.steps[Math.max(0, currentStep ?? stepsComplete - 1)]
           : undefined;
@@ -85,7 +86,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
             {StepImage && <StepImage/>}
             {stepFrames && !StepImage &&
               <ChemTestAnimation key={animationKey} frames={stepFrames} finalValueEntry={finalValueEntry}
-                                onComplete={handleAnimationComplete} />}
+                                isComplete={isComplete} onComplete={handleAnimationComplete} />}
             {currentStepInfo && !stepFrames && !StepImage ? `${currentStepInfo.label} image` : undefined}
           </div>
           {currentStepInfo?.type === StepType.resultSlider &&

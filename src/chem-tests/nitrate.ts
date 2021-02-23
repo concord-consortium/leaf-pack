@@ -46,7 +46,7 @@ export const nitrateTest: ChemistryTest = {
       frames: [
         {label: "0", image: nitrate_0, duration: 0.25},
         {label: "1a", image: nitrate_1A, duration: 0},
-        {label: "1b", image: nitrate_1B, duration: -1}
+        {label: "1b", image: nitrate_1B, duration: 1}
       ]},
     {type: StepType.animation, label: t("CHEM.ADD.TABLET"),
       frames: [
@@ -76,7 +76,7 @@ export const nitrateTest: ChemistryTest = {
         {label: "2u", image: nitrate_2U, duration: 0},
         {label: "2v", image: nitrate_2V, duration: 0},
         {label: "2w", image: nitrate_2W, duration: 0},
-        {label: "2x", image: nitrate_2X, duration: -1},
+        {label: "2x", image: nitrate_2X, duration: 1},
       ]},
     {type: StepType.resultSlider, label: t("CHEM.MATCH.COLOR"),
       frames: [
@@ -84,7 +84,7 @@ export const nitrateTest: ChemistryTest = {
         {label: "2x-", image: "none", duration: 0},
         {label: "3a", image: "byValue", duration: 1},
         {label: "3b", image: "byValue", duration: 0},
-        {label: "3c", image: "byValue", duration: -1}
+        {label: "3c", image: "byValue", duration: 0}
       ]},
   ],
   results: [
