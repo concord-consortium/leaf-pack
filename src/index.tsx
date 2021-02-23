@@ -18,7 +18,11 @@ function handleStateChange(newState: IModelCurrentState<ILeafModelInputState, IL
 }
 
 getInitInteractiveMessage<SerializableModelState>().then(initMsg => {
-  if (initMsg?.mode === "runtime" && initMsg.interactiveState) {
-    app.setState(deserialize(initMsg.interactiveState));
+  if (initMsg && (initMsg.mode === "runtime" || initMsg.mode === "report") && initMsg.interactiveState) {
+    // userState is supposed to be SerializableModelState, but "report" mode has a bug where it is passed in as a string
+    const userState = typeof initMsg.interactiveState === "string" ?
+      JSON.parse(initMsg.interactiveState) :
+      initMsg.interactiveState;
+    app.setState(deserialize(userState));
   }
 });
