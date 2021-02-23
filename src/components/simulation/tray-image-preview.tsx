@@ -18,7 +18,7 @@ interface IProps {
   dragPosition: XYCoord | null;
 }
 export const TrayImagePreview: React.FC<IProps> = ({ trayWrapper, trayObject, dragSourcePosition, dragPosition }) => {
-  const {display, item} = usePreview();
+  const {display} = usePreview();
   if (!display || !dragSourcePosition || !dragPosition) {
     return null;
   }
@@ -35,6 +35,8 @@ export const TrayImagePreview: React.FC<IProps> = ({ trayWrapper, trayObject, dr
     previewStyle = {
       left: dragSourcePosition.x + boundingBoxDeltaX - kOutlineOffset,
       top: dragSourcePosition.y + boundingBoxDeltaY - kOutlineOffset,
+      width: trayObject.width,
+      height: trayObject.height,
       transform: `rotate(${trayObject.rotation}deg)`
     };
   } else {
@@ -45,5 +47,6 @@ export const TrayImagePreview: React.FC<IProps> = ({ trayWrapper, trayObject, dr
       top: dragPosition.y - previewHeight / 2,
     };
   }
-  return <img style={previewStyle} src={item.dragImage} className="preview" data-testid="preview" />;
+  const TrayObjectImage = trayObject.image;
+  return <TrayObjectImage className="preview" data-testid="preview" style={previewStyle} />;
 };

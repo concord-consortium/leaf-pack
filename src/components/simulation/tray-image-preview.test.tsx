@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { TrayImagePreview } from "./tray-image-preview";
 import { AnimalType, TrayObject } from "../../utils/sim-utils";
+import caddisFlyImage from "../../assets/animals/caddisfly.svg";
 
 let callCount = 0;
 jest.mock("react-dnd-preview", () => ({
@@ -29,7 +30,7 @@ describe("TrayImagePreview component", () => {
     boundingBoxWidth: 60,
     boundingBoxHeight: 60,
     rotation: 0,
-    image: null,
+    image: caddisFlyImage,
     dragImage: null,
     selectionPath: "",
     zIndex: 1
