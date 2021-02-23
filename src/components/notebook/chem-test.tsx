@@ -105,7 +105,8 @@ export const ChemTest: React.FC<IProps> = (props) => {
                                       disabled: (index > stepsComplete) ||
                                                 ((index === stepsComplete) &&
                                                   (index === testResult.current?.currentStep)),
-                                      finished: index < stepsComplete })}
+                                      finished: index < stepsComplete,
+                                      running: index === testResult.current?.currentStep && index === stepsComplete})}
               key={`${chemistryTest.type}-step-button-${index}`}
               onClick={() => handleStepButtonClick(step, index + 1)}
             >
@@ -119,7 +120,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
               }
             </button>
           )}
-          {testResult.current?.value != null &&
+          {testResult.current &&
             ((currentStepInfo?.type === StepType.resultSlider) || (currentStepInfo?.type === StepType.tempDisplay)) &&
             <InputResult
               chemistryTest={chemistryTest}

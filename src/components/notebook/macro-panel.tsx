@@ -9,7 +9,6 @@ import "./macro-panel.scss";
 const kCrittersPerSection = 5;
 
 interface IProps {
-  isRunning: boolean;
   trayObjects: TrayObject[];
   onCategorizeAnimal: (trayType: TrayType | undefined, notebookType: TrayType | undefined) => void;
   traySelectionType?: TrayType;

@@ -1,4 +1,4 @@
-import { ChemistryTestResult, ChemistryValues } from "./utils/chem-types";
+import { ChemistryTestResult } from "./utils/chem-types";
 import { EnvironmentType } from "./utils/environment";
 import { HabitatFeatureType } from "./utils/habitat-utils";
 import {
@@ -21,7 +21,6 @@ export interface IModelOutputState {
   trayObjects: TrayObject[];
   pti?: number;
   habitatFeatures: Set<HabitatFeatureType>;
-  chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
 }
 export interface IModelTransientState {

@@ -88,7 +88,7 @@ export const nitrateTest: ChemistryTest = {
       ]},
   ],
   results: [
-    {value: 0, rating: ChemTestRatingType.excellent, color: "#f7fdfd",
+    {value: 0, rating: ChemTestRatingType.excellent, color: "#f7fdfd", borderColor: "#999999",
       frames: {"3a": nitrate_3A_0, "3b": nitrate_3B_0, "3c": nitrate_3C_0}},
     {value: 5, rating: ChemTestRatingType.fair, color: "#e5bd94",
       frames: {"3a": nitrate_3A_5, "3b": nitrate_3B_5, "3c": nitrate_3C_5}},

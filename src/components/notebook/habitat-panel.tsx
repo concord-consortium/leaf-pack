@@ -12,7 +12,6 @@ interface IProps {
   environment: EnvironmentType;
   featureSelections: Set<HabitatFeatureType>;
   onSelectFeature: (feture: HabitatFeatureType, selected: boolean) => void;
-  isRunning: boolean;
 }
 
 export const HabitatPanel: React.FC<IProps> = (props) => {

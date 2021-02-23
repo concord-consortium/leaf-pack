@@ -15,13 +15,16 @@ export const InputResult: React.FC<IProps> = (props) => {
   const testValue = chemistryTest.results.find((res) => res.value === chemistryTestResult?.value);
   const ratingType = testValue?.rating;
   const rating = chemTestRatings.find((r) => r.type === ratingType);
+  const testHasRating = chemistryTest.results[0]?.rating;
   return (
     <div className="input-result">
       {t("CHEM.RESULT")}
       <div className="current-result">
-        <div className="test-result">{`${chemistryTestResult?.value} ${chemistryTest.units}`}</div>
-        {rating && <div>=</div>}
-        {rating && <div className="test-rating" style={{backgroundColor: rating.color}}>{rating.label}</div>}
+        <div className="test-result">
+          {chemistryTestResult?.value !== undefined ? `${chemistryTestResult?.value} ${chemistryTest.units}` : ""}
+        </div>
+        {testHasRating && <div>=</div>}
+        {testHasRating && <div className="test-rating" style={{backgroundColor: rating?.color}}>{rating ? rating.label : ""}</div>}
       </div>
     </div>
   );

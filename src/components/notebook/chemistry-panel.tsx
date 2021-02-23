@@ -11,7 +11,6 @@ interface IProps {
   chemistryValues?: ChemistryValues;
   chemistryTestResults: ChemistryTestResult[];
   onUpdateTestResult: ({type, currentStep, stepsComplete, value}: IUpdateChemistryTestResult) => void;
-  isRunning: boolean;
 }
 
 export const ChemistryPanel: React.FC<IProps> = (props) => {

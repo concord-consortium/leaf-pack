@@ -95,6 +95,7 @@
       }
       &:active {
         background-color: $chemistry-blue-dark2;
+        box-shadow: none;
       }
 
       &.disabled {
@@ -105,6 +106,14 @@
         pointer-events: none;
         border: solid 1px $gray-dark25;
         color: $gray-dark2;
+        box-shadow: none;
+      }
+      &.running {
+        pointer-events: none;
+        border: solid 1px $gray-dark;
+        color: $gray-dark;
+        opacity: 1;
+        background-color: $chemistry-blue-dark2;
         box-shadow: none;
       }
 
