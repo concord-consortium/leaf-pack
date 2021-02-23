@@ -11,7 +11,7 @@ type SerializableContainerMap = IContainerMap<IModelInputState, ISerializableMod
 
 const serializeOutputState = (outputState: IModelOutputState): ISerializableModelOutputState => {
   const serializableTrayObjects: ISerializableTrayObject[] = outputState.trayObjects.map(trayObj => {
-    const {image, dragImage, ...serializableTrayObject} = trayObj;
+    const {image, dragImage, selectionPath, width, height, ...serializableTrayObject} = trayObj;
     return serializableTrayObject;
   });
   const serializeableHabitatFeatures = Array.from(outputState.habitatFeatures);
@@ -35,6 +35,9 @@ export const deserializeOutputState = (serializedOutputState: ISerializableModel
         ...trayObj,
         image: baseObject.image,
         dragImage: baseObject.dragImage,
+        selectionPath: baseObject.selectionPath,
+        width: baseObject.width,
+        height: baseObject.height,
       };
     } else {
       return undefined;
