@@ -238,7 +238,7 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   };
 
   // Provide helper value so it doesn't have to calculated in all the apps separately.
-  const inputControlsDisabled = simulationState.isRunning || simulationState.isFinished || isSaved;
+  const inputControlsDisabled = simulationState.isRunning || simulationState.isFinished;
 
   return {
     inputState, setInputState,
