@@ -15,6 +15,7 @@ export const InputResult: React.FC<IProps> = (props) => {
   const testValue = chemistryTest.results.find((res) => res.value === chemistryTestResult?.value);
   const ratingType = testValue?.rating;
   const rating = chemTestRatings.find((r) => r.type === ratingType);
+  const testHasRating = chemistryTest.results[0]?.rating;
   return (
     <div className="input-result">
       {t("CHEM.RESULT")}
@@ -22,8 +23,8 @@ export const InputResult: React.FC<IProps> = (props) => {
         <div className="test-result">
           {chemistryTestResult?.value !== undefined ? `${chemistryTestResult?.value} ${chemistryTest.units}` : ""}
         </div>
-        <div>=</div>
-        <div className="test-rating" style={{backgroundColor: rating?.color}}>{rating ? rating.label : ""}</div>
+        {testHasRating && <div>=</div>}
+        {testHasRating && <div className="test-rating" style={{backgroundColor: rating?.color}}>{rating ? rating.label : ""}</div>}
       </div>
     </div>
   );
