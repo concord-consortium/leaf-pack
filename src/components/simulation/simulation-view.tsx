@@ -87,13 +87,13 @@ export const SimulationView: React.FC<IProps> = (props) => {
       <TransitionGroup>
         { fishAnimations.map((animation, index) =>
             <CSSTransition
-              key={index}
+              key={`fish-transition-${environment}-${index}`}
               timeout={isRunning ? kSimulationOneWeekPeriodInMilliseconds : 0}
               classNames="animation-item"
             >
               <SimulationAnimation
                 animation={animation}
-                key={`fish-animation-${index}`}
+                key={`fish-animation-${environment}-${index}`}
               />
             </CSSTransition>
           )
@@ -102,7 +102,7 @@ export const SimulationView: React.FC<IProps> = (props) => {
       { simAnimations.map((animation, index) =>
           <SimulationAnimation
             animation={animation}
-            key={animation.key || `sim-animation-${index}`}
+            key={animation.key || `sim-animation-${environment}-${index}`}
           />
         )
       }

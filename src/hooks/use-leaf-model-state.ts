@@ -12,29 +12,36 @@ const isValidExternalState = (newState: IModelCurrentState<IModelInputState, IMo
           hasOwnProperties(newState.outputState, ["leafDecomposition", "leafEaters", "algaeEaters", "fish", "animalInstances"]);
 };
 
+const defaultOutputState: IModelOutputState = {
+  leafDecomposition: LeafDecompositionType.little,
+  leafEaters: LeafEatersAmountType.few,
+  algaeEaters: AlgaeEatersAmountType.few,
+  fish: FishAmountType.few,
+  animalInstances: [],
+  showTray: false,
+  trayObjects: [],
+  chemistryTestResults: [
+    {type: ChemTestType.airTemperature, stepsComplete: 0},
+    {type: ChemTestType.waterTemperature, stepsComplete: 0},
+    {type: ChemTestType.pH, stepsComplete: 0},
+    {type: ChemTestType.nitrate, stepsComplete: 0},
+    {type: ChemTestType.turbidity, stepsComplete: 0},
+    {type: ChemTestType.dissolvedOxygen, stepsComplete: 0}
+  ],
+  habitatFeatures: new Set()
+};
+
 interface IProps extends IAppProps<IModelInputState, IModelOutputState, IModelConfig> {
 }
 export const useLeafModelState = (props: IProps) => {
   return useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
-    initialInputState: { environment: EnvironmentType.environment1,
-                         sunnyDayFequency: 0 },
-    initialOutputState: { leafDecomposition: LeafDecompositionType.little,
-                          leafEaters: LeafEatersAmountType.few,
-                          algaeEaters: AlgaeEatersAmountType.few,
-                          fish: FishAmountType.few,
-                          animalInstances: [],
-                          showTray: false,
-                          trayObjects: [],
-                          chemistryTestResults: [
-                            {type: ChemTestType.airTemperature, stepsComplete: 0},
-                            {type: ChemTestType.waterTemperature, stepsComplete: 0},
-                            {type: ChemTestType.pH, stepsComplete: 0},
-                            {type: ChemTestType.nitrate, stepsComplete: 0},
-                            {type: ChemTestType.turbidity, stepsComplete: 0},
-                            {type: ChemTestType.dissolvedOxygen, stepsComplete: 0}
-                          ],
-                          habitatFeatures: new Set()
-                        },
+    initialInputState: { environment: EnvironmentType.environment1, sunnyDayFequency: 0 },
+    initialOutputState: {
+      A: defaultOutputState,
+      B: defaultOutputState,
+      C: defaultOutputState,
+      D: { ...defaultOutputState, ...{ fish: FishAmountType.none } }
+    },
     initialTransientState: {
       time: 0
     },
