@@ -1,4 +1,4 @@
-import { IModelInputState } from "./leaf-model-types";
+import { ILeafModelInputState } from "./leaf-model-types";
 import { EnvironmentType } from "./utils/environment";
 import { LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
          AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
@@ -14,7 +14,7 @@ export class Model {
   private sunnyDayFequency = 0;
   private animalInstances: AnimalInstance[] = [];
 
-  constructor(inputState: IModelInputState) {
+  constructor(inputState: ILeafModelInputState) {
     this.environment = inputState.environment;
     this.sunnyDayFequency = inputState.sunnyDayFequency;
     this.animalInstances = [];

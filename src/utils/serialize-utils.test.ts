@@ -1,4 +1,4 @@
-import { IModelInputState, IModelOutputState } from "../leaf-model-types";
+import { ILeafModelInputState, ILeafModelOutputState } from "../leaf-model-types";
 import { EnvironmentType } from "./environment";
 import { AlgaeEatersAmountType, AnimalType, FishAmountType, LeafDecompositionType, LeafEatersAmountType } from "./sim-utils";
 import { aquaticWormSelectionPath } from "./selection-utils";
@@ -9,10 +9,10 @@ import { ChemTestType } from "./chem-types";
 import { deserialize, SerializableModelState, serialize } from "./serialize-utils";
 import { IModelCurrentState } from "../hooks/use-model-state";
 
-type ModelState = IModelCurrentState<IModelInputState, IModelOutputState>;
+type ModelState = IModelCurrentState<ILeafModelInputState, ILeafModelOutputState>;
 
-const inputState: IModelInputState = { environment: EnvironmentType.environment1, sunnyDayFequency: 0 };
-const outputState: IModelOutputState = {
+const inputState: ILeafModelInputState = { environment: EnvironmentType.environment1, sunnyDayFequency: 0 };
+const outputState: ILeafModelOutputState = {
   leafDecomposition: LeafDecompositionType.little,
   leafEaters: LeafEatersAmountType.few,
   algaeEaters: AlgaeEatersAmountType.few,
