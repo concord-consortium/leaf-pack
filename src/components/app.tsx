@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
-// import Modal from "react-modal";
 import { IThumbnailChooserProps, ThumbnailChooser } from "../components/thumbnail/thumbnail-chooser/thumbnail-chooser";
 import { IAppProps } from "./render-app";
 import { MainViewWrapper } from "./simulation/main-view-wrapper";
@@ -10,7 +9,6 @@ import { ControlPanel } from "./control-panel/control-panel";
 import { Thumbnail } from "./thumbnail/thumbnail";
 import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
-// import { ModalDialog } from "./modal-dialog";
 import { ContainerId, useLeafModelState } from "../hooks/use-leaf-model-state";
 import { ILeafModelConfig, ILeafModelInputState, ILeafModelOutputState } from "../leaf-model-types";
 import { Model } from "../model";
@@ -35,8 +33,6 @@ const targetFramePeriod = 1000 / kTargetStepsPerSecond;
 let lastStepTime: number;
 const kSavedBgColor = "#000000";
 const kSelectedContainerBgColor = "#f5f5f5";
-
-// Modal.setAppElement("#app");
 
 // TODO: some of these app props are likely not needed
 export const App: React.FC<IAppProps<ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig>> = (appProps) => {
@@ -277,8 +273,6 @@ export const App: React.FC<IAppProps<ILeafModelInputState, ILeafModelOutputState
     setOutputStateAndSave({ chemistryTestResults: updatedChemistryTestResults });
   };
 
-  // const [showModal, setShowModal] = useState(false);
-
   return (
     <div className="app" data-testid="app">
       <div className="content">
@@ -341,12 +335,6 @@ export const App: React.FC<IAppProps<ILeafModelInputState, ILeafModelOutputState
           onChangeEnvironment={handleChangeEnvironment}
         />
       </div>
-      {/* <ModalDialog
-        title={t("MACRO.ERROR.TITLE")}
-        label={t("MACRO.ERROR.DESCRIPTION")}
-        onClose={() => setShowModal(false)}
-        showModal={showModal}
-      /> */}
     </div>
   );
 };
