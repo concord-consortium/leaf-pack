@@ -35,13 +35,13 @@ export const turbidityTest: ChemistryTest = {
         {label: "1d", image: Turbidity1D, duration: 2},
         {label: "1d-", image: "none", duration: 0},
         {label: "1e", image: "byValue", duration: 1},
-        {label: "1f", image: "byValue", duration: -1},
+        {label: "1f", image: "byValue", duration: 1.5},
       ]},
     {type: StepType.resultSlider, label: t("CHEM.MATCH.VALUE"),
       frames: [
         {label: "1f", image: "byValue", duration: 0.25},
         {label: "2a", image: "byValue", duration: 0},
-        {label: "2b", image: "byValue", duration: -1}
+        {label: "2b", image: "byValue", duration: 0}
       ]}
   ],
   results: [

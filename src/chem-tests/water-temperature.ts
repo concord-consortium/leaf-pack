@@ -24,7 +24,7 @@ export const waterTemperatureTest: ChemistryTest = {
         {label: "0", image: WaterTemp0, duration: 0.25},
         {label: "1a", image: WaterTemp1A, duration: 1},
         {label: "1b", image: WaterTemp1B, duration: 1.5},
-        {label: "1c", image: WaterTemp1C, duration: -1},
+        {label: "1c", image: WaterTemp1C, duration: 1.5},
       ]},
     {type: StepType.tempDisplay, label: t("CHEM.READ.THERMOMETER"),
       frames: [
@@ -36,7 +36,7 @@ export const waterTemperatureTest: ChemistryTest = {
         {label: "2e", image: WaterTemp2E, duration: 2},
         {label: "2e-", image: "none", duration: 0},
         {label: "2f", image: WaterTemp2F, duration: 1},
-        {label: "2g", image: "byValue", duration: -1}
+        {label: "2g", image: "byValue", duration: 1.5}
       ]}
   ],
   results: [
