@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalSetStateListenerCallback, LogEventMethod } from "../components/render-app";
+import { IModelOutputState as ILeafModelOutputState } from "../leaf-model-types";
 import { useStateWithCallbackLazy } from "./use-state-with-callback";
 
 // cf. https://stackoverflow.com/a/45486495
@@ -164,8 +165,6 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
       setSelectedContainerId("A");
       // Lines below handle case when user is deleting state "A" even before saving it. It's pretty much a model reset.
       _setInputState(initialInputState);
-      _setOutputState(initialOutputState);
-      _setTransientState(initialTransientState);
       _setIsDirty(false);
       _setIsSaved(false);
       rewindSimulation();
@@ -189,7 +188,6 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   const startSimulation = (simulationStep: () => void) => {
     logEvent("startSimulation", {includeState: true});
     if (!simulationState.isPaused) {
-      _setOutputState(initialOutputState);
       _setTransientState(initialTransientState);
     }
     _setSimulationState({isRunning: true, isPaused: false, isFinished: false});
@@ -213,7 +211,11 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
 
   const rewindSimulation = () => {
     logEvent("rewindSimulation", {includeState: true});
-    _setOutputState(initialOutputState);
+    // TODO: shouldn't need to cast here
+    const _outputState: ILeafModelOutputState = outputState as any;
+    // preserve parts of output state that persist through rewind
+    const { trayObjects, pti, habitatFeatures, chemistryTestResults } = _outputState;
+    _setOutputState({ ...initialOutputState, ...{ trayObjects, pti, habitatFeatures, chemistryTestResults } });
     _setTransientState(initialTransientState);
     _setSimulationState({isRunning: false, isPaused: false, isFinished: false});
     isSimulationRunning.current = false;
