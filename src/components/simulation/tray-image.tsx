@@ -17,7 +17,7 @@ export const TrayImage: React.FC<IProps> = (props) => {
   const TrayObjectImage = trayObject.image;
 
   const [{isDragging, ...otherDragProps}, drag ] = useDrag({
-    item: { type: trayObject.type, trayIndex: trayObject.trayIndex, dragImage: trayObject.dragImage,
+    item: { type: trayObject.type, trayIndex: trayObject.trayIndex,
             left: trayObject.left, top: trayObject.top },
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),

@@ -31,7 +31,6 @@ describe("TrayImagePreview component", () => {
     boundingBoxHeight: 60,
     rotation: 0,
     image: caddisFlyImage,
-    dragImage: null,
     selectionPath: "",
     zIndex: 1
   };
