@@ -23,6 +23,12 @@ const initialInputState: IModelInputState = {
 const initialOutputState: IModelOutputState = {
   bam: 10
 };
+const initialOutputStateMap: Record<ContainerId, IModelOutputState> = {
+  A: initialOutputState,
+  B: initialOutputState,
+  C: initialOutputState,
+  D: initialOutputState
+};
 
 const initialTransientState: IModelTransientState = {
   baz: 0
@@ -49,7 +55,7 @@ describe("useModelState", () => {
 
     HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
       initialInputState,
-      initialOutputState,
+      initialOutputState: initialOutputStateMap,
       initialTransientState,
       finalTransientState,
       onStateChange,
@@ -275,7 +281,7 @@ describe("useModelState", () => {
 
     HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
       initialInputState,
-      initialOutputState,
+      initialOutputState: initialOutputStateMap,
       initialTransientState,
       finalTransientState,
       onStateChange,

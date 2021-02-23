@@ -216,8 +216,8 @@ export const FishFinalValues: FishFinalValue[] = [
   { environment: EnvironmentType.environment2, value: FishAmountType.some, sunny: true},
   { environment: EnvironmentType.environment3, value: FishAmountType.some, sunny: false},
   { environment: EnvironmentType.environment3, value: FishAmountType.few, sunny: true},
-  { environment: EnvironmentType.environment4, value: FishAmountType.few, sunny: false}, //TODO: should be none
-  { environment: EnvironmentType.environment4, value: FishAmountType.few, sunny: true}, //TODO: should be none
+  { environment: EnvironmentType.environment4, value: FishAmountType.none, sunny: false},
+  { environment: EnvironmentType.environment4, value: FishAmountType.none, sunny: true}
 ];
 
 export enum AnimalType {

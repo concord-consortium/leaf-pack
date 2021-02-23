@@ -48,7 +48,7 @@ export type ModelStateChangeCallback<IModelInputState, IModelOutputState> = (cur
 
 export interface IUseModelStateOptions<IModelInputState, IModelOutputState, IModelTransientState> {
   initialInputState: IModelInputState;
-  initialOutputState: IModelOutputState;
+  initialOutputState: Record<ContainerId, IModelOutputState>;
   initialTransientState: IModelTransientState;
   finalTransientState: IModelTransientState;
   onStateChange: ModelStateChangeCallback<IModelInputState, IModelOutputState>;
@@ -66,7 +66,7 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   const {initialInputState, initialOutputState, initialTransientState, finalTransientState,
         onStateChange, addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, logEvent} = options;
   const [inputState, _setInputState] = useState<IModelInputState>(initialInputState);
-  const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState);
+  const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState.A);
   const [transientState, _setTransientState] = useState<IModelTransientState>(initialTransientState);
   const [simulationState, _setSimulationState] = useState<ISimulationState>(initialSimulationState);
   const [selectedContainerId, _setSelectedContainerId] = useState<ContainerId>("A");
@@ -129,7 +129,7 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
         _setSelectedContainerId(containerId);
         _setInputState(container?.inputState || initialInputState);
 
-        _setOutputState(container?.outputState || initialOutputState);
+        _setOutputState(container?.outputState || initialOutputState[containerId]);
         _setSimulationState(initialSimulationState);
         _setTransientState(container?.outputState ? finalTransientState : initialTransientState);
 
@@ -215,7 +215,8 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
     const _outputState: ILeafModelOutputState = outputState as any;
     // preserve parts of output state that persist through rewind
     const { trayObjects, pti, habitatFeatures, chemistryTestResults } = _outputState;
-    _setOutputState({ ...initialOutputState, ...{ trayObjects, pti, habitatFeatures, chemistryTestResults } });
+    _setOutputState({ ...initialOutputState[selectedContainerId],
+                      ...{ trayObjects, pti, habitatFeatures, chemistryTestResults } });
     _setTransientState(initialTransientState);
     _setSimulationState({isRunning: false, isPaused: false, isFinished: false});
     isSimulationRunning.current = false;
