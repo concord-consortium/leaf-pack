@@ -15,7 +15,7 @@ import { ContainerId, useLeafModelState } from "../hooks/use-leaf-model-state";
 import { IModelConfig, IModelInputState, IModelOutputState } from "../leaf-model-types";
 import { Model } from "../model";
 import { ChemistryTestResult, IUpdateChemistryTestResult } from "../utils/chem-types";
-import { chemistryTests } from "../utils/chem-utils";
+import { chemistryTests, chemistryFinalValues } from "../utils/chem-utils";
 import { containerIdForEnvironmentMap, environmentForContainerId, EnvironmentType } from "../utils/environment";
 import { getSunnyDayLogLabel, LeafPackStates, TrayObject, Animals, kTraySpawnPadding,
          kMinTrayX, kMaxTrayX, kMinTrayY, kMaxTrayY, kMinLeaves, kMaxLeaves, TrayType, Leaves, draggableAnimalTypes
@@ -49,7 +49,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
   } = modelState;
   const {environment, sunnyDayFequency} = inputState;
   const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects,
-          chemistryValues, chemistryTestResults} = outputState;
+          chemistryTestResults} = outputState;
   const {time} = transientState;
   const {isRunning, isPaused, isFinished} = simulationState;
   const modelRef = useRef<Model>(new Model(inputState));
@@ -311,7 +311,7 @@ export const App: React.FC<IAppProps<IModelInputState, IModelOutputState, IModel
               featureSelections={habitatFeatures}
               onSelectFeature={handleHabitatSelectFeature}
               onCategorizeAnimal={handleCategorizeAnimal}
-              chemistryValues={chemistryValues}
+              chemistryValues={chemistryFinalValues[environment]}
               chemistryTestResults={chemistryTestResults}
               onUpdateTestResult={handleUpdateTestResult}
               traySelectionType={traySelectionType}
