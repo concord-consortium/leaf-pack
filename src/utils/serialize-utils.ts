@@ -1,15 +1,15 @@
 import { ContainerId, ContainerIds, IContainer, IContainerMap, IModelCurrentState, initContainerMap, IPartialContainerMap } from "../hooks/use-model-state";
-import { ILeafModelInputState, ILeafModelOutputState, ISerializableModelOutputState, ISerializableTrayObject } from "../leaf-model-types";
+import { ILeafModelInputState, ILeafModelOutputState, ISerializableLeafModelOutputState, ISerializableTrayObject } from "../leaf-model-types";
 import { Animal, Animals, Leaf, Leaves, TrayObject } from "./sim-utils";
 import { HabitatFeatureType } from "./habitat-utils";
 import cloneDeep from "lodash.clonedeep";
 
 type ModelState = IModelCurrentState<ILeafModelInputState, ILeafModelOutputState>;
-export type SerializableModelState = IModelCurrentState<ILeafModelInputState, ISerializableModelOutputState>;
+export type SerializableModelState = IModelCurrentState<ILeafModelInputState, ISerializableLeafModelOutputState>;
 type ContainerState = IContainer<ILeafModelInputState, ILeafModelOutputState>;
-type SerializableContainerMap = IContainerMap<ILeafModelInputState, ISerializableModelOutputState>;
+type SerializableContainerMap = IContainerMap<ILeafModelInputState, ISerializableLeafModelOutputState>;
 
-const serializeOutputState = (outputState: ILeafModelOutputState): ISerializableModelOutputState => {
+const serializeOutputState = (outputState: ILeafModelOutputState): ISerializableLeafModelOutputState => {
   const serializableTrayObjects: ISerializableTrayObject[] = outputState.trayObjects.map(trayObj => {
     const {image, dragImage, selectionPath, width, height, ...serializableTrayObject} = trayObj;
     return serializableTrayObject;
@@ -23,7 +23,7 @@ const serializeOutputState = (outputState: ILeafModelOutputState): ISerializable
   };
 };
 
-export const deserializeOutputState = (serializedOutputState: ISerializableModelOutputState): ILeafModelOutputState => {
+export const deserializeOutputState = (serializedOutputState: ISerializableLeafModelOutputState): ILeafModelOutputState => {
   const trayObjects = serializedOutputState.trayObjects.map(trayObj => {
     let baseObject: Animal | Leaf | undefined;
     baseObject = Animals.find(animal => animal.type === trayObj.type);
@@ -55,7 +55,7 @@ export const deserializeOutputState = (serializedOutputState: ISerializableModel
 export const serialize = (model: ModelState): SerializableModelState => {
   const clonedState = cloneDeep(model);
 
-  const serializableContainers: IPartialContainerMap<ILeafModelInputState, ISerializableModelOutputState> = {};
+  const serializableContainers: IPartialContainerMap<ILeafModelInputState, ISerializableLeafModelOutputState> = {};
   for (const id of ContainerIds) serializableContainers[id] = null;
 
   Object.keys(clonedState.containers).forEach((key: ContainerId) => {
