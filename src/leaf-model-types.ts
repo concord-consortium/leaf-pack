@@ -26,3 +26,8 @@ export interface IModelOutputState {
 export interface IModelTransientState {
   time: number;
 }
+export interface ISerializableTrayObject extends Omit<TrayObject, "image" | "dragImage" | "selectionPath" | "width" | "height"> {}
+export interface ISerializableModelOutputState extends Omit<IModelOutputState, "trayObjects" | "habitatFeatures">  {
+  trayObjects: ISerializableTrayObject[];
+  habitatFeatures: string[];
+}
