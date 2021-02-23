@@ -3,9 +3,14 @@ import { renderApp } from "./components/render-app";
 import { IModelCurrentState } from "./hooks/use-model-state";
 import { ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig } from "./leaf-model-types";
 import { deserialize, SerializableModelState, serialize } from "./utils/serialize-utils";
-import { getInitInteractiveMessage, setInteractiveState } from "@concord-consortium/lara-interactive-api";
+import { getInitInteractiveMessage, setInteractiveState, setSupportedFeatures } from "@concord-consortium/lara-interactive-api";
 
 import "./index.scss";
+
+// set aspect ratio
+setSupportedFeatures({
+  aspectRatio: 1.553        // 882 x 568px
+});
 
 const app = renderApp<ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig>({App, logEvent, modelConfig: {}, onStateChange: handleStateChange});
 
