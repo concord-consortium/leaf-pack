@@ -106,7 +106,8 @@ export const ChemTest: React.FC<IProps> = (props) => {
                                                 index > stepsComplete) ||
                                                 ((index === stepsComplete) &&
                                                   (index === testResult.current?.currentStep)),
-                                      finished: index < stepsComplete })}
+                                      finished: index < stepsComplete,
+                                      running: index === testResult.current?.currentStep && index === stepsComplete})}
               key={`${chemistryTest.type}-step-button-${index}`}
               onClick={() => handleStepButtonClick(step, index + 1)}
             >
