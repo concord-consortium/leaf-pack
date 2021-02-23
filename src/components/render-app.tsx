@@ -53,10 +53,7 @@ export const renderApp = <IModelInputState, IModelOutputState, IModelConfig>(
     options: IRenderAppOptions<IModelInputState, IModelOutputState, IModelConfig>) => {
   const onStateChange: ModelStateChangeCallback<IModelInputState, IModelOutputState> = (state) => {
     currentState = state;
-    if (options.onStateChange) {
-      options.onStateChange(state);
-    }
-
+    options.onStateChange?.(state);
   };
 
   const logEventWithState: LogEventMethod = (name, logOptions) => {
