@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalSetStateListenerCallback, LogEventMethod } from "../components/render-app";
+import { useCurrent } from "./use-current";
 import { useStateWithCallbackLazy } from "./use-state-with-callback";
 
 // cf. https://stackoverflow.com/a/45486495
@@ -76,6 +77,8 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   const [containers, _setContainers] = useState<ContainerMap>(initContainerMap());
   const [isDirty, _setIsDirty] = useState(false);
   const [isSaved, _setIsSaved] = useState(false);
+  const outputStateRef = useCurrent(outputState);
+  const simulationStateRef = useCurrent(simulationState);
 
   // need to use reference so that its value is not captured in simulation
   const isSimulationRunning = useRef(false);
@@ -133,7 +136,7 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
         _setInputState(container?.inputState || initialInputState);
 
         _setOutputState(container?.outputState || initialOutputState[containerId]);
-        _setSimulationState(initialSimulationState);
+        _setSimulationState(container?.simulationState || initialSimulationState);
         _setTransientState(container?.outputState ? finalTransientState : initialTransientState);
 
         _setIsDirty(false);
@@ -177,10 +180,10 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   const saveToSelectedContainer = (output?: IModelOutputState) => {
     _setContainers(oldContainers => {
       // `output` argument can be more current than closure's `outputState`
-      const _outputState = output ?? outputState;
+      const _outputState = output ?? outputStateRef.current;
       logEvent("save", {data: {containerId: selectedContainerId, inputState, outputState: _outputState}, includeState: true});
       const newContainer: IContainer<IModelInputState, IModelOutputState> = {
-        inputState, outputState: _outputState, simulationState, isSaved: true
+        inputState, outputState: _outputState, simulationState: simulationStateRef.current, isSaved: true
       };
       return {...oldContainers, [selectedContainerId]: newContainer};
     });
