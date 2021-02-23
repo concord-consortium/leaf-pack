@@ -25,12 +25,11 @@ interface IProps {
   chemistryTestResults: ChemistryTestResult[];
   onUpdateTestResult: ({type, currentStep, stepsComplete, value}: IUpdateChemistryTestResult) => void;
   traySelectionType?: TrayType;
-  isSimFinished: boolean;
 }
 
 export const Notebook: React.FC<IProps> = (props) => {
   const { trayObjects, environment, featureSelections, onSelectFeature, onCategorizeAnimal, traySelectionType,
-          isSimFinished, ...chemistryProps } = props;
+          ...chemistryProps } = props;
   return (
     <div className="notebook" data-testid="notebook">
       <Tabs>
@@ -61,7 +60,7 @@ export const Notebook: React.FC<IProps> = (props) => {
           />
         </TabPanel>
         <TabPanel>
-          <ChemistryPanel {...chemistryProps} isSimFinished={isSimFinished} />
+          <ChemistryPanel {...chemistryProps} />
         </TabPanel>
 
       </Tabs>
