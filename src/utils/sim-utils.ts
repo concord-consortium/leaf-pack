@@ -267,7 +267,7 @@ export const Animals: Animal[] = [
     abundance: { "environment1": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment2": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
                  "environment3": {sunny: {min: 5, max: 9}, notSunny: { min: 5, max: 9 }},
-                 "environment4": {sunny: {min: 2, max: 2}, notSunny: { min: 2, max: 2 }} }
+                 "environment4": {sunny: {min: 8, max: 12}, notSunny: { min: 8, max: 12 }} }
   },
   { type: AnimalType.blackFly, label: t("ANIMAL.BLACKFLY"), image: blackFlyImage,
     sensitivity: SensitivityType.tolerant, width: 37, height: 16, selectionPath: blackFlySelectionPath,
