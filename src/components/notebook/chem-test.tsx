@@ -112,7 +112,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
               key={`${chemistryTest.type}-step-button-${index}`}
               onClick={() => handleStepButtonClick(step, index + 1)}
             >
-              {`Step ${index + 1}: ${step.label}`}
+              {`${t("CHEM.STEP")} ${index + 1}: ${step.label}`}
               { (index < stepsComplete) &&
                 <div className="step-check">
                   <CheckIcon
