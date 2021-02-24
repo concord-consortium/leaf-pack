@@ -264,17 +264,17 @@ export interface Animal {
 export const Animals: Animal[] = [
   { type: AnimalType.aquaticWorm, label: t("ANIMAL.AQUATICWORM"), image: aquaticWormImage,
     sensitivity: SensitivityType.tolerant, width: 47, height: 39, selectionPath: aquaticWormSelectionPath,
-    abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
-                 "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
-                 "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
-                 "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
+    abundance: { "environment1": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
+                 "environment2": {sunny: {min: 4, max: 6}, notSunny: { min: 4, max: 6 }},
+                 "environment3": {sunny: {min: 5, max: 9}, notSunny: { min: 5, max: 9 }},
+                 "environment4": {sunny: {min: 8, max: 12}, notSunny: { min: 8, max: 12 }} }
   },
   { type: AnimalType.blackFly, label: t("ANIMAL.BLACKFLY"), image: blackFlyImage,
     sensitivity: SensitivityType.tolerant, width: 37, height: 16, selectionPath: blackFlySelectionPath,
-    abundance: { "environment1": {sunny: {min: 21, max: 29}, notSunny: { min: 21, max: 29 }},
-                 "environment2": {sunny: {min: 12, max: 18}, notSunny: { min: 12, max: 18 }},
-                 "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
-                 "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
+    abundance: { "environment1": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
+                 "environment2": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
+                 "environment3": {sunny: {min: 21, max: 29}, notSunny: { min: 21, max: 29 }},
+                 "environment4": {sunny: {min: 12, max: 18}, notSunny: { min: 12, max: 18 }} }
   },
   { type: AnimalType.caddisFly, label: t("ANIMAL.CADDISFLY"), image: caddisFlyImage,
     sensitivity: SensitivityType.sensitive, width: 65, height: 40, selectionPath: caddisFlySelectionPath,
@@ -342,7 +342,7 @@ export const Animals: Animal[] = [
   { type: AnimalType.riffleBeetle, label: t("ANIMAL.RIFFLEBEETLE"), image: riffleBeetleImage,
     sensitivity: SensitivityType.sensitive, width: 42, height: 39, selectionPath: riffleBeetleSelectionPath,
     abundance: { "environment1": {sunny: {min: 6, max: 10}, notSunny: { min: 6, max: 10 }},
-                 "environment2": {sunny: {min: 7, max: 9}, notSunny: { min: 7, max: 8 }},
+                 "environment2": {sunny: {min: 7, max: 9}, notSunny: { min: 7, max: 9 }},
                  "environment3": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }},
                  "environment4": {sunny: {min: 0, max: 0}, notSunny: { min: 0, max: 0 }} }
   },
