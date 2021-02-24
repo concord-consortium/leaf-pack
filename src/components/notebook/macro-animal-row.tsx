@@ -10,7 +10,6 @@ import {
 
 import "./macro-panel.scss";
 
-// TODO: determine what this max is. Do we need a max for each animal type?
 const kMaxCritters = 60;
 const kMaxGraphWidth = 64;
 
@@ -80,13 +79,13 @@ export const MacroAnimalRow: React.FC<IProps> = (props) => {
           </>
       }
       <div className="name">{animal.label}</div>
-      <div className="count">{count}</div>
       <div className="graph" style={{borderColor: sensitivity?.graphColor}}>
         <div
           className="bar"
           style={{backgroundColor: sensitivity?.graphColor, width: kMaxGraphWidth * count / kMaxCritters}}
         />
       </div>
+      <div className="count">{count}</div>
       <div className="sensitivity">{sensitivity?.label}</div>
     </div>
   );
