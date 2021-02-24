@@ -58,6 +58,7 @@ export interface IUseModelStateOptions<IModelInputState, IModelOutputState, IMod
   removeExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
   isValidExternalState: (newState: IModelCurrentState<IModelInputState, IModelOutputState>) => boolean;
   logEvent: LogEventMethod;
+  suppressedLogEvents?: string[];
 }
 
 export const hasOwnProperties = (obj: Record<string, any>, properties: string[]) => properties.reduce<boolean>((acc, prop) => acc && Object.prototype.hasOwnProperty.call(obj, prop), true);
@@ -69,7 +70,7 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
 
   const {initialContainerId, initialInputState, initialOutputState, initialTransientState, finalTransientState,
         onStateChange, rewindOutputState, addExternalSetStateListener, removeExternalSetStateListener,
-        isValidExternalState, logEvent} = options;
+        isValidExternalState, logEvent: _logEvent, suppressedLogEvents} = options;
   const [inputState, _setInputState] = useState<IModelInputState>(initialInputState(initialContainerId));
   const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState(initialContainerId));
   const [transientState, _setTransientState] = useState<IModelTransientState>(initialTransientState);
@@ -80,6 +81,10 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   const [isSaved, _setIsSaved] = useState(false);
   const outputStateRef = useCurrent(outputState);
   const simulationStateRef = useCurrent(simulationState);
+
+  const logEvent: LogEventMethod = (name, ...args) => {
+    !suppressedLogEvents?.includes(name) && _logEvent(name, ...args);
+  };
 
   // need to use reference so that its value is not captured in simulation
   const isSimulationRunning = useRef(false);
@@ -96,7 +101,7 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
         _setTransientState(initialTransientState);
         _setSimulationState(initialSimulationState);
         _setIsDirty(false);
-        const selectedContainer = newState.containers?.[newState.selectedContainerId];
+        const selectedContainer = newState.containers[newState.selectedContainerId];
         _setIsSaved(!!selectedContainer?.isSaved);
       }
     };
@@ -174,17 +179,18 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
       _setInputState(initialInputState(initialContainerId));
       _setIsDirty(false);
       _setIsSaved(false);
-      rewindSimulation();
+      rewindSimulation(false);
     }
   };
 
-  const saveToSelectedContainer = (output?: IModelOutputState) => {
+  const saveToSelectedContainer = (output?: IModelOutputState, simulation?: ISimulationState) => {
     _setContainers(oldContainers => {
       // `output` argument can be more current than closure's `outputState`
-      const _outputState = output ?? outputStateRef.current;
-      logEvent("save", {data: {containerId: selectedContainerId, inputState, outputState: _outputState}, includeState: true});
+      const _output = output ?? outputStateRef.current;
+      const _simulation = simulation ?? simulationStateRef.current;
+      logEvent("save", {data: {containerId: selectedContainerId, inputState, outputState: _output}, includeState: true});
       const newContainer: IContainer<IModelInputState, IModelOutputState> = {
-        inputState, outputState: _outputState, simulationState: simulationStateRef.current, isSaved: true
+        inputState, outputState: _output, simulationState: _simulation, isSaved: true
       };
       return {...oldContainers, [selectedContainerId]: newContainer};
     });
@@ -216,13 +222,16 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
     isSimulationRunning.current = false;
   };
 
-  const rewindSimulation = () => {
+  const rewindSimulation = (saveToContainer = true) => {
     logEvent("rewindSimulation", {includeState: true});
-    _setOutputState(rewindOutputState
+    const output = rewindOutputState
                       ? rewindOutputState(selectedContainerId, outputState)
-                      : initialOutputState(selectedContainerId));
+                      : initialOutputState(selectedContainerId);
+    const simulation = {isRunning: false, isPaused: false, isFinished: false};
+    _setOutputState(output);
     _setTransientState(initialTransientState);
-    _setSimulationState({isRunning: false, isPaused: false, isFinished: false});
+    _setSimulationState(simulation);
+    saveToContainer && saveToSelectedContainer(output, simulation);
     isSimulationRunning.current = false;
   };
 

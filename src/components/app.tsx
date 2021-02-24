@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
 import { IThumbnailChooserProps, ThumbnailChooser } from "../components/thumbnail/thumbnail-chooser/thumbnail-chooser";
@@ -9,9 +9,9 @@ import { ControlPanel } from "./control-panel/control-panel";
 import { Thumbnail } from "./thumbnail/thumbnail";
 import { Notebook } from "./notebook/notebook";
 import { Tray } from "./simulation/tray";
+import { useCurrent } from "../hooks/use-current";
 import { ContainerId, useLeafModelState } from "../hooks/use-leaf-model-state";
 import { ILeafModelConfig, ILeafModelInputState, ILeafModelOutputState } from "../leaf-model-types";
-import { Model } from "../model";
 import { ChemistryTestResult, IUpdateChemistryTestResult } from "../utils/chem-types";
 import { chemistryTests, chemistryFinalValues } from "../utils/chem-utils";
 import { containerIdForEnvironmentMap, environmentForContainerId, EnvironmentType } from "../utils/environment";
@@ -37,26 +37,25 @@ const kSelectedContainerBgColor = "#f5f5f5";
 // TODO: some of these app props are likely not needed
 export const App: React.FC<IAppProps<ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig>> = (appProps) => {
   const { logEvent } = appProps;
-  const modelState = useLeafModelState(appProps);
-  const {inputState, setInputState,
+  const {model, resetModel,
+    inputState, setInputState,
     outputState, setOutputState,
     simulationState, pauseSimulation, rewindSimulation,
     selectedContainerId, setSelectedContainerId,
     saveToSelectedContainer, containers, clearContainer, isSaved,
     transientState, setTransientState,
     startSimulation, endSimulation, inputControlsDisabled
-  } = modelState;
+  } = useLeafModelState(appProps);
+  const modelRef = useCurrent(model);
   const {environment, sunnyDayFequency} = inputState;
-  const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects,
-          chemistryTestResults} = outputState;
+  const {fish, habitatFeatures, leafDecomposition, showTray, trayObjects, chemistryTestResults} = outputState;
   const {time} = transientState;
   const {isRunning, isPaused, isFinished} = simulationState;
-  const modelRef = useRef<Model>(new Model(inputState));
 
   const handleStartSim = () => {
     lastStepTime = window.performance.now();
     if (!isPaused) {
-      modelRef.current = new Model(inputState);
+      resetModel();
     }
 
     const simulationStep = () => {
@@ -191,6 +190,7 @@ export const App: React.FC<IAppProps<ILeafModelInputState, ILeafModelOutputState
   };
 
   const handleRewind = () => {
+    resetModel();
     setOutputStateAndSave({ trayObjects: [], showTray: false });
     setTraySelectionType(undefined);
     rewindSimulation();
