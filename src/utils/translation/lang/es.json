@@ -7,8 +7,8 @@
   "BUTTON.PAUSE": "Pausa",
   "BUTTON.CLOSE": "Cerrar",
 
-  "LABEL.TIME_WEEK": "%{weeks} Semana",
-  "LABEL.TIME_WEEKS": "%{weeks} Semanas",
+  "LABEL.TIME_WEEK": "Tiempo: %{weeks} Semana",
+  "LABEL.TIME_WEEKS": "Tiempo: %{weeks} Semanas",
 
   "SUNNYDAY.LABEL": "Días Soleados",
   "SUNNYDAY.FEW": "Pocas",
@@ -61,7 +61,7 @@
   "PTI.RATING.LEVEL2.RANGE": "11 - 16",
   "PTI.RATING.LEVEL3.RANGE": "10 o menos",
 
-  "HABITAT.SKETCH": "Bosquejo",
+  "HABITAT.SKETCH": "Bosquejo de arroyo",
   "HABITAT.STREAMHABITATS": "Hábitats de arroyos",
   "HABITAT.BANKS": "Bancos de arroyos",
   "HABITAT.INSTREAM": "En corriente",
@@ -127,6 +127,7 @@
   "CHEM.TEST.INCOMPLETE": "Prueba no completada",
   "CHEM.TEST.UNSTARTED": "Prueba aún no ejecutada",
   "CHEM.EXCELLENT": "Excelente",
+  "CHEM.STEP": "Paso %{step}",
   "CHEM.GOOD": "Buena",
   "CHEM.FAIR": "Pasable",
   "CHEM.POOR": "Malo",

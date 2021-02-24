@@ -88,7 +88,13 @@
       font-family: "Lato", sans-serif;
       font-size: 14px;
       font-weight: bold;
+      text-align: left;
+      padding-left: 10px;
       cursor: pointer;
+
+      &.smallfont {
+        font-size: 12px;
+      }
 
       &:hover {
         background-color: $chemistry-blue-dark1;

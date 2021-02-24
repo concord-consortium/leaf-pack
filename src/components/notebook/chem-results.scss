@@ -14,8 +14,13 @@
     background-color: $chemistry-blue-dark1;
 
     .category-label {
-      width: 50%;
       text-align: center;
+      &:first-child {
+        width: 56%;
+      }
+      &:last-child {
+        width: 44%;
+      }
     }
   }
 

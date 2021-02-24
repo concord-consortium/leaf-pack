@@ -33,6 +33,7 @@ export const MainViewWrapper: React.FC<IMainViewWrapperProps> = (props) => {
           currentTime={currentTime}
           maxTime={maxTime}
           currentTimeLabel={currentTimeLabel}
+          customClassName={"sim-progress"}
         />
       </div>
       {/* <div className="save-container">

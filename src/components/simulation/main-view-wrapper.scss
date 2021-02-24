@@ -46,4 +46,10 @@
       }
     }
   }
+
+  .sim-progress > div > div {
+    &:last-child {
+      background-color: $gray-dark;
+    }
+  }
 }
