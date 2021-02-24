@@ -7,8 +7,8 @@
   "BUTTON.PAUSE": "Pausa",
   "BUTTON.CLOSE": "Cerrar",
 
-  "LABEL.TIME_WEEK": "%{weeks} Semana",
-  "LABEL.TIME_WEEKS": "%{weeks} Semanas",
+  "LABEL.TIME_WEEK": "Tiempo: %{weeks} Semana",
+  "LABEL.TIME_WEEKS": "Tiempo: %{weeks} Semanas",
 
   "SUNNYDAY.LABEL": "Días Soleados",
   "SUNNYDAY.FEW": "Pocas",

@@ -7,8 +7,8 @@
   "BUTTON.PAUSE": "Pause",
   "BUTTON.CLOSE": "Close",
 
-  "LABEL.TIME_WEEK": "%{weeks} Week",
-  "LABEL.TIME_WEEKS": "%{weeks} Weeks",
+  "LABEL.TIME_WEEK": "Time: %{weeks} Week",
+  "LABEL.TIME_WEEKS": "Time: %{weeks} Weeks",
 
   "SUNNYDAY.LABEL": "Sunny Days",
   "SUNNYDAY.FEW": "Few",
@@ -124,8 +124,8 @@
   "CHEM.TEST": "Test",
   "CHEM.RESULT": "Result",
   "CHEM.WATER.RESULT": "Water Quality Result",
-  "CHEM.TEST.INCOMPLETE": "Test not yet complete",
-  "CHEM.TEST.UNSTARTED": "Test not yet run",
+  "CHEM.TEST.INCOMPLETE": "Test not complete",
+  "CHEM.TEST.UNSTARTED": "Test not run yet",
   "CHEM.EXCELLENT": "Excellent",
   "CHEM.GOOD": "Good",
   "CHEM.FAIR": "Fair",
