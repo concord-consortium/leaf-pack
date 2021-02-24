@@ -47,12 +47,13 @@ export interface IModelCurrentState<IModelInputState, IModelOutputState> {
 export type ModelStateChangeCallback<IModelInputState, IModelOutputState> = (currentState: IModelCurrentState<IModelInputState, IModelOutputState>) => void;
 
 export interface IUseModelStateOptions<IModelInputState, IModelOutputState, IModelTransientState> {
-  initialInputState: IModelInputState;
-  initialOutputState: Record<ContainerId, IModelOutputState>;
+  initialContainerId: ContainerId;
+  initialInputState: (containerId: ContainerId) => IModelInputState;
+  initialOutputState: (containerId: ContainerId) => IModelOutputState;
   initialTransientState: IModelTransientState;
   finalTransientState: IModelTransientState;
   onStateChange: ModelStateChangeCallback<IModelInputState, IModelOutputState>;
-  rewindOutputState?: (initialOutputState: IModelOutputState, outputState: IModelOutputState) => IModelOutputState;
+  rewindOutputState?: (containerId: ContainerId, outputState: IModelOutputState) => IModelOutputState;
   addExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
   removeExternalSetStateListener: (listener: ExternalSetStateListenerCallback<IModelInputState, IModelOutputState>) => void;
   isValidExternalState: (newState: IModelCurrentState<IModelInputState, IModelOutputState>) => boolean;
@@ -66,14 +67,14 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
 ) => {
   type ContainerMap = IContainerMap<IModelInputState, IModelOutputState>;
 
-  const {initialInputState, initialOutputState, initialTransientState, finalTransientState,
+  const {initialContainerId, initialInputState, initialOutputState, initialTransientState, finalTransientState,
         onStateChange, rewindOutputState, addExternalSetStateListener, removeExternalSetStateListener,
         isValidExternalState, logEvent} = options;
-  const [inputState, _setInputState] = useState<IModelInputState>(initialInputState);
-  const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState.A);
+  const [inputState, _setInputState] = useState<IModelInputState>(initialInputState(initialContainerId));
+  const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState(initialContainerId));
   const [transientState, _setTransientState] = useState<IModelTransientState>(initialTransientState);
   const [simulationState, _setSimulationState] = useState<ISimulationState>(initialSimulationState);
-  const [selectedContainerId, _setSelectedContainerId] = useState<ContainerId>("A");
+  const [selectedContainerId, _setSelectedContainerId] = useState<ContainerId>(initialContainerId);
   const [containers, _setContainers] = useState<ContainerMap>(initContainerMap());
   const [isDirty, _setIsDirty] = useState(false);
   const [isSaved, _setIsSaved] = useState(false);
@@ -133,9 +134,9 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
 
         const container = currentContainers[containerId];
         _setSelectedContainerId(containerId);
-        _setInputState(container?.inputState || initialInputState);
+        _setInputState(container?.inputState || initialInputState(containerId));
 
-        _setOutputState(container?.outputState || initialOutputState[containerId]);
+        _setOutputState(container?.outputState || initialOutputState(containerId));
         _setSimulationState(container?.simulationState || initialSimulationState);
         _setTransientState(container?.outputState ? finalTransientState : initialTransientState);
 
@@ -168,9 +169,9 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
     if (containerToSelect) {
       setSelectedContainerId(containerToSelect);
     } else {
-      setSelectedContainerId("A");
+      setSelectedContainerId(initialContainerId);
       // Lines below handle case when user is deleting state "A" even before saving it. It's pretty much a model reset.
-      _setInputState(initialInputState);
+      _setInputState(initialInputState(initialContainerId));
       _setIsDirty(false);
       _setIsSaved(false);
       rewindSimulation();
@@ -218,8 +219,8 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   const rewindSimulation = () => {
     logEvent("rewindSimulation", {includeState: true});
     _setOutputState(rewindOutputState
-                      ? rewindOutputState(initialOutputState[selectedContainerId], outputState)
-                      : initialOutputState[selectedContainerId]);
+                      ? rewindOutputState(selectedContainerId, outputState)
+                      : initialOutputState(selectedContainerId));
     _setTransientState(initialTransientState);
     _setSimulationState({isRunning: false, isPaused: false, isFinished: false});
     isSimulationRunning.current = false;

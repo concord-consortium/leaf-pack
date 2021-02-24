@@ -16,20 +16,14 @@ interface IModelTransientState {
   baz: number;
 }
 
-const initialInputState: IModelInputState = {
+const initialInputState = (): IModelInputState => ({
   foo: true,
   bar: "boom"
-};
+});
 
-const initialOutputState: IModelOutputState = {
+const initialOutputState = (): IModelOutputState => ({
   bam: 10
-};
-const initialOutputStateMap: Record<ContainerId, IModelOutputState> = {
-  A: initialOutputState,
-  B: initialOutputState,
-  C: initialOutputState,
-  D: initialOutputState
-};
+});
 
 const initialTransientState: IModelTransientState = {
   baz: 0
@@ -57,8 +51,9 @@ describe("useModelState", () => {
     mockSimulationStep = jest.fn();
 
     HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
+      initialContainerId: "A",
       initialInputState,
-      initialOutputState: initialOutputStateMap,
+      initialOutputState,
       initialTransientState,
       finalTransientState,
       onStateChange,
@@ -93,8 +88,8 @@ describe("useModelState", () => {
       isSaved,
       isSimulationRunning,
     } = result.current;
-    expect(inputState).toEqual(initialInputState);
-    expect(outputState).toEqual(initialOutputState);
+    expect(inputState).toEqual(initialInputState());
+    expect(outputState).toEqual(initialOutputState());
     expect(transientState).toEqual(initialTransientState);
     expect(simulationState).toEqual(initialSimulationState);
     expect(selectedContainerId).toEqual("A");
@@ -111,13 +106,13 @@ describe("useModelState", () => {
     act(() => {
       result.current.setInputState({foo: false});
     });
-    expect(result.current.inputState).toEqual({...initialInputState, foo: false});
+    expect(result.current.inputState).toEqual({...initialInputState(), foo: false});
     expect(result.current.isDirty).toEqual(true);
 
     act(() => {
       result.current.setOutputState({bam: 100});
     });
-    expect(result.current.outputState).toEqual({...initialOutputState, bam: 100});
+    expect(result.current.outputState).toEqual({...initialOutputState(), bam: 100});
 
     act(() => {
       result.current.setTransientState({baz: 10000});
@@ -210,8 +205,9 @@ describe("useModelState", () => {
     const mockRewind = jest.fn();
 
     HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
+      initialContainerId: "A",
       initialInputState,
-      initialOutputState: initialOutputStateMap,
+      initialOutputState,
       initialTransientState,
       finalTransientState,
       onStateChange,
@@ -247,7 +243,7 @@ describe("useModelState", () => {
       result.current.saveToSelectedContainer();
     });
     expect(result.current.containers).toEqual(initContainerMap({
-      A: {inputState: {foo: false, bar: "updated"}, outputState: initialOutputState, simulationState: initialSimulationState, isSaved: true}}));
+      A: {inputState: {foo: false, bar: "updated"}, outputState: initialOutputState(), simulationState: initialSimulationState, isSaved: true}}));
     expect(result.current.isDirty).toEqual(false);
     expect(result.current.isSaved).toEqual(true);
     expect(logEvent).toHaveBeenCalledWith("save", {"data": {"containerId": "A", "inputState": {"bar": "updated", "foo": false}, "outputState": {"bam": 10}}, "includeState": true});
@@ -346,8 +342,9 @@ describe("useModelState", () => {
     const isValidExternalStateRetTrue = jest.fn(() => true);
 
     HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
+      initialContainerId: "A",
       initialInputState,
-      initialOutputState: initialOutputStateMap,
+      initialOutputState,
       initialTransientState,
       finalTransientState,
       onStateChange,
@@ -396,8 +393,9 @@ describe("useModelState", () => {
     const isValidExternalStateRetFalse = jest.fn(() => false);
 
     HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
+      initialContainerId: "A",
       initialInputState,
-      initialOutputState: initialOutputStateMap,
+      initialOutputState,
       initialTransientState,
       finalTransientState,
       onStateChange,

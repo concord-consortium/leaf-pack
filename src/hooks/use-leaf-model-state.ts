@@ -4,6 +4,7 @@ import {
 } from "../leaf-model-types";
 import { ChemTestType } from "../utils/chem-types";
 import { EnvironmentType } from "../utils/environment";
+import { HabitatFeatureType } from "../utils/habitat-utils";
 import {
   AlgaeEatersAmountType, FishAmountType, LeafDecompositionType, LeafEatersAmountType
 } from "../utils/sim-utils";
@@ -11,16 +12,16 @@ import useModelState, { ContainerId, hasOwnProperties, IModelCurrentState } from
 
 export { ContainerId };
 
-const isValidExternalState = (newState: IModelCurrentState<ILeafModelInputState, ILeafModelOutputState>) => {
+export const isValidExternalState = (newState: IModelCurrentState<ILeafModelInputState, ILeafModelOutputState>) => {
   return hasOwnProperties(newState.inputState, ["environment", "sunnyDayFequency"]) &&
           hasOwnProperties(newState.outputState, ["leafDecomposition", "leafEaters", "algaeEaters", "fish", "animalInstances"]);
 };
 
-const defaultOutputState: ILeafModelOutputState = {
+export const initialOutputState = (containerId: ContainerId): ILeafModelOutputState => ({
   leafDecomposition: LeafDecompositionType.little,
   leafEaters: LeafEatersAmountType.few,
   algaeEaters: AlgaeEatersAmountType.few,
-  fish: FishAmountType.few,
+  fish: containerId === "D" ? FishAmountType.none : FishAmountType.few,
   animalInstances: [],
   showTray: false,
   trayObjects: [],
@@ -32,20 +33,16 @@ const defaultOutputState: ILeafModelOutputState = {
     {type: ChemTestType.turbidity, stepsComplete: 0},
     {type: ChemTestType.dissolvedOxygen, stepsComplete: 0}
   ],
-  habitatFeatures: new Set()
-};
+  habitatFeatures: new Set<HabitatFeatureType>()
+});
 
 interface IProps extends IAppProps<ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig> {
 }
 export const useLeafModelState = (props: IProps) => {
   return useModelState<ILeafModelInputState, ILeafModelOutputState, ILeafModelTransientState>({
-    initialInputState: { environment: EnvironmentType.environment1, sunnyDayFequency: 0 },
-    initialOutputState: {
-      A: defaultOutputState,
-      B: defaultOutputState,
-      C: defaultOutputState,
-      D: { ...defaultOutputState, ...{ fish: FishAmountType.none } }
-    },
+    initialContainerId: "A",
+    initialInputState: () => ({ environment: EnvironmentType.environment1, sunnyDayFequency: 0 }),
+    initialOutputState,
     initialTransientState: {
       time: 0
     },
@@ -53,10 +50,10 @@ export const useLeafModelState = (props: IProps) => {
       time: 1
     },
     isValidExternalState,
-    rewindOutputState: (initialOutputState: ILeafModelOutputState, outputState: ILeafModelOutputState) => {
+    rewindOutputState: (containerId: ContainerId, outputState: ILeafModelOutputState) => {
       // preserve parts of output state that persist through rewind
       const { trayObjects, pti, habitatFeatures, chemistryTestResults } = outputState;
-      return { ...initialOutputState, ...{ trayObjects, pti, habitatFeatures, chemistryTestResults } };
+      return { ...initialOutputState("A"), ...{ trayObjects, pti, habitatFeatures, chemistryTestResults } };
     },
     ...props
   });
