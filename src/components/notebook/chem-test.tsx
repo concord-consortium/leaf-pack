@@ -6,7 +6,7 @@ import { InputResult } from "./input-result";
 import CheckIcon from "../../assets/check-icon.svg";
 import { useCurrent } from "../../hooks/use-current";
 import {
-  ChemistryTest, ChemTestStep, StepType, ChemistryTestResult, ChemistryValues, IUpdateChemistryTestResult
+  ChemistryTest, ChemTestStep, StepType, ChemistryTestResult, ChemistryValues, IUpdateChemistryTestResult, ChemTestType
 } from "../../utils/chem-types";
 import t from "../../utils/translation/translate";
 
@@ -106,11 +106,13 @@ export const ChemTest: React.FC<IProps> = (props) => {
                                                 ((index === stepsComplete) &&
                                                   (index === testResult.current?.currentStep)),
                                       finished: index < stepsComplete,
-                                      running: index === testResult.current?.currentStep && index === stepsComplete})}
+                                      running: index === testResult.current?.currentStep && index === stepsComplete,
+                                      smallfont: chemistryTest.type === ChemTestType.airTemperature ||
+                                                chemistryTest.type === ChemTestType.waterTemperature})}
               key={`${chemistryTest.type}-step-button-${index}`}
               onClick={() => handleStepButtonClick(step, index + 1)}
             >
-              {step.label}
+              {`Step ${index + 1}: ${step.label}`}
               { (index < stepsComplete) &&
                 <div className="step-check">
                   <CheckIcon
