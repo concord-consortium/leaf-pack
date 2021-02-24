@@ -127,7 +127,7 @@
   "CHEM.TEST.INCOMPLETE": "Prueba no completada",
   "CHEM.TEST.UNSTARTED": "Prueba aún no ejecutada",
   "CHEM.EXCELLENT": "Excelente",
-  "CHEM.STEP": "Paso",
+  "CHEM.STEP": "Paso %{step}",
   "CHEM.GOOD": "Buena",
   "CHEM.FAIR": "Pasable",
   "CHEM.POOR": "Malo",
