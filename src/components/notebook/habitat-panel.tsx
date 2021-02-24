@@ -44,7 +44,7 @@ export const HabitatPanel: React.FC<IProps> = (props) => {
                       onClick={() => onSelectFeature(feature, !featureSelections.has(feature))}
                       aria-label={habitatFeatures.find((f) => f.type === feature)?.label}
                     >
-                      <CheckIcon />
+                      <CheckIcon width={14} />
                     </button>
                     <div key={`feature-${fIndex}`}>{habitatFeatures.find((f) => f.type === feature)?.label}</div>
                   </div>
