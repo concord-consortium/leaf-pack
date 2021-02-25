@@ -1,9 +1,11 @@
+import { useRef } from "react";
 import { IAppProps } from "../components/render-app";
 import {
   ILeafModelConfig, ILeafModelInputState, ILeafModelOutputState, ILeafModelTransientState
 } from "../leaf-model-types";
+import { Model } from "../model";
 import { ChemTestType } from "../utils/chem-types";
-import { EnvironmentType } from "../utils/environment";
+import { environmentForContainerId } from "../utils/environment";
 import { HabitatFeatureType } from "../utils/habitat-utils";
 import {
   AlgaeEatersAmountType, FishAmountType, LeafDecompositionType, LeafEatersAmountType
@@ -16,6 +18,11 @@ export const isValidExternalState = (newState: IModelCurrentState<ILeafModelInpu
   return hasOwnProperties(newState.inputState, ["environment", "sunnyDayFequency"]) &&
           hasOwnProperties(newState.outputState, ["leafDecomposition", "leafEaters", "algaeEaters", "fish", "animalInstances"]);
 };
+
+export const initialInputState = (containerId: ContainerId): ILeafModelInputState => ({
+  environment: environmentForContainerId[containerId],
+  sunnyDayFequency: 0
+});
 
 export const initialOutputState = (containerId: ContainerId): ILeafModelOutputState => ({
   leafDecomposition: LeafDecompositionType.little,
@@ -39,22 +46,41 @@ export const initialOutputState = (containerId: ContainerId): ILeafModelOutputSt
 interface IProps extends IAppProps<ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig> {
 }
 export const useLeafModelState = (props: IProps) => {
-  return useModelState<ILeafModelInputState, ILeafModelOutputState, ILeafModelTransientState>({
-    initialContainerId: "A",
-    initialInputState: () => ({ environment: EnvironmentType.environment1, sunnyDayFequency: 0 }),
-    initialOutputState,
-    initialTransientState: {
-      time: 0
+
+  const modelsRef = useRef<Record<ContainerId, Model>>({
+          A: new Model(initialInputState("A")),
+          B: new Model(initialInputState("B")),
+          C: new Model(initialInputState("C")),
+          D: new Model(initialInputState("D"))
+        });
+
+  const modelState =
+    useModelState<ILeafModelInputState, ILeafModelOutputState, ILeafModelTransientState>({
+      initialContainerId: "A",
+      initialInputState,
+      initialOutputState,
+      initialTransientState: {
+        time: 0
+      },
+      finalTransientState: {
+        time: 1
+      },
+      isValidExternalState,
+      rewindOutputState: (containerId: ContainerId, outputState: ILeafModelOutputState) => {
+        // preserve parts of output state that persist through rewind
+        const { trayObjects, pti, habitatFeatures, chemistryTestResults } = outputState;
+        return { ...initialOutputState(containerId), ...{ trayObjects, pti, habitatFeatures, chemistryTestResults } };
+      },
+      // since we auto-save, save shouldn't be logged as a user action
+      suppressedLogEvents: ["save"],
+      ...props
+    });
+
+  return {
+    model: modelsRef.current[modelState.selectedContainerId],
+    resetModel: () => {
+      modelsRef.current[modelState.selectedContainerId] = new Model(initialInputState(modelState.selectedContainerId));
     },
-    finalTransientState: {
-      time: 1
-    },
-    isValidExternalState,
-    rewindOutputState: (containerId: ContainerId, outputState: ILeafModelOutputState) => {
-      // preserve parts of output state that persist through rewind
-      const { trayObjects, pti, habitatFeatures, chemistryTestResults } = outputState;
-      return { ...initialOutputState("A"), ...{ trayObjects, pti, habitatFeatures, chemistryTestResults } };
-    },
-    ...props
-  });
+    ...modelState
+  };
 };

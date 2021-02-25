@@ -258,6 +258,41 @@ describe("useModelState", () => {
     expect(logEvent).toHaveBeenCalledWith("rewindSimulation", {"includeState": true});
   });
 
+  it("can save without logging save events", () => {
+    HookWrapper = () => useModelState<IModelInputState, IModelOutputState, IModelTransientState>({
+      initialContainerId: "A",
+      initialInputState,
+      initialOutputState,
+      initialTransientState,
+      finalTransientState,
+      onStateChange,
+      addExternalSetStateListener,
+      removeExternalSetStateListener,
+      isValidExternalState,
+      logEvent,
+      suppressedLogEvents: ["save"]
+    });
+    const { result } = renderHook(HookWrapper);
+
+    expect(result.current.isDirty).toEqual(false);
+    expect(result.current.isSaved).toEqual(false);
+    act(() => {
+      result.current.setInputState({foo: false, bar: "updated"});
+    });
+    expect(result.current.isDirty).toEqual(true);
+    expect(result.current.isSaved).toEqual(false);
+
+    expect(result.current.containers).toEqual(initContainerMap());
+    act(() => {
+      result.current.saveToSelectedContainer();
+    });
+    expect(result.current.containers).toEqual(initContainerMap({
+      A: {inputState: {foo: false, bar: "updated"}, outputState: initialOutputState(), simulationState: initialSimulationState, isSaved: true}}));
+    expect(result.current.isDirty).toEqual(false);
+    expect(result.current.isSaved).toEqual(true);
+    expect(logEvent).not.toHaveBeenCalled();
+  });
+
   it("selects new container once the current one has been cleared (deleted)", () => {
     const { result } = renderHook(HookWrapper);
     const saveContainer = (key: ContainerId) => {

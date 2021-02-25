@@ -24,6 +24,23 @@ describe("useLeafModelState", () => {
     expect(result.current.selectedContainerId).toBe("A");
     expect(result.current.outputState.fish).toBe(FishAmountType.few);
     expect(result.current.outputState.habitatFeatures.has(HabitatFeatureType.pools)).toBe(false);
+    expect(result.current.model.getSimulationState().percentComplete).toBe(0);
+
+    act(() => {
+      result.current.model.step();
+      rerender();
+    });
+    expect(result.current.model.getSimulationState().percentComplete).toBeGreaterThan(0);
+    act(() => {
+      result.current.resetModel();
+      rerender();
+    });
+    expect(result.current.model.getSimulationState().percentComplete).toBe(0);
+    act(() => {
+      result.current.model.step();
+      rerender();
+    });
+    expect(result.current.model.getSimulationState().percentComplete).toBeGreaterThan(0);
 
     const validCurrentState: IModelCurrentState<ILeafModelInputState, ILeafModelOutputState> = {
       inputState: result.current.inputState,
@@ -53,6 +70,19 @@ describe("useLeafModelState", () => {
     expect(result.current.outputState.habitatFeatures.has(HabitatFeatureType.pools)).toBe(false);
     // initial fish value is reset when switching containers
     expect(result.current.outputState.fish).toBe(FishAmountType.none);
+    // "D" model shouldn't be started, i.e. it's independent of the "A" model
+    expect(result.current.model.getSimulationState().percentComplete).toBe(0);
+
+    act(() => {
+      result.current.setSelectedContainerId("A");
+      rerender();
+    });
+    // habitat features of "A" preserved
+    expect(result.current.outputState.habitatFeatures.has(HabitatFeatureType.pools)).toBe(true);
+    // initial fish value is reset when switching containers
+    expect(result.current.outputState.fish).toBe(FishAmountType.few);
+    // "A" model has been started
+    expect(result.current.model.getSimulationState().percentComplete).toBeGreaterThan(0);
   });
 
 });
