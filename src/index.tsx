@@ -5,6 +5,7 @@ import { ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig } from ".
 import { deserialize, SerializableModelState, serialize } from "./utils/serialize-utils";
 import { getInitInteractiveMessage, setInteractiveState, setSupportedFeatures } from "@concord-consortium/lara-interactive-api";
 
+import "ts-polyfill";
 import "./index.scss";
 
 // set aspect ratio
