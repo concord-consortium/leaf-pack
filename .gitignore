@@ -5,6 +5,8 @@ node_modules
 npm-error.log
 .DS_Store
 .nyc_output
+.yalc
+yalc.lock
 
 # Editors
 .idea
