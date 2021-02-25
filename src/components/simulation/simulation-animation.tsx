@@ -5,28 +5,38 @@ import { getRandomInteger } from "../../utils/math-utils";
 
 import "./simulation-animation.scss";
 
-const kFrameInterval = 133;
+const kDefaultInterval = 133;
 
 interface IProps {
-  animation: SimAnimation,
+  animation: SimAnimation;
+  interval?: number;
 }
 
-export const SimulationAnimation: React.FC<IProps> = (props) => {
-  const { animation } = props;
+export const SimulationAnimation: React.FC<IProps> = ({ animation, interval = kDefaultInterval }) => {
   const maxFrame = animation.frames.length;
   const [currentFrame, setCurrentFrame] = useState(getRandomInteger(0, maxFrame - 1));
+
   useInterval(() => {
     setCurrentFrame(frame => (frame + 1) % maxFrame);
-  }, kFrameInterval);
+  }, interval);
 
-
-  const transformation = `rotate(${animation.rotation}deg) scaleX(${animation.xScale}) scaleY(${animation.yScale})`;
+  const uniqueUrls = new Set(animation.frames);
+  const transform = `rotate(${animation.rotation}deg) scaleX(${animation.xScale}) scaleY(${animation.yScale})`;
   return (
-    <img
-      src={animation.frames[currentFrame]}
-      className={"simulation-animation"}
-      style={{ top: animation.top, left: animation.left, transform: transformation }}
-      alt={animation.altText}
-    />
+    <>
+      {Array.from(uniqueUrls).map((url, index) => {
+        const visibleUrl = animation.frames[currentFrame];
+        const visibility = url === visibleUrl ? "visible" : "hidden";
+        return (
+          <img
+            key={`unique-url-${index}`}
+            src={url}
+            className="simulation-animation"
+            style={{ top: animation.top, left: animation.left, transform, visibility }}
+            alt={animation.altText}
+          />
+        );
+      })}
+    </>
   );
 };
