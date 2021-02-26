@@ -1,7 +1,8 @@
-import React, { useState }  from "react";
-import { useInterval } from "../../hooks/use-interval";
+import React  from "react";
+import { useFadeIn } from "../../hooks/use-fade-in";
+import { useFrameLoop } from "../../hooks/use-frame-loop";
+import { useHashedStrings } from "../../hooks/use-hashed-strings";
 import { SimAnimation } from "../../utils/sim-utils";
-import { getRandomInteger } from "../../utils/math-utils";
 
 import "./simulation-animation.scss";
 
@@ -10,29 +11,26 @@ const kDefaultInterval = 133;
 interface IProps {
   animation: SimAnimation;
   interval?: number;
+  fadeIn?: number;  // milliseconds
 }
 
-export const SimulationAnimation: React.FC<IProps> = ({ animation, interval = kDefaultInterval }) => {
-  const maxFrame = animation.frames.length;
-  const [currentFrame, setCurrentFrame] = useState(getRandomInteger(0, maxFrame - 1));
+export const SimulationAnimation: React.FC<IProps> = ({ animation, interval = kDefaultInterval, fadeIn }) => {
+  const currentFrame = useFrameLoop(animation.frames.length, interval);
 
-  useInterval(() => {
-    setCurrentFrame(frame => (frame + 1) % maxFrame);
-  }, interval);
+  const opacity = Math.round(1000 * useFadeIn(fadeIn)) / 1000;
 
-  const uniqueUrls = new Set(animation.frames);
+  const uniqueUrls = useHashedStrings(animation.frames);
   const transform = `rotate(${animation.rotation}deg) scaleX(${animation.xScale}) scaleY(${animation.yScale})`;
   return (
     <>
-      {Array.from(uniqueUrls).map((url, index) => {
+      {Object.keys(uniqueUrls).map(key => {
+        const currentUrl = uniqueUrls[key];
         const visibleUrl = animation.frames[currentFrame];
-        const visibility = url === visibleUrl ? "visible" : "hidden";
+        const visibility = currentUrl === visibleUrl ? "visible" : "hidden";
         return (
-          <img
-            key={`unique-url-${index}`}
-            src={url}
-            className="simulation-animation"
-            style={{ top: animation.top, left: animation.left, transform, visibility }}
+          <img key={`${key}`} className="simulation-animation"
+            src={currentUrl}
+            style={{ top: animation.top, left: animation.left, transform, opacity, visibility }}
             alt={animation.altText}
           />
         );

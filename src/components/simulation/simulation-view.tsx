@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { LeafPack } from "./leaf-pack";
 import { SimulationAnimation } from "./simulation-animation";
 import { EnvironmentType, Environments, Environment } from "../../utils/environment";
 import {
   LeafPackConfigurations, LeafPackState, simAnimationConfigurations, SimAnimation, FishAmountType, SimAnimationType,
 } from "../../utils/sim-utils";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import "./simulation-view.scss";
 
@@ -39,6 +38,7 @@ export const SimulationView: React.FC<IProps> = (props) => {
   } else if (fish === FishAmountType.lots) {
     fishCount = kFishCountLots;
   }
+  const initialFishCount = useRef(fishCount);
   const fishAnimationConfig = simAnimationConfigurations.find((aniConfig) => aniConfig.type === SimAnimationType.fish);
   const fishAnimations: SimAnimation[] = [];
   fishAnimationConfig?.layouts.filter((l) => l.environment === environment).forEach((layout, index) => {
@@ -84,21 +84,16 @@ export const SimulationView: React.FC<IProps> = (props) => {
         isFinished={isFinished}
         isRunning={isRunning}
       />
-      <TransitionGroup>
-        { fishAnimations.map((animation, index) =>
-            <CSSTransition
-              key={`fish-transition-${environment}-${index}`}
-              timeout={isRunning ? kSimulationOneWeekPeriodInMilliseconds : 0}
-              classNames="animation-item"
-            >
-              <SimulationAnimation
-                animation={animation}
-                key={`fish-animation-${environment}-${index}`}
-              />
-            </CSSTransition>
-          )
-        }
-      </TransitionGroup>
+      { fishAnimations.map((animation, index) =>
+          <SimulationAnimation
+            animation={animation}
+            fadeIn={isFinished || (index < initialFishCount.current)
+                      ? 0
+                      : kSimulationOneWeekPeriodInMilliseconds}
+            key={`fish-animation-${environment}-${index}`}
+          />
+        )
+      }
       { simAnimations.map((animation, index) =>
           <SimulationAnimation
             animation={animation}
