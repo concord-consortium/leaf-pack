@@ -19,6 +19,7 @@ export const SimulationAnimation: React.FC<IProps> = ({ animation, interval = kD
 
   const opacity = Math.round(1000 * useFadeIn(fadeIn)) / 1000;
 
+  // hash the urls because blob urls can be multiple KB
   const uniqueUrls = useHashedStrings(animation.frames);
   const transform = `rotate(${animation.rotation}deg) scaleX(${animation.xScale}) scaleY(${animation.yScale})`;
   return (
