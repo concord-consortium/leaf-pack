@@ -481,7 +481,7 @@ export const simAnimationConfigurations: SimAnimationConfiguration[] = [
 ];
 
 export interface SimAnimation {
-  frames: any[],
+  frames: string[], // suitable for the src of an <img>
   left: number;
   top: number;
   xScale: number;
