@@ -1,92 +1,62 @@
 import React from "react";
-import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { MacroSummation } from "./macro-summation";
 import { TrayObject, AnimalType } from "../../utils/sim-utils";
 import { getPTIScore } from "../../utils/macro-utils";
 
-const trayObjectsExcellent: TrayObject[] = [
-  { type: AnimalType.aquaticWorm, count: 4, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.caddisFly, count: 9, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.clamOrMussel, count: 2, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.crayFish, count: 5, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.dobsonFly, count: 3, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.dragonFly, count: 6, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.mayFly, count: 13, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.riffleBeetle, count: 8, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.scud, count: 10, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.stoneFly, count: 5, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-];
+const testTrayObject = (type: AnimalType, count: number): TrayObject => {
+  return { type, count, trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0,
+           rotation: 0, collected: true, selectionPath: "", zIndex: 0, image: "" };
+};
 
+const trayObjectsExcellent: TrayObject[] = [
+  testTrayObject(AnimalType.aquaticWorm, 4),
+  testTrayObject(AnimalType.caddisFly, 9),
+  testTrayObject(AnimalType.clamOrMussel, 2),
+  testTrayObject(AnimalType.crayFish, 5),
+  testTrayObject(AnimalType.dobsonFly, 3),
+  testTrayObject(AnimalType.dragonFly, 6),
+  testTrayObject(AnimalType.mayFly, 13),
+  testTrayObject(AnimalType.riffleBeetle, 8),
+  testTrayObject(AnimalType.scud, 10),
+  testTrayObject(AnimalType.stoneFly, 5),
+];
 const trayObjectsGood: TrayObject[] = [
-  { type: AnimalType.aquaticWorm, count: 4, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.caddisFly, count: 8, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.clamOrMussel, count: 3, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.crayFish, count: 3, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.dobsonFly, count: 3, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.dragonFly, count: 5, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.mayFly, count: 11, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.riffleBeetle, count: 9, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.scud, count: 13, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
+  testTrayObject(AnimalType.aquaticWorm, 4),
+  testTrayObject(AnimalType.caddisFly, 8),
+  testTrayObject(AnimalType.clamOrMussel, 3),
+  testTrayObject(AnimalType.crayFish, 3),
+  testTrayObject(AnimalType.dobsonFly, 3),
+  testTrayObject(AnimalType.dragonFly, 5),
+  testTrayObject(AnimalType.mayFly, 11),
+  testTrayObject(AnimalType.riffleBeetle, 9),
+  testTrayObject(AnimalType.scud, 13),
 ];
 const trayObjectsFair: TrayObject[] = [
-  { type: AnimalType.aquaticWorm, count: 7, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.blackFly, count: 29, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.clamOrMussel, count: 3, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.leech, count: 1, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.dragonFly, count: 1, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.midgeFly, count: 18, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.planarian, count: 5, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.scud, count: 4, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
+  testTrayObject(AnimalType.aquaticWorm, 7),
+  testTrayObject(AnimalType.blackFly, 29),
+  testTrayObject(AnimalType.clamOrMussel, 3),
+  testTrayObject(AnimalType.leech, 1),
+  testTrayObject(AnimalType.dragonFly, 1),
+  testTrayObject(AnimalType.midgeFly, 18),
+  testTrayObject(AnimalType.planarian, 5),
+  testTrayObject(AnimalType.scud, 4),
 ];
 const trayObjectsPoor: TrayObject[] = [
-  { type: AnimalType.aquaticWorm, count: 10, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.blackFly, count: 13, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.leech, count: 2, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.midgeFly, count: 44, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.planarian, count: 5, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
-  { type: AnimalType.scud, count: 4, collected: true, image: "", selectionPath: "", zIndex: 0,
-    trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
+  testTrayObject(AnimalType.aquaticWorm, 10),
+  testTrayObject(AnimalType.blackFly, 13),
+  testTrayObject(AnimalType.leech, 2),
+  testTrayObject(AnimalType.midgeFly, 44),
+  testTrayObject(AnimalType.planarian, 5),
+  testTrayObject(AnimalType.scud, 4),
 ];
 
 describe("Macro Summation component", () => {
   it("renders macro summation with excellent score", () => {
     render(<MacroSummation trayObjects={trayObjectsExcellent} />);
-    expect(screen.getAllByTestId("macro-summation")).toHaveLength(1);
-    expect(screen.getAllByTestId("macro-summation-header")).toHaveLength(1);
-    expect(screen.getAllByTestId("macro-summation-summary")).toHaveLength(1);
+    expect(screen.getByTestId("macro-summation")).toBeInTheDocument();
+    expect(screen.getByTestId("macro-summation-header")).toBeInTheDocument();
+    expect(screen.getByTestId("macro-summation-summary")).toBeInTheDocument();
     const excellentScore = getPTIScore(trayObjectsExcellent);
     expect(screen.getAllByText(excellentScore)).toHaveLength(1);
   });

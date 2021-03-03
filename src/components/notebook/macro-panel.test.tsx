@@ -1,7 +1,4 @@
 import React from "react";
-import "@testing-library/jest-dom";
-import { DndProvider } from "react-dnd";
-import { TouchBackend } from "react-dnd-touch-backend";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MacroPanel } from "./macro-panel";
 import { TrayObject, AnimalType } from "../../utils/sim-utils";
@@ -11,23 +8,23 @@ const trayObjects: TrayObject[] = [
     trayIndex: 0, left: 0, top: 0, width: 0, height: 0, boundingBoxHeight: 0, boundingBoxWidth: 0, rotation: 0 },
 ];
 
+jest.mock("react-dnd", () => ({
+  useDrop: () => [{ isOver: false }, () => null]
+}));
+
 describe("Macro Panel component", () => {
   it("renders macro panel", () => {
-    render(
-      <DndProvider backend={TouchBackend} options={{enableMouseEvents: true}} >
-        <MacroPanel trayObjects={trayObjects} onCategorizeAnimal={()=>{/*no-op*/}} />
-      </DndProvider>
-    );
-    expect(screen.getAllByTestId("macro-panel")).toHaveLength(1);
+    render(<MacroPanel trayObjects={trayObjects} onCategorizeAnimal={()=>{/*no-op*/}} />);
+    expect(screen.getByTestId("macro-panel")).toBeInTheDocument();
     expect(screen.queryByTestId("macro-summation")).toBeNull();
     // verify rows appear
-    expect(screen.getAllByTestId("critter-aquaticWorm")).toHaveLength(1);
-    expect(screen.getAllByTestId("critter-blackFly")).toHaveLength(1);
-    expect(screen.getAllByTestId("critter-caddisFly")).toHaveLength(1);
-    expect(screen.getAllByTestId("critter-clamOrMussel")).toHaveLength(1);
-    expect(screen.getAllByTestId("critter-crayFish")).toHaveLength(1);
+    expect(screen.getByTestId("critter-aquaticWorm")).toBeInTheDocument();
+    expect(screen.getByTestId("critter-blackFly")).toBeInTheDocument();
+    expect(screen.getByTestId("critter-caddisFly")).toBeInTheDocument();
+    expect(screen.getByTestId("critter-clamOrMussel")).toBeInTheDocument();
+    expect(screen.getByTestId("critter-crayFish")).toBeInTheDocument();
     // click section button to display summary page
     fireEvent.click(screen.getByText("4"));
-    expect(screen.getAllByTestId("macro-summation")).toHaveLength(1);
+    expect(screen.getByTestId("macro-summation")).toBeInTheDocument();
   });
 });
