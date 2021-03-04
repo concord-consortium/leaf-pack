@@ -14,7 +14,7 @@ export const ChemResults: React.FC<IProps> = (props) => {
   const { chemistryTestResults } = props;
 
   return (
-    <div className="chem-results">
+    <div className="chem-results" data-testid="chem-results">
       <div className="header">
         <div className="category-label">{t("CHEM.TEST")}</div>
         <div className="category-label">{t("CHEM.WATER.RESULT")}</div>

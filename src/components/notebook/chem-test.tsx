@@ -74,7 +74,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
                         : undefined;
 
   return (
-    <div className="chem-test">
+    <div className="chem-test" data-testid="chem-test">
       <div className="header">
         <div className="test-num">{testIndex + 1}</div>
         {`${chemistryTest.label} ${t("CHEM.TEST")}`}
