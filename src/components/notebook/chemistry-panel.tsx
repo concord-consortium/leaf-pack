@@ -21,7 +21,7 @@ export const ChemistryPanel: React.FC<IProps> = (props) => {
   const numSections = chemistryTests.length + 1;
 
   return (
-    <div className="chemistry-panel">
+    <div className="chemistry-panel" data-testid="chemistry-panel">
       <div className="section-content">
         {currentSection === 0
           ? <ChemResults
