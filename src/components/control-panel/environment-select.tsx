@@ -36,7 +36,7 @@ export const EnvironmentSelect: React.FC<IProps> = (props) => {
         variant="outlined"
         margin="dense"
         className={`location-select ${disabled ? "disabled" : ""}`}
-        data-testid="location-select"
+        data-testid="location-form"
       >
         {labelOnly && <label className="environment-name">{environmentName}</label>}
         {!labelOnly &&
@@ -47,6 +47,7 @@ export const EnvironmentSelect: React.FC<IProps> = (props) => {
             IconComponent={ExpandIcon}
             disabled={disabled}
             aria-label={t("ENVIRONMENT.LABEL")}
+            data-testid="location-select"
           >
             {Environments.map((env: Environment, key) => (
               <MenuItem

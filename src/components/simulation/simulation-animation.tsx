@@ -30,6 +30,7 @@ export const SimulationAnimation: React.FC<IProps> = ({ animation, interval = kD
         const visibility = currentUrl === visibleUrl ? "visible" : "hidden";
         return (
           <img key={`${key}`} className="simulation-animation"
+            data-testid="simulation-animation"
             src={currentUrl}
             style={{ top: animation.top, left: animation.left, transform, opacity, visibility }}
             alt={animation.altText}
