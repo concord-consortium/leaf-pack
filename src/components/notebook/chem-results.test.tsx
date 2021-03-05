@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { ChemResults } from "./chem-results";
 import { ChemistryTestResult, ChemTestType } from "../../utils/chem-types";
-import { chemistryTests, chemTestRatings } from "../../utils/chem-utils";
 import { airTemperatureTest } from "../../chem-tests/air-temperature";
 import { phTest } from "../../chem-tests/ph";
 
