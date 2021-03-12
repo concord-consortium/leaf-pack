@@ -33,12 +33,12 @@ export const Tray: React.FC<IProps> = (props) => {
   });
 
   return (
-    <div className={`tray ${hidden ? "hidden" : ""}`} ref={drop}>
+    <div className={`tray ${hidden ? "hidden" : ""}`} ref={drop} data-testid="tray">
       <div className="tray-wrapper" ref={wrapperRef}>
         <SortingTray />
         <div className="header">
           <div className="title">{t("SORTINGTRAY")}</div>
-          <button className="close" onClick={onHideTray} aria-label={t("BUTTON.CLOSE")}>
+          <button className="close" onClick={onHideTray} aria-label={t("BUTTON.CLOSE")} data-testid="tray-close">
             <CloseIcon />
           </button>
         </div>
