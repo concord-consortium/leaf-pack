@@ -79,7 +79,7 @@ export const useLeafModelState = (props: IProps) => {
   return {
     model: modelsRef.current[modelState.selectedContainerId],
     resetModel: () => {
-      modelsRef.current[modelState.selectedContainerId] = new Model(initialInputState(modelState.selectedContainerId));
+      modelsRef.current[modelState.selectedContainerId] = new Model(modelState.inputState);
     },
     ...modelState
   };
