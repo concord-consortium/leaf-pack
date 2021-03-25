@@ -10,7 +10,7 @@ import {
 
 import "./macro-panel.scss";
 
-const kMaxCritters = 60;
+const kMaxCritters = 72; // 20% more than the max possible abundance
 const kMaxGraphWidth = 64;
 
 const errorX = (sensitivity: SensitivityType, errorClass: string) => {
