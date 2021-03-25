@@ -10,7 +10,9 @@ import {
 
 import "./macro-panel.scss";
 
-const kMaxCritters = 60;
+const kMaxTaxa = 60;
+const kLowSunAbundanceFactor = 1.2;
+const kMaxCritters = Math.round(kMaxTaxa * kLowSunAbundanceFactor);
 const kMaxGraphWidth = 64;
 
 const errorX = (sensitivity: SensitivityType, errorClass: string) => {
