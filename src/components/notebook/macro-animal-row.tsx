@@ -5,13 +5,11 @@ import IncorrectSomewhatSensitive from "../../assets/macroinvertebrates/incorrec
 import IncorrectTolerant from "../../assets/macroinvertebrates/incorrect-tolerant.svg";
 import { useErrorClass } from "../../hooks/use-error-class";
 import {
-  Animal, draggableAnimalTypes, Sensitivity, SensitivityType, TrayObject, TrayType
+  Animal, draggableAnimalTypes, Sensitivity, SensitivityType, TrayObject, TrayType, kMaxTaxa, kLowSunAbundanceFactor
 } from "../../utils/sim-utils";
 
 import "./macro-panel.scss";
 
-const kMaxTaxa = 60;
-const kLowSunAbundanceFactor = 1.2;
 const kMaxCritters = Math.round(kMaxTaxa * kLowSunAbundanceFactor);
 const kMaxGraphWidth = 64;
 
