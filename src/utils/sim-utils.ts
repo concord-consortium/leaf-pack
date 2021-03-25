@@ -362,6 +362,9 @@ export const Animals: Animal[] = [
   }
 ];
 
+export const kMaxTaxa = 60;
+export const kLowSunAbundanceFactor = 1.2;
+
 export function getAnimal(type: AnimalType) {
   return Animals.find(animal => animal.type === type);
 }
