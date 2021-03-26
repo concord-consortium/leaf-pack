@@ -42,7 +42,7 @@ export const App: React.FC<IAppProps<ILeafModelInputState, ILeafModelOutputState
     outputState, setOutputState,
     simulationState, pauseSimulation, rewindSimulation,
     selectedContainerId, setSelectedContainerId,
-    saveToSelectedContainer, containers, clearContainer, isSaved,
+    containers, clearContainer, isSaved,
     transientState, setTransientState,
     startSimulation, endSimulation, inputControlsDisabled
   } = useLeafModelState(appProps);
@@ -281,7 +281,7 @@ export const App: React.FC<IAppProps<ILeafModelInputState, ILeafModelOutputState
               title={selectedContainerId}
               isSaved={isSaved}
               isFinished={isFinished}
-              onSaveClicked={saveToSelectedContainer}
+              onSaveClicked={() => null}
               ptiScore={outputState.pti}
               currentTimeLabel={t(timeLabel, {vars: {weeks: `${weeks}`}})}
               currentTime={time}
