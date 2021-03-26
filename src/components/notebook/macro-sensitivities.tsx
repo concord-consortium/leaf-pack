@@ -11,7 +11,7 @@ interface IProps {
 export const MacroSensitivities: React.FC<IProps> = (props) => {
   const { taxaSensitivities } = props;
   return (
-    <div className="macro-sensitivities">
+    <div className="macro-sensitivities" data-testid="macro-sensitivities">
       <div className="labels">
         <div className="label">{t("PTI.GROUPS")}</div>
         <div className="label">{t("PTI.NUMTAXA")}</div>
@@ -23,6 +23,7 @@ export const MacroSensitivities: React.FC<IProps> = (props) => {
             className="sensitivity-summary"
             key={`sensitivity-${i}`}
             style={{backgroundColor: sensitivity.backgroundColor}}
+            data-testid="macro-sensitivity-summaries"
           >
             <div className="group">{sensitivity.label}</div>
             <div className="num-taxa">

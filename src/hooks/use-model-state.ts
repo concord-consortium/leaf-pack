@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalSetStateListenerCallback, LogEventMethod } from "../components/render-app";
 import { useCurrent } from "./use-current";
+import { useInitialRender } from "./use-initial-render";
 import { useStateWithCallbackLazy } from "./use-state-with-callback";
 
 // cf. https://stackoverflow.com/a/45486495
@@ -71,15 +72,16 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   const {initialContainerId, initialInputState, initialOutputState, initialTransientState, finalTransientState,
         onStateChange, rewindOutputState, addExternalSetStateListener, removeExternalSetStateListener,
         isValidExternalState, logEvent: _logEvent, suppressedLogEvents} = options;
-  const [inputState, _setInputState] = useState<IModelInputState>(initialInputState(initialContainerId));
+  const [inputState, _setInputState] = useStateWithCallbackLazy<IModelInputState>(initialInputState(initialContainerId));
   const [outputState, _setOutputState] = useStateWithCallbackLazy<IModelOutputState>(initialOutputState(initialContainerId));
   const [transientState, _setTransientState] = useState<IModelTransientState>(initialTransientState);
-  const [simulationState, _setSimulationState] = useState<ISimulationState>(initialSimulationState);
+  const [simulationState, _setSimulationState] = useStateWithCallbackLazy<ISimulationState>(initialSimulationState);
   const [selectedContainerId, _setSelectedContainerId] = useState<ContainerId>(initialContainerId);
   const [containers, _setContainers] = useState<ContainerMap>(initContainerMap());
-  const [isDirty, _setIsDirty] = useState(false);
-  const [isSaved, _setIsSaved] = useState(false);
+  const selectedContainerIdRef = useCurrent(selectedContainerId);
+  const inputStateRef = useCurrent(inputState);
   const outputStateRef = useCurrent(outputState);
+  // const transientStateRef = useCurrent(transientState);
   const simulationStateRef = useCurrent(simulationState);
 
   const logEvent: LogEventMethod = (name, ...args) => {
@@ -100,14 +102,11 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
         _setSelectedContainerId(newState.selectedContainerId);
         _setTransientState(initialTransientState);
         _setSimulationState(initialSimulationState);
-        _setIsDirty(false);
-        const selectedContainer = newState.containers[newState.selectedContainerId];
-        _setIsSaved(!!selectedContainer?.isSaved);
       }
     };
     addExternalSetStateListener(listener);
     return () => removeExternalSetStateListener(listener);
-  }, [addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, initialTransientState, _setOutputState]);
+  }, [addExternalSetStateListener, removeExternalSetStateListener, isValidExternalState, initialTransientState, _setOutputState, _setInputState, _setSimulationState]);
 
   // notify PCI about any state changes
   useEffect(() => {
@@ -115,21 +114,26 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   }, [onStateChange, inputState, outputState, containers, selectedContainerId]);
 
   const setInputState = (update: Partial<IModelInputState>) => {
-    _setInputState(oldInputState => {
-      const newState = {...oldInputState, ...update};
-      _setIsDirty(JSON.stringify(newState) !== JSON.stringify(containers[selectedContainerId]));
-      return newState;
-    });
+    _setInputState(oldInputState => ({...oldInputState, ...update}),
+                    newInputState => saveContainerState({ input: newInputState }));
   };
 
   const setOutputState = (update: Partial<IModelOutputState>) => {
     _setOutputState(oldOutputState => ({...oldOutputState, ...update}),
-                    newOutputState => saveToSelectedContainer(newOutputState));
+                    newOutputState => saveContainerState({ output: newOutputState }));
   };
 
   const setTransientState = (update: Partial<IModelTransientState>) => {
     _setTransientState(oldTransientState => ({...oldTransientState, ...update}));
   };
+
+  const setSimulationState = (update: Partial<ISimulationState>) => {
+    _setSimulationState(oldSimulationState => ({...oldSimulationState, ...update}),
+                        newSimulationState => saveContainerState({ simulation: newSimulationState }));
+  };
+
+  const isInitialRender = useInitialRender();
+  isInitialRender && setInputState(initialInputState(selectedContainerId));
 
   const setSelectedContainerId = (containerId: ContainerId) => {
     logEvent("select", {data: {containerId}, includeState: true});
@@ -138,15 +142,22 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
         pauseSimulation();
 
         const container = currentContainers[containerId];
+        selectedContainerIdRef.current = containerId;
         _setSelectedContainerId(containerId);
         _setInputState(container?.inputState || initialInputState(containerId));
 
         _setOutputState(container?.outputState || initialOutputState(containerId));
-        _setSimulationState(container?.simulationState || initialSimulationState);
         _setTransientState(container?.outputState ? finalTransientState : initialTransientState);
+        _setSimulationState(container?.simulationState || initialSimulationState);
 
-        _setIsDirty(false);
-        _setIsSaved(!!container?.isSaved);
+        if (!currentContainers[containerId]) {
+          currentContainers[containerId] = {
+            inputState: initialInputState(containerId),
+            outputState: initialOutputState(containerId),
+            simulationState: initialSimulationState,
+            isSaved: true
+          };
+        }
 
         // return the same value - the setter was used just to get the current value
         return currentContainers;
@@ -177,25 +188,28 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
       setSelectedContainerId(initialContainerId);
       // Lines below handle case when user is deleting state "A" even before saving it. It's pretty much a model reset.
       _setInputState(initialInputState(initialContainerId));
-      _setIsDirty(false);
-      _setIsSaved(false);
-      rewindSimulation(false);
+      _setOutputState(initialOutputState(initialContainerId));
+      _rewindSimulation(false);
     }
   };
 
-  const saveToSelectedContainer = (output?: IModelOutputState, simulation?: ISimulationState) => {
+  interface ISaveContainerStateArg {
+    input?: IModelInputState;
+    output?: IModelOutputState;
+    transient?: IModelTransientState;
+    simulation?: ISimulationState;
+  }
+  const saveContainerState = ({ input, output, transient, simulation }: ISaveContainerStateArg) => {
     _setContainers(oldContainers => {
-      // `output` argument can be more current than closure's `outputState`
+      const _input = input ?? inputStateRef.current;
       const _output = output ?? outputStateRef.current;
+      // const _transient = transient ?? transientStateRef.current;
       const _simulation = simulation ?? simulationStateRef.current;
-      logEvent("save", {data: {containerId: selectedContainerId, inputState, outputState: _output}, includeState: true});
       const newContainer: IContainer<IModelInputState, IModelOutputState> = {
-        inputState, outputState: _output, simulationState: _simulation, isSaved: true
+        inputState: _input, outputState: _output, simulationState: _simulation, isSaved: true
       };
-      return {...oldContainers, [selectedContainerId]: newContainer};
+      return {...oldContainers, [selectedContainerIdRef.current]: newContainer};
     });
-    _setIsDirty(false);
-    _setIsSaved(true);
   };
 
   const startSimulation = (simulationStep: () => void) => {
@@ -222,17 +236,25 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
     isSimulationRunning.current = false;
   };
 
-  const rewindSimulation = (saveToContainer = true) => {
-    logEvent("rewindSimulation", {includeState: true});
+  const _rewindSimulation = (saveToContainer?: boolean) => {
+    const _saveToContainer = saveToContainer ?? true;
     const output = rewindOutputState
                       ? rewindOutputState(selectedContainerId, outputState)
                       : initialOutputState(selectedContainerId);
-    const simulation = {isRunning: false, isPaused: false, isFinished: false};
+    const transient = initialTransientState;
+    const simulation = initialSimulationState;
     _setOutputState(output);
-    _setTransientState(initialTransientState);
+    _setTransientState(transient);
     _setSimulationState(simulation);
-    saveToContainer && saveToSelectedContainer(output, simulation);
+    _saveToContainer && saveContainerState({ output, transient, simulation });
     isSimulationRunning.current = false;
+  };
+
+  // function returned to clients must accept no arguments because clients are
+  // liable to attach it to onClick handers, which would then receive a MouseEvent.
+  const rewindSimulation = () => {
+    logEvent("rewindSimulation", {includeState: true});
+    _rewindSimulation();
   };
 
   // if `keepAnimating` is true, the model will set all states as being finished, but will continue
@@ -248,7 +270,7 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
       // stop the requestAnimationFrame loop
       isSimulationRunning.current = false;
     }
-    _setSimulationState({isRunning: false, isPaused: false, isFinished: true});
+    setSimulationState({isRunning: false, isPaused: false, isFinished: true});
   };
 
   // Provide helper value so it doesn't have to calculated in all the apps separately.
@@ -260,10 +282,10 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
     transientState, setTransientState,
     simulationState, // no setter, that is handled in start/pause/rewindSimulation
     selectedContainerId, setSelectedContainerId,
-    containers, saveToSelectedContainer,
+    containers,
     clearContainer,
-    isDirty,
-    isSaved,
+    isDirty: false,
+    isSaved: true,
     inputControlsDisabled,
     isSimulationRunning,
     startSimulation, pauseSimulation, rewindSimulation, endSimulation

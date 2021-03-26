@@ -14,7 +14,7 @@ export const ChemResults: React.FC<IProps> = (props) => {
   const { chemistryTestResults } = props;
 
   return (
-    <div className="chem-results">
+    <div className="chem-results" data-testid="chem-results">
       <div className="header">
         <div className="category-label">{t("CHEM.TEST")}</div>
         <div className="category-label">{t("CHEM.WATER.RESULT")}</div>
@@ -28,19 +28,19 @@ export const ChemResults: React.FC<IProps> = (props) => {
           const rating = chemTestRatings.find((r) => r.type === ratingType);
           const started = testResult ? testResult.stepsComplete > 0 : false;
           return (
-            <div className="result-row" key={`chem-result-${index}`}>
+            <div className="result-row" key={`chem-result-${index}`} data-testid="chem-results-result-row">
               <div className={`test-check ${complete ? "complete" : ""}`}>
                 {complete && <CheckIcon width={14} />}
               </div>
               <div className="test-num">{index + 1}</div>
               <div className="test-name">{test.label}</div>
               { complete
-                ? <div className="complete">
+                ? <div className="complete" data-testid="chem-results-complete">
                     <div className="test-result">{`${testResult?.value} ${test.units}`}</div>
                     {rating && <div>=</div>}
                     {rating && <div className="test-rating" style={{backgroundColor: rating.color}}>{rating.label}</div>}
                   </div>
-                : <div className="incomplete">
+                : <div className="incomplete" data-testid="chem-results-incomplete">
                     {started ? t("CHEM.TEST.INCOMPLETE") : t("CHEM.TEST.UNSTARTED")}
                   </div>
               }

@@ -74,7 +74,7 @@ export const ChemTest: React.FC<IProps> = (props) => {
                         : undefined;
 
   return (
-    <div className="chem-test">
+    <div className="chem-test" data-testid="chem-test">
       <div className="header">
         <div className="test-num">{testIndex + 1}</div>
         {`${chemistryTest.label} ${t("CHEM.TEST")}`}
@@ -111,10 +111,11 @@ export const ChemTest: React.FC<IProps> = (props) => {
                                                 chemistryTest.type === ChemTestType.waterTemperature})}
               key={`${chemistryTest.type}-step-button-${index}`}
               onClick={() => handleStepButtonClick(step, index + 1)}
+              data-testid="step-button"
             >
               {`${t("CHEM.STEP", {vars: {step: `${index + 1}`}})}: ${step.label}`}
               { (index < stepsComplete) &&
-                <div className="step-check">
+                <div className="step-check" data-testid="step-check">
                   <CheckIcon
                     width={10}
                   />

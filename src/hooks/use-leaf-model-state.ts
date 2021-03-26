@@ -43,16 +43,18 @@ export const initialOutputState = (containerId: ContainerId): ILeafModelOutputSt
   habitatFeatures: new Set<HabitatFeatureType>()
 });
 
+const initialModels: Record<ContainerId, Model> = {
+  A: new Model(initialInputState("A")),
+  B: new Model(initialInputState("B")),
+  C: new Model(initialInputState("C")),
+  D: new Model(initialInputState("D"))
+};
+
 interface IProps extends IAppProps<ILeafModelInputState, ILeafModelOutputState, ILeafModelConfig> {
 }
 export const useLeafModelState = (props: IProps) => {
 
-  const modelsRef = useRef<Record<ContainerId, Model>>({
-          A: new Model(initialInputState("A")),
-          B: new Model(initialInputState("B")),
-          C: new Model(initialInputState("C")),
-          D: new Model(initialInputState("D"))
-        });
+  const modelsRef = useRef<Record<ContainerId, Model>>(initialModels);
 
   const modelState =
     useModelState<ILeafModelInputState, ILeafModelOutputState, ILeafModelTransientState>({
@@ -79,7 +81,7 @@ export const useLeafModelState = (props: IProps) => {
   return {
     model: modelsRef.current[modelState.selectedContainerId],
     resetModel: () => {
-      modelsRef.current[modelState.selectedContainerId] = new Model(initialInputState(modelState.selectedContainerId));
+      modelsRef.current[modelState.selectedContainerId] = new Model(modelState.inputState);
     },
     ...modelState
   };

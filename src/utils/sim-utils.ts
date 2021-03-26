@@ -362,6 +362,9 @@ export const Animals: Animal[] = [
   }
 ];
 
+export const kMaxTaxa = 60;
+export const kLowSunAbundanceFactor = 1.2;
+
 export function getAnimal(type: AnimalType) {
   return Animals.find(animal => animal.type === type);
 }
@@ -481,7 +484,7 @@ export const simAnimationConfigurations: SimAnimationConfiguration[] = [
 ];
 
 export interface SimAnimation {
-  frames: any[],
+  frames: string[], // suitable for the src of an <img>
   left: number;
   top: number;
   xScale: number;

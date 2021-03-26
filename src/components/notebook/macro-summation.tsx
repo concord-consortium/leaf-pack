@@ -30,12 +30,12 @@ export const MacroSummation: React.FC<IProps> = (props) => {
   const ratingIndex = getPTIRatingIndex(score);
 
   return (
-    <div className="macro-summation">
-      <div className="header">
+    <div className="macro-summation" data-testid="macro-summation">
+      <div className="header" data-testid="macro-summation-header">
         <PTIIcon className="PTI-icon" />
         {t("PTI.HEADER")}
       </div>
-      <div className="summary">
+      <div className="summary" data-testid="macro-summation-summary">
         <MacroSensitivities taxaSensitivities={taxaSensitivities} />
         <div className="triangle" />
         <MacroScore score={score} ratingIndex={ratingIndex} />

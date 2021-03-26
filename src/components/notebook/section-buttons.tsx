@@ -20,9 +20,10 @@ export const SectionButtons: React.FC<IProps> = (props) => {
           key={`button-${index}`}
           className={`section-button ${currentSection === index ? "selected" : ""}`}
           onClick={() => onSelectSection(index)}
+          data-testid="section-numeric-button"
         >
           {showHomeButton
-          ? index === 0 ? <HomeIcon className="home-icon" /> : index
+          ? index === 0 ? <HomeIcon className="home-icon" data-testid="section-home-button" /> : index
           : index + 1
           }
         </button>

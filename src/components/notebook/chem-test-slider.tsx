@@ -24,7 +24,8 @@ export const ChemTestSlider: React.FC<IProps> = (props) => {
       <div className="slider-container">
         <div className="slider-values">
           { testValues.map((val, index) =>
-            <div className={`value-container ${sliderValue === index ? "selected" : ""}`} key={`value-${val.value}`}>
+            <div className={`value-container ${sliderValue === index ? "selected" : ""}`}
+             key={`value-${val.value}`} data-testid="value-container">
               {val.value}
               <div className="bubble" style={{backgroundColor: val.color,
                                               borderColor: sliderValue === index ? "black" : (val?.borderColor || "white")}}>

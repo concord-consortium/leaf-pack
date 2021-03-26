@@ -22,7 +22,7 @@ export const MacroPanel: React.FC<IProps> = (props) => {
   const numSections = Math.ceil(Animals.length / kCrittersPerSection) + 1;
 
   return (
-    <div className="macro-panel">
+    <div className="macro-panel" data-testid="macro-panel">
       <div className="critters">
         {Animals.map((animal, index) => {
           const sensitivity = Sensitivities.find((s) => s.type === animal.sensitivity);

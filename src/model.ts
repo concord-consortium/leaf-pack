@@ -2,6 +2,7 @@ import { ILeafModelInputState } from "./leaf-model-types";
 import { EnvironmentType } from "./utils/environment";
 import { LeafDecompositionType, LeafEatersAmountType, AlgaeEatersAmountType, FishAmountType, Animal, Animals,
          AnimalInstance, LeafDecompositionFinalValues, LeafEatersFinalValues, AlgaeEatersFinalValues, FishFinalValues,
+         kLowSunAbundanceFactor
        } from "./utils/sim-utils";
 import { getRandomInteger } from "./utils/math-utils";
 
@@ -24,10 +25,12 @@ export class Model {
         ? animal.abundance[this.environment].notSunny
         : animal.abundance[this.environment].sunny;
       const animalAbundance = getRandomInteger(abundanceRange.min, abundanceRange.max);
-      // TODO: for now adjust each abundance number by 30% if it is less sunny, ultimately this should be in abundanceRange
-      const animalAbundanceAdjusted = Math.floor(this.sunnyDayFequency === 0 ? animalAbundance : animalAbundance * .7);
-      for (let x = 0; x < animalAbundance; x++) {
-        // TODO: for now spread spawn over max time, but this should be more realistic
+      // increase each abundance number by 20% if it is less sunny
+      // ideally this should be in abundanceRange, but we never received taxa specific details
+      const animalAbundanceAdjusted = Math.floor(this.sunnyDayFequency === 0
+        ? animalAbundance * kLowSunAbundanceFactor
+        : animalAbundance);
+      for (let x = 0; x < animalAbundanceAdjusted; x++) {
         const spawnOffset = 60;
         const spawnDelta = Math.floor((kMaxSteps - spawnOffset) / animalAbundanceAdjusted);
         const animalInstance: AnimalInstance = { type: animal.type,

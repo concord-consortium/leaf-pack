@@ -14,7 +14,7 @@ interface IProps {
 
 export const MacroRating: React.FC<IProps> = (props) => {
   return (
-    <div className="macro-rating">
+    <div className="macro-rating" data-testid="macro-rating">
       <div className="rating-title">{t("PTI.RATING")}</div>
       <div className="legend">
         <div className="legend-blocks">
