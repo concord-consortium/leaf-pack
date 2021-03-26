@@ -215,7 +215,6 @@ export const useModelState = <IModelInputState, IModelOutputState, IModelTransie
   const startSimulation = (simulationStep: () => void) => {
     logEvent("startSimulation", {includeState: true});
     if (!simulationState.isPaused) {
-      _setOutputState(initialOutputState(selectedContainerId));
       _setTransientState(initialTransientState);
     }
     _setSimulationState({isRunning: true, isPaused: false, isFinished: false});
