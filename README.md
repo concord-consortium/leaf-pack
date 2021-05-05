@@ -40,7 +40,7 @@ To deploy a production release:
 8. Checkout production
 9. Run `git merge master --no-ff`
 10. Push production to GitHub
-11. Use https://github.com/concord-consortium/starter-projects/releases to create a new release tag
+11. Use https://github.com/concord-consortium/leaf-pack/releases to create a new release tag
 
 ### Testing
 
